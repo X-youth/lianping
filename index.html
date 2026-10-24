@@ -1,46 +1,456 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <title>走进连平</title>
+  <meta
+    name="description"
+    content="走进广东连平，探索这里的山水风景、历史故事、地方文化与特色风味。"
+  >
+
+  <title>走进连平｜山水之间，生活正好</title>
+
+  <!-- 页面样式 -->
+  <link rel="stylesheet" href="./style.css">
+
+  <!-- 页面交互：等 HTML 解析完成后运行 -->
+  <script src="./script.js" defer></script>
 </head>
 
 <body>
 
-  <header>
-    <!-- 网站名称和导航放在这里 -->
+  <!-- 方便使用键盘的访客直接进入正文 -->
+  <a class="skip-link" href="#main-content">
+    跳到主要内容
+  </a>
+
+  <!-- 顶部：网站名称与导航 -->
+  <header class="site-header">
+
+    <a class="site-logo" href="#home" aria-label="返回连平首页">
+      <span class="logo-cn">连平</span>
+      <span class="logo-en" lang="en">LIANPING</span>
+    </a>
+
+    <nav class="site-nav" aria-label="主导航">
+      <a href="#about">认识连平</a>
+      <a href="#history">往日今时</a>
+      <a href="#landscape">山水之间</a>
+      <a href="#culture">地方生活</a>
+      <a href="#food">连平风味</a>
+    </nav>
+
   </header>
 
-  <main>
+  <main id="main-content">
 
-    <section id="home">
-      <!-- 第一屏：主视觉和标题 -->
+    <!-- 第一屏：主视觉 -->
+    <section
+      class="hero-section"
+      id="home"
+      aria-labelledby="home-title"
+    >
+
+      <!--
+        主视觉背景区域。
+        后续在 CSS 中设置背景图、遮罩和布局。
+      -->
+      <div class="hero-background" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <div class="hero-content">
+
+        <p class="hero-location">
+          广东 · 河源 · 连平
+        </p>
+
+        <h1 class="hero-title" id="home-title">
+          走进连平
+        </h1>
+
+        <p class="hero-subtitle">
+          山水之间，生活正好。
+        </p>
+
+      </div>
+
+      <a class="scroll-guide" href="#about">
+        <span>向下探索</span>
+        <span class="scroll-arrow" aria-hidden="true">↓</span>
+      </a>
+
     </section>
 
-    <section id="about">
-      <!-- 第二部分：地图和地点介绍 -->
+    <!-- 第二部分：地点介绍 -->
+    <section
+      class="about-section"
+      id="about"
+      aria-labelledby="about-title"
+    >
+
+      <div class="section-heading reveal">
+        <p class="section-en" lang="en">ABOUT LIANPING</p>
+        <h2 class="section-title" id="about-title">
+          认识连平
+        </h2>
+      </div>
+
+      <div class="about-layout">
+
+        <!-- 左侧：广东省定位图 -->
+        <div class="location-map reveal">
+
+          <!-- 取得准确地图后，在此放入地图图片或 SVG -->
+          <div class="map-placeholder">
+            <p>广东省定位图</p>
+            <small>地图素材待补充</small>
+          </div>
+
+          <p class="map-caption">
+            广东省 · 河源市 · 连平县
+          </p>
+
+        </div>
+
+        <!-- 中间：地方简介 -->
+        <div class="about-content reveal">
+
+          <h3 class="about-headline">
+            从一处风景，<br>
+            慢慢认识一座小城。
+          </h3>
+
+          <p>
+            连平位于广东省北部，隶属河源市。
+            在这里，可以循着山水认识自然，
+            也可以沿着历史与地方文化，
+            走近人们的日常生活。
+          </p>
+
+          <p>
+            从上坪的鹰嘴蜜桃，到层层蒸制的九重皮，
+            再到当地的香菇，
+            一份份地方风味，也为认识连平打开了新的入口。
+          </p>
+
+          <a class="button-link" href="#history">
+            <span>读一段连平</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+
+        </div>
+
+        <!-- 右侧：连平县放大地图 -->
+        <div class="detail-map reveal">
+
+          <!-- 后续根据实际介绍地点，加入地图标记 -->
+          <div class="map-placeholder">
+            <p>连平县放大地图</p>
+            <small>地图素材待补充</small>
+          </div>
+
+        </div>
+
+      </div>
+
     </section>
 
-    <section id="history">
-      <!-- 第三部分：历史与发展 -->
+    <!-- 第三部分：历史与发展 -->
+    <section
+      class="history-section"
+      id="history"
+      aria-labelledby="history-title"
+    >
+
+      <div class="section-heading reveal">
+        <p class="section-en" lang="en">THEN & NOW</p>
+        <h2 class="section-title" id="history-title">
+          往日今时
+        </h2>
+        <p class="section-description">
+          从几个时间节点，读一段连平的历史。
+        </p>
+      </div>
+
+      <ol class="history-timeline">
+
+        <li class="timeline-item reveal">
+          <p class="timeline-year">1634</p>
+          <div class="timeline-content">
+            <h3>始建连平州</h3>
+            <p>
+              明崇祯七年，设置连平州。
+            </p>
+          </div>
+        </li>
+
+        <li class="timeline-item reveal">
+          <p class="timeline-year">1911</p>
+          <div class="timeline-content">
+            <h3>改州为县</h3>
+            <p>
+              清宣统三年，连平改州为县。
+            </p>
+          </div>
+        </li>
+
+        <li class="timeline-item reveal">
+          <p class="timeline-year">1988</p>
+          <div class="timeline-content">
+            <h3>划归河源市</h3>
+            <p>
+              河源市成立，连平县改属河源市管辖。
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+      <p class="source-note">
+        历史资料：
+        <a
+          href="https://www.lianping.gov.cn/zjlp/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          连平县人民政府
+          <span class="visually-hidden">（在新窗口打开）</span>
+        </a>
+      </p>
+
     </section>
 
-    <section id="culture">
-      <!-- 第四部分：地方文化与生活 -->
+    <!-- 第四部分：自然风景 -->
+    <section
+      class="landscape-section"
+      id="landscape"
+      aria-labelledby="landscape-title"
+    >
+
+      <div class="section-heading reveal">
+        <p class="section-en" lang="en">NATURE & SCENERY</p>
+        <h2 class="section-title" id="landscape-title">
+          山水之间
+        </h2>
+        <p class="section-description">
+          把脚步放慢，看看连平的自然风景。
+        </p>
+      </div>
+
+      <div class="landscape-grid">
+
+        <article class="landscape-card reveal">
+
+          <div class="image-placeholder">
+            <span>黄牛石风景图片待补充</span>
+          </div>
+
+          <div class="card-content">
+            <p class="card-category">山间</p>
+            <h3>黄牛石</h3>
+            <p>
+              从连平的山地景观出发，感受这里的自然气息。
+            </p>
+          </div>
+
+        </article>
+
+        <article class="landscape-card reveal">
+
+          <div class="image-placeholder">
+            <span>上坪桃园图片待补充</span>
+          </div>
+
+          <div class="card-content">
+            <p class="card-category">田野</p>
+            <h3>上坪桃园</h3>
+            <p>
+              从花开到果熟，循着桃园的变化认识地方风物。
+            </p>
+          </div>
+
+        </article>
+
+      </div>
+
     </section>
 
-    <section id="food">
-      <!-- 第五部分：特色美食 -->
+    <!-- 第五部分：地方文化与生活 -->
+    <section
+      class="culture-section"
+      id="culture"
+      aria-labelledby="culture-title"
+    >
+
+      <div class="section-heading reveal">
+        <p class="section-en" lang="en">CULTURE & LIFE</p>
+        <h2 class="section-title" id="culture-title">
+          地方生活
+        </h2>
+        <p class="section-description">
+          从地方文化与手艺，走近生活在这里的人。
+        </p>
+      </div>
+
+      <article class="culture-feature">
+
+        <div class="culture-image reveal">
+          <div class="image-placeholder">
+            <span>忠信花灯图片待补充</span>
+          </div>
+        </div>
+
+        <div class="culture-content reveal">
+          <p class="card-category">地方文化</p>
+          <h3>忠信花灯</h3>
+          <p>
+            忠信花灯是认识连平地方文化的一个入口。
+            从花灯的造型、制作和相关习俗，
+            进一步了解这里的文化生活。
+          </p>
+
+          <!-- 后续补充核实后的制作故事和访谈内容 -->
+        </div>
+
+      </article>
+
+    </section>
+
+    <!-- 第六部分：特产与风味 -->
+    <section
+      class="food-section"
+      id="food"
+      aria-labelledby="food-title"
+    >
+
+      <div class="section-heading reveal">
+        <p class="section-en" lang="en">A TASTE OF LIANPING</p>
+        <h2 class="section-title" id="food-title">
+          一口连平
+        </h2>
+        <p class="section-description">
+          从三种地方风味，打开认识连平的另一种方式。
+        </p>
+      </div>
+
+      <div class="food-grid">
+
+        <article class="food-card reveal" id="peach">
+
+          <div class="food-image">
+            <div class="image-placeholder">
+              <span>鹰嘴蜜桃图片待补充</span>
+            </div>
+          </div>
+
+          <div class="card-content">
+            <span class="card-number" aria-hidden="true">01</span>
+            <h3>鹰嘴蜜桃</h3>
+            <p>
+              从上坪的桃园出发，
+              认识连平的一份特色风味。
+            </p>
+          </div>
+
+        </article>
+
+        <article class="food-card reveal" id="jiuchongpi">
+
+          <div class="food-image">
+            <div class="image-placeholder">
+              <span>九重皮图片待补充</span>
+            </div>
+          </div>
+
+          <div class="card-content">
+            <span class="card-number" aria-hidden="true">02</span>
+            <h3>九重皮</h3>
+            <p>
+              米浆逐层蒸熟，
+              层叠之间，藏着地方饮食的手艺。
+            </p>
+          </div>
+
+        </article>
+
+        <article class="food-card reveal" id="mushroom">
+
+          <div class="food-image">
+            <div class="image-placeholder">
+              <span>连平香菇图片待补充</span>
+            </div>
+          </div>
+
+          <div class="card-content">
+            <span class="card-number" aria-hidden="true">03</span>
+            <h3>连平香菇</h3>
+            <p>
+              从一份当地土特产，
+              继续探寻食物与地方生活的联系。
+            </p>
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- 第七部分：结束画面 -->
+    <section
+      class="closing-section"
+      aria-labelledby="closing-title"
+    >
+
+      <div class="closing-content reveal">
+        <p class="section-en" lang="en">SEE YOU IN LIANPING</p>
+
+        <h2 id="closing-title">
+          下一次，在连平相遇。
+        </h2>
+
+        <a class="button-link" href="#home">
+          <span>回到最初的风景</span>
+          <span aria-hidden="true">↑</span>
+        </a>
+      </div>
+
     </section>
 
   </main>
 
-  <footer>
-    <!-- 页面底部信息 -->
+  <!-- 页面底部 -->
+  <footer class="site-footer">
+
+    <a class="footer-logo" href="#home">
+      连平 · LIANPING
+    </a>
+
+    <p>
+      连平地方文化与旅游展示项目
+    </p>
+
+    <p class="footer-notice">
+      本站为设计项目，非政府官方网站。
+    </p>
+
+    <a
+      href="https://www.lianping.gov.cn/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      访问连平县人民政府官网
+      <span class="visually-hidden">（在新窗口打开）</span>
+    </a>
+
   </footer>
 
 </body>
+
 </html>
