@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -51,7 +50,6 @@
       outline-offset: 6px;
     }
 
-    .serif,
     h1,
     h2,
     h3 {
@@ -344,7 +342,7 @@
       letter-spacing: 3px;
     }
 
-    /* 四个入口共用样式 */
+    /* 四个入口 */
 
     .entry {
       position: absolute;
@@ -464,14 +462,19 @@
       border-bottom: 1px solid #ffffff50;
     }
 
-    /* ========= 7. 下滑显露 ========= */
+    /* ========= 7. 可重复的滚动显露 ========= */
 
-    .reveal {
+    /*
+      reveal 是稳定的观察容器。
+      内层 reveal-content 负责动画，避免动画位移影响进入判断。
+    */
+
+    .reveal-content {
       opacity: 1;
       transform: none;
     }
 
-    .motion-enabled .reveal {
+    .motion-enabled .reveal-content {
       opacity: 0;
       transform: translateY(30px);
       transition:
@@ -479,12 +482,13 @@
         transform 0.8s ease;
     }
 
-    .motion-enabled .reveal.is-visible {
+    .motion-enabled .reveal.is-visible > .reveal-content,
+    .motion-enabled .reveal:focus-within > .reveal-content {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* 点击入口后的初稿提示 */
+    /* 初稿入口提示 */
 
     .toast {
       position: fixed;
@@ -500,7 +504,9 @@
       line-height: 1.8;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s, transform 0.2s;
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
       z-index: 30;
     }
 
@@ -522,8 +528,11 @@
         gap: 30px;
       }
 
-      .locator {
+      .locator-wrap {
         grid-column: 1 / -1;
+      }
+
+      .locator {
         border-radius: 15px;
         padding: 20px;
       }
@@ -554,10 +563,6 @@
 
       .logo strong {
         font-size: 23px;
-      }
-
-      .navigation a:first-child {
-        display: none;
       }
 
       .hero {
@@ -677,7 +682,7 @@
         scroll-behavior: auto;
       }
 
-      .motion-enabled .reveal {
+      .motion-enabled .reveal-content {
         opacity: 1;
         transform: none;
         transition: none;
@@ -710,7 +715,7 @@
 
   </header>
 
-  <!-- 第一屏：抽象风景示意 -->
+  <!-- 第一屏 -->
   <section class="hero" aria-labelledby="hero-title">
 
     <svg
@@ -772,324 +777,524 @@
       向下探索
     </a>
 
-    <span class="hero-note">风景为概念示意，后续替换实景</span>
+    <span class="hero-note">
+      风景为概念示意，后续替换实景
+    </span>
 
   </section>
 
   <main id="main">
 
-    <!-- 第二部分：简介与位置 -->
-    <section class="about" id="about" aria-labelledby="about-title">
+    <!-- 地点介绍 -->
+    <section
+      class="about"
+      id="about"
+      aria-labelledby="about-title"
+    >
 
-      <div class="section-heading reveal">
-        <p class="eyebrow" lang="en">ABOUT LIANPING</p>
-        <h2 id="about-title">认识连平</h2>
+      <div class="reveal">
+        <div class="section-heading reveal-content">
+          <p class="eyebrow" lang="en">ABOUT LIANPING</p>
+          <h2 id="about-title">认识连平</h2>
+        </div>
       </div>
 
       <div class="about-layout">
 
-        <aside class="location reveal">
-          <p lang="en">GUANGDONG · HEYUAN</p>
-          <strong>
-            <span class="location-dot" aria-hidden="true"></span>连平县
-          </strong>
-          <p>广东北部的一处地方，<br>等待你慢慢认识。</p>
-        </aside>
+        <div class="reveal">
+          <aside class="location reveal-content">
+            <p lang="en">GUANGDONG · HEYUAN</p>
 
-        <div class="about-copy reveal">
-          <h3>从一处风景，<br>慢慢认识一座小城。</h3>
+            <strong>
+              <span
+                class="location-dot"
+                aria-hidden="true"
+              ></span>连平县
+            </strong>
 
-          <p>
-            连平位于广东省北部，隶属河源市。
-            认识这里，可以从山水与历史开始，
-            也可以从地方手艺和一份熟悉的风味开始。
-          </p>
-
-          <p>
-            往下走，在历史、山水、生活与美食之间，
-            选择你感兴趣的故事。
-          </p>
-
-          <a class="text-link" href="#explore">
-            开始探索连平 ↗
-          </a>
+            <p>
+              广东北部的一处地方，<br>
+              等待你慢慢认识。
+            </p>
+          </aside>
         </div>
 
-        <div class="locator reveal" aria-label="连平的行政位置">
-          <span>广东省</span>
-          <span aria-hidden="true">↓</span>
-          <span>河源市</span>
-          <span aria-hidden="true">↓</span>
-          <strong>连平县</strong>
-          <small>位置关系示意<br>准确定位地图将在后续加入</small>
+        <div class="reveal">
+          <div class="about-copy reveal-content">
+
+            <h3>
+              从一处风景，<br>
+              慢慢认识一座小城。
+            </h3>
+
+            <p>
+              连平位于广东省北部，隶属河源市。
+              认识这里，可以从山水与历史开始，
+              也可以从地方手艺和一份熟悉的风味开始。
+            </p>
+
+            <p>
+              往下走，在历史、山水、生活与美食之间，
+              选择你感兴趣的故事。
+            </p>
+
+            <a class="text-link" href="#explore">
+              开始探索连平 ↗
+            </a>
+
+          </div>
+        </div>
+
+        <div class="locator-wrap reveal">
+          <div
+            class="locator reveal-content"
+            aria-label="连平的行政位置"
+          >
+            <span>广东省</span>
+            <span aria-hidden="true">↓</span>
+            <span>河源市</span>
+            <span aria-hidden="true">↓</span>
+            <strong>连平县</strong>
+
+            <small>
+              位置关系示意<br>
+              准确定位地图将在后续加入
+            </small>
+          </div>
         </div>
 
       </div>
+
     </section>
 
-    <!-- 第三部分：场景式主题入口 -->
+    <!-- 主题探索区 -->
     <section
       class="explore"
       id="explore"
       aria-labelledby="explore-title"
     >
 
-      <div class="section-heading reveal">
-        <p class="eyebrow" lang="en">EXPLORE LIANPING</p>
-        <h2 id="explore-title">循着风物，走进连平</h2>
-        <p class="explore-description">
-          沿着小路看看，选择一处你想了解的故事。
-        </p>
+      <div class="reveal">
+        <div class="section-heading reveal-content">
+
+          <p class="eyebrow" lang="en">
+            EXPLORE LIANPING
+          </p>
+
+          <h2 id="explore-title">
+            循着风物，走进连平
+          </h2>
+
+          <p class="explore-description">
+            沿着小路看看，选择一处你想了解的故事。
+          </p>
+
+        </div>
       </div>
 
-      <div class="map-stage reveal">
+      <div class="reveal">
+        <div class="map-stage reveal-content">
 
-        <div class="map-caption" aria-hidden="true">
-          四种方式<br>认识连平
+          <div class="map-caption" aria-hidden="true">
+            四种方式<br>
+            认识连平
+          </div>
+
+          <!-- 艺术化场景底图 -->
+          <svg
+            class="explore-map"
+            viewBox="0 0 1000 800"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+
+            <!-- 地面 -->
+            <path
+              d="M140 200Q280 80 490 130T850 210
+                 Q990 350 850 530T640 740
+                 Q370 810 180 650T140 200Z"
+              fill="#dde5ce"
+            />
+
+            <path
+              d="M140 410Q310 310 450 410T830 420
+                 L850 610Q600 760 300 670Z"
+              fill="#cbdab8"
+              opacity=".6"
+            />
+
+            <!-- 远山 -->
+            <g fill="#a9bea5">
+              <path d="M510 260 620 65 745 260Z"/>
+              <path d="M640 260 770 95 910 260Z"/>
+              <path d="M430 285 530 150 650 285Z"/>
+            </g>
+
+            <g fill="#c6d3bd">
+              <path d="M590 115 620 65 655 120 625 105Z"/>
+              <path d="M735 140 770 95 810 145 775 125Z"/>
+            </g>
+
+            <!-- 河流 -->
+            <path
+              d="M620 245C470 330 730 350 600 430
+                 S420 510 570 585S520 680 430 750"
+              fill="none"
+              stroke="#a9c7be"
+              stroke-width="39"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M620 245C470 330 730 350 600 430
+                 S420 510 570 585S520 680 430 750"
+              fill="none"
+              stroke="#dce9dc"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+
+            <!-- 小路 -->
+            <path
+              d="M285 310C330 180 740 270 775 350
+                 S610 510 700 600
+                 S370 720 290 560"
+              fill="none"
+              stroke="#f7f0d8"
+              stroke-width="20"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M285 310C330 180 740 270 775 350
+                 S610 510 700 600
+                 S370 720 290 560"
+              fill="none"
+              stroke="#b5aa8b"
+              stroke-width="1.5"
+              stroke-dasharray="4 8"
+            />
+
+            <!-- 桥 -->
+            <g transform="translate(580 425) rotate(-18)">
+              <rect
+                x="-45"
+                y="-13"
+                width="90"
+                height="26"
+                rx="4"
+                fill="#ae8d68"
+              />
+              <path
+                d="M-35-13V13M-18-13V13M0-13V13M18-13V13M35-13V13"
+                stroke="#e5cfaa"
+                stroke-width="3"
+              />
+            </g>
+
+            <!-- 树 -->
+            <g
+              fill="#78966c"
+              stroke="#78966c"
+              stroke-width="3"
+            >
+              <path
+                d="M170 420v30M820 420v30M430 205v30
+                   M185 590v30M780 650v30M440 650v30"
+              />
+              <ellipse cx="170" cy="407" rx="19" ry="28"/>
+              <ellipse cx="820" cy="407" rx="19" ry="28"/>
+              <ellipse cx="430" cy="192" rx="17" ry="26"/>
+              <ellipse cx="185" cy="577" rx="20" ry="28"/>
+              <ellipse cx="780" cy="637" rx="20" ry="28"/>
+              <ellipse cx="440" cy="637" rx="17" ry="25"/>
+            </g>
+
+            <!-- 桃花 -->
+            <g fill="#d8aca0">
+              <circle cx="365" cy="230" r="13"/>
+              <circle cx="380" cy="220" r="15"/>
+              <circle cx="393" cy="235" r="12"/>
+              <circle cx="800" cy="545" r="13"/>
+              <circle cx="816" cy="535" r="15"/>
+              <circle cx="830" cy="550" r="12"/>
+            </g>
+
+            <!-- 小屋 -->
+            <g transform="translate(420 480)">
+              <rect width="52" height="37" fill="#f5ecd8"/>
+              <path d="M-8 0 26-25 61 0Z" fill="#7a8375"/>
+              <rect
+                x="23"
+                y="16"
+                width="12"
+                height="21"
+                fill="#a69376"
+              />
+            </g>
+
+            <g transform="translate(680 690) scale(.8)">
+              <rect width="52" height="37" fill="#f5ecd8"/>
+              <path d="M-8 0 26-25 61 0Z" fill="#7a8375"/>
+              <rect
+                x="23"
+                y="16"
+                width="12"
+                height="21"
+                fill="#a69376"
+              />
+            </g>
+
+          </svg>
+
+          <!-- 入口一：历史 -->
+          <button
+            class="entry entry-history"
+            type="button"
+            data-theme="读一段连平"
+            data-page="./history.html"
+          >
+
+            <span class="entry-art">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <path
+                  d="M18 43H82V86H18Z"
+                  fill="#ddceb2"
+                />
+                <path
+                  d="M8 43 50 18 92 43Z"
+                  fill="#657465"
+                />
+                <path
+                  d="M5 44Q22 42 24 35M95 44Q78 42 76 35"
+                  fill="none"
+                  stroke="#657465"
+                  stroke-width="5"
+                />
+                <rect
+                  x="42" y="57"
+                  width="17" height="29"
+                  fill="#8c7359"
+                />
+                <rect
+                  x="25" y="56"
+                  width="10" height="13"
+                  fill="#8c7359"
+                />
+                <rect
+                  x="66" y="56"
+                  width="10" height="13"
+                  fill="#8c7359"
+                />
+                <path
+                  d="M13 88H88"
+                  stroke="#b7a785"
+                  stroke-width="4"
+                />
+              </svg>
+            </span>
+
+            <span class="entry-title">读一段连平</span>
+            <span class="entry-description">
+              小城往事 · 岁月留痕
+            </span>
+            <span class="entry-hint">探索故事 ↗</span>
+
+          </button>
+
+          <!-- 入口二：山水 -->
+          <button
+            class="entry entry-nature"
+            type="button"
+            data-theme="走进山水"
+            data-page="./nature.html"
+          >
+
+            <span class="entry-art">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <path
+                  d="M5 76 36 19 69 76Z"
+                  fill="#9bb193"
+                />
+                <path
+                  d="M35 76 66 29 97 76Z"
+                  fill="#668c72"
+                />
+                <path
+                  d="M0 80Q25 64 50 80T100 80V96H0Z"
+                  fill="#b4cec0"
+                />
+                <path
+                  d="M60 76Q35 83 54 97"
+                  fill="none"
+                  stroke="#edf0dc"
+                  stroke-width="5"
+                />
+                <path
+                  d="M57 72Q66 48 78 72Z"
+                  fill="#375b49"
+                />
+              </svg>
+            </span>
+
+            <span class="entry-title">走进山水</span>
+            <span class="entry-description">
+              山间田园 · 自然风景
+            </span>
+            <span class="entry-hint">探索风景 ↗</span>
+
+          </button>
+
+          <!-- 入口三：生活 -->
+          <button
+            class="entry entry-life"
+            type="button"
+            data-theme="点亮地方生活"
+            data-page="./life.html"
+          >
+
+            <span class="entry-art">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <path
+                  d="M50 5V18"
+                  stroke="#927451"
+                  stroke-width="3"
+                />
+                <path
+                  d="M25 26 50 15 75 26 83 43H17Z"
+                  fill="#aa6247"
+                />
+                <path
+                  d="M24 43H76L69 73H31Z"
+                  fill="#d99065"
+                />
+                <path
+                  d="M34 43 38 73M50 43V73M66 43 62 73"
+                  stroke="#f1d29b"
+                  stroke-width="3"
+                />
+                <path
+                  d="M30 73H70L76 80H24Z"
+                  fill="#aa6247"
+                />
+                <path
+                  d="M32 80V94M43 80V98M56 80V98M67 80V94"
+                  stroke="#c68c54"
+                  stroke-width="3"
+                />
+                <path
+                  d="M42 53 50 47 58 53 50 66Z"
+                  fill="#f6dfac"
+                />
+              </svg>
+            </span>
+
+            <span class="entry-title">点亮地方生活</span>
+            <span class="entry-description">
+              花灯手艺 · 地方习俗
+            </span>
+            <span class="entry-hint">探索生活 ↗</span>
+
+          </button>
+
+          <!-- 入口四：风味 -->
+          <button
+            class="entry entry-food"
+            type="button"
+            data-theme="尝一口连平"
+            data-page="./food.html"
+          >
+
+            <span class="entry-art">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <path
+                  d="M31 32C9 24 3 55 24 69
+                     Q34 78 43 64C63 47 50 24 35 33Z"
+                  fill="#dfaa8b"
+                />
+                <path
+                  d="M33 33Q31 18 47 17Q47 29 33 33Z"
+                  fill="#7e9b68"
+                />
+                <path
+                  d="M33 34Q40 49 32 68"
+                  fill="none"
+                  stroke="#c4806b"
+                  stroke-width="2"
+                />
+                <path
+                  d="M53 64H91V86H53Z"
+                  fill="#d8bd8c"
+                />
+                <path
+                  d="M53 69H91M53 75H91M53 81H91"
+                  stroke="#f7e7c5"
+                  stroke-width="3"
+                />
+                <path
+                  d="M58 61H87"
+                  stroke="#7f9865"
+                  stroke-width="4"
+                />
+                <path
+                  d="M66 41Q78 22 91 42Z"
+                  fill="#927459"
+                />
+                <path
+                  d="M76 42V56H83V42"
+                  fill="#d4c19b"
+                />
+              </svg>
+            </span>
+
+            <span class="entry-title">尝一口连平</span>
+            <span class="entry-description">
+              地方食物 · 风味故事
+            </span>
+            <span class="entry-hint">探索风味 ↗</span>
+
+          </button>
+
         </div>
-
-        <!--
-          场景探索底图。
-          这是艺术化构图，不代表真实地理分布。
-        -->
-        <svg
-          class="explore-map"
-          viewBox="0 0 1000 800"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-
-          <!-- 地面 -->
-          <path
-            d="M140 200Q280 80 490 130T850 210
-               Q990 350 850 530T640 740
-               Q370 810 180 650T140 200Z"
-            fill="#dde5ce"
-          />
-
-          <path
-            d="M140 410Q310 310 450 410T830 420
-               L850 610Q600 760 300 670Z"
-            fill="#cbdab8"
-            opacity=".6"
-          />
-
-          <!-- 远山 -->
-          <g fill="#a9bea5">
-            <path d="M510 260 620 65 745 260Z"/>
-            <path d="M640 260 770 95 910 260Z"/>
-            <path d="M430 285 530 150 650 285Z"/>
-          </g>
-
-          <g fill="#c6d3bd">
-            <path d="M590 115 620 65 655 120 625 105Z"/>
-            <path d="M735 140 770 95 810 145 775 125Z"/>
-          </g>
-
-          <!-- 河流 -->
-          <path
-            d="M620 245C470 330 730 350 600 430
-               S420 510 570 585S520 680 430 750"
-            fill="none"
-            stroke="#a9c7be"
-            stroke-width="39"
-            stroke-linecap="round"
-          />
-
-          <path
-            d="M620 245C470 330 730 350 600 430
-               S420 510 570 585S520 680 430 750"
-            fill="none"
-            stroke="#dce9dc"
-            stroke-width="4"
-            stroke-linecap="round"
-          />
-
-          <!-- 弯曲的小路 -->
-          <path
-            d="M285 310C330 180 740 270 775 350
-               S610 510 700 600
-               S370 720 290 560"
-            fill="none"
-            stroke="#f7f0d8"
-            stroke-width="20"
-            stroke-linecap="round"
-          />
-
-          <path
-            d="M285 310C330 180 740 270 775 350
-               S610 510 700 600
-               S370 720 290 560"
-            fill="none"
-            stroke="#b5aa8b"
-            stroke-width="1.5"
-            stroke-dasharray="4 8"
-          />
-
-          <!-- 小桥 -->
-          <g transform="translate(580 425) rotate(-18)">
-            <rect x="-45" y="-13" width="90" height="26"
-              rx="4" fill="#ae8d68"/>
-            <path d="M-35-13V13M-18-13V13M0-13V13M18-13V13M35-13V13"
-              stroke="#e5cfaa" stroke-width="3"/>
-          </g>
-
-          <!-- 散落的树 -->
-          <g fill="#78966c" stroke="#78966c" stroke-width="3">
-            <path d="M170 420v30M820 420v30M430 205v30
-                     M185 590v30M780 650v30M440 650v30"/>
-            <ellipse cx="170" cy="407" rx="19" ry="28"/>
-            <ellipse cx="820" cy="407" rx="19" ry="28"/>
-            <ellipse cx="430" cy="192" rx="17" ry="26"/>
-            <ellipse cx="185" cy="577" rx="20" ry="28"/>
-            <ellipse cx="780" cy="637" rx="20" ry="28"/>
-            <ellipse cx="440" cy="637" rx="17" ry="25"/>
-          </g>
-
-          <!-- 桃花色块 -->
-          <g fill="#d8aca0">
-            <circle cx="365" cy="230" r="13"/>
-            <circle cx="380" cy="220" r="15"/>
-            <circle cx="393" cy="235" r="12"/>
-            <circle cx="800" cy="545" r="13"/>
-            <circle cx="816" cy="535" r="15"/>
-            <circle cx="830" cy="550" r="12"/>
-          </g>
-
-          <!-- 小屋 -->
-          <g transform="translate(420 480)">
-            <rect width="52" height="37" fill="#f5ecd8"/>
-            <path d="M-8 0 26-25 61 0Z" fill="#7a8375"/>
-            <rect x="23" y="16" width="12" height="21" fill="#a69376"/>
-          </g>
-
-          <g transform="translate(680 690) scale(.8)">
-            <rect width="52" height="37" fill="#f5ecd8"/>
-            <path d="M-8 0 26-25 61 0Z" fill="#7a8375"/>
-            <rect x="23" y="16" width="12" height="21" fill="#a69376"/>
-          </g>
-        </svg>
-
-        <!-- 入口一：历史 -->
-        <button
-          class="entry entry-history"
-          type="button"
-          data-theme="读一段连平"
-          data-page="./history.html"
-        >
-          <span class="entry-art">
-            <svg viewBox="0 0 100 100" aria-hidden="true">
-              <path d="M18 43H82V86H18Z" fill="#ddceb2"/>
-              <path d="M8 43 50 18 92 43Z" fill="#657465"/>
-              <path d="M5 44Q22 42 24 35M95 44Q78 42 76 35"
-                fill="none" stroke="#657465" stroke-width="5"/>
-              <rect x="42" y="57" width="17" height="29" fill="#8c7359"/>
-              <rect x="25" y="56" width="10" height="13" fill="#8c7359"/>
-              <rect x="66" y="56" width="10" height="13" fill="#8c7359"/>
-              <path d="M13 88H88" stroke="#b7a785" stroke-width="4"/>
-            </svg>
-          </span>
-          <span class="entry-title">读一段连平</span>
-          <span class="entry-description">小城往事 · 岁月留痕</span>
-          <span class="entry-hint">探索故事 ↗</span>
-        </button>
-
-        <!-- 入口二：山水 -->
-        <button
-          class="entry entry-nature"
-          type="button"
-          data-theme="走进山水"
-          data-page="./nature.html"
-        >
-          <span class="entry-art">
-            <svg viewBox="0 0 100 100" aria-hidden="true">
-              <path d="M5 76 36 19 69 76Z" fill="#9bb193"/>
-              <path d="M35 76 66 29 97 76Z" fill="#668c72"/>
-              <path d="M0 80Q25 64 50 80T100 80V96H0Z" fill="#b4cec0"/>
-              <path d="M60 76Q35 83 54 97"
-                fill="none" stroke="#edf0dc" stroke-width="5"/>
-              <path d="M57 72Q66 48 78 72Z" fill="#375b49"/>
-            </svg>
-          </span>
-          <span class="entry-title">走进山水</span>
-          <span class="entry-description">山间田园 · 自然风景</span>
-          <span class="entry-hint">探索风景 ↗</span>
-        </button>
-
-        <!-- 入口三：生活 -->
-        <button
-          class="entry entry-life"
-          type="button"
-          data-theme="点亮地方生活"
-          data-page="./life.html"
-        >
-          <span class="entry-art">
-            <svg viewBox="0 0 100 100" aria-hidden="true">
-              <path d="M50 5V18" stroke="#927451" stroke-width="3"/>
-              <path d="M25 26 50 15 75 26 83 43H17Z" fill="#aa6247"/>
-              <path d="M24 43H76L69 73H31Z" fill="#d99065"/>
-              <path d="M34 43 38 73M50 43V73M66 43 62 73"
-                stroke="#f1d29b" stroke-width="3"/>
-              <path d="M30 73H70L76 80H24Z" fill="#aa6247"/>
-              <path d="M32 80V94M43 80V98M56 80V98M67 80V94"
-                stroke="#c68c54" stroke-width="3"/>
-              <path d="M42 53 50 47 58 53 50 66Z" fill="#f6dfac"/>
-            </svg>
-          </span>
-          <span class="entry-title">点亮地方生活</span>
-          <span class="entry-description">花灯手艺 · 地方习俗</span>
-          <span class="entry-hint">探索生活 ↗</span>
-        </button>
-
-        <!-- 入口四：风味 -->
-        <button
-          class="entry entry-food"
-          type="button"
-          data-theme="尝一口连平"
-          data-page="./food.html"
-        >
-          <span class="entry-art">
-            <svg viewBox="0 0 100 100" aria-hidden="true">
-              <path d="M31 32C9 24 3 55 24 69
-                       Q34 78 43 64C63 47 50 24 35 33Z"
-                fill="#dfaa8b"/>
-              <path d="M33 33Q31 18 47 17Q47 29 33 33Z" fill="#7e9b68"/>
-              <path d="M33 34Q40 49 32 68"
-                fill="none" stroke="#c4806b" stroke-width="2"/>
-              <path d="M53 64H91V86H53Z" fill="#d8bd8c"/>
-              <path d="M53 69H91M53 75H91M53 81H91"
-                stroke="#f7e7c5" stroke-width="3"/>
-              <path d="M58 61H87" stroke="#7f9865" stroke-width="4"/>
-              <path d="M66 41Q78 22 91 42Z" fill="#927459"/>
-              <path d="M76 42V56H83V42" fill="#d4c19b"/>
-            </svg>
-          </span>
-          <span class="entry-title">尝一口连平</span>
-          <span class="entry-description">地方食物 · 风味故事</span>
-          <span class="entry-hint">探索风味 ↗</span>
-        </button>
-
       </div>
 
       <p class="map-note">
-        主题探索示意图 · 场景与物件为概括图形，不代表实际地理分布或准确工艺形制
+        主题探索示意图 · 场景与物件为概括图形，
+        不代表实际地理分布或准确工艺形制
       </p>
 
     </section>
 
     <!-- 结尾 -->
-    <section class="closing reveal">
-      <p class="eyebrow" lang="en">SEE YOU IN LIANPING</p>
-      <h2>下一次，在连平相遇。</h2>
-      <a class="text-link" href="#top">回到最初的风景 ↑</a>
+    <section class="closing">
+
+      <div class="reveal">
+        <div class="reveal-content">
+
+          <p class="eyebrow" lang="en">
+            SEE YOU IN LIANPING
+          </p>
+
+          <h2>下一次，在连平相遇。</h2>
+
+          <a class="text-link" href="#top">
+            回到最初的风景 ↑
+          </a>
+
+        </div>
+      </div>
+
     </section>
 
   </main>
 
   <footer class="site-footer">
+
     <div>
       <strong>连平 · LIANPING</strong>
-      <div>地方文化与旅游展示项目 · 非政府官方网站</div>
+      <div>
+        地方文化与旅游展示项目 · 非政府官方网站
+      </div>
     </div>
 
     <a
@@ -1099,50 +1304,90 @@
     >
       资料参考：连平县人民政府官网 ↗
     </a>
+
   </footer>
 
-  <!-- 初稿提示信息 -->
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+  ></div>
 
   <script>
-    /* ========= 1. 下滑时逐步显露 ========= */
+    /* ========= 1. 每次进入视野都重新显露 ========= */
 
-    const reduceMotion = window.matchMedia(
+    const motionPreference = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
-    ).matches;
+    );
 
-    if ("IntersectionObserver" in window && !reduceMotion) {
-      const observer = new IntersectionObserver(
+    const revealElements = document.querySelectorAll(".reveal");
+
+    let revealObserver = null;
+
+    function setupRevealAnimation() {
+      if (revealObserver) {
+        revealObserver.disconnect();
+        revealObserver = null;
+      }
+
+      document.documentElement.classList.remove("motion-enabled");
+
+      revealElements.forEach((element) => {
+        element.classList.remove("is-visible");
+      });
+
+      if (
+        !("IntersectionObserver" in window) ||
+        motionPreference.matches
+      ) {
+        return;
+      }
+
+      revealObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
+              // 进入视野时播放动画
               entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
+            } else {
+              // 完全离开视野后重置动画
+              entry.target.classList.remove("is-visible");
             }
           });
         },
         {
-          threshold: 0.08
+          threshold: 0
         }
       );
 
-      document.querySelectorAll(".reveal").forEach((element) => {
-        observer.observe(element);
+      revealElements.forEach((element) => {
+        revealObserver.observe(element);
       });
 
       document.documentElement.classList.add("motion-enabled");
     }
 
+    setupRevealAnimation();
+
+    if (motionPreference.addEventListener) {
+      motionPreference.addEventListener(
+        "change",
+        setupRevealAnimation
+      );
+    }
+
     /* ========= 2. 主题入口 ========= */
 
     /*
-      目前只制作首页，所以先显示提示。
-      四个主题页做好后，把下面的 false 改为 true。
+      目前只制作首页，所以点击后先显示提示。
+      四个主题页都做好后，将 false 改成 true。
     */
 
     const themePagesReady = false;
 
     const toast = document.getElementById("toast");
+
     let toastTimer;
 
     document.querySelectorAll(".entry").forEach((button) => {
