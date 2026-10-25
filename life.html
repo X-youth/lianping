@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="description"
+    content="认识连平忠信花灯，探索灯盖、灯身与灯裙，体验组合并点亮一盏花灯。"
+  >
+
+  <title>点亮地方生活｜走进连平</title>
+
+  <style>
+    /* ===== 基础样式 ===== */
+
+    :root {
+      --paper: #f8f5ed;
+      --ink: #314b40;
+      --muted: #7b8477;
+      --red: #ad553e;
+      --gold: #d1a15e;
+      --line: #314b4025;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 35px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Songti SC", "SimSun", serif;
+      font-weight: 400;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: default;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 5px;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--muted);
+    }
+
+    .skip {
+      position: absolute;
+      top: -100px;
+      left: 20px;
+      z-index: 10;
+      background: white;
+      padding: 12px;
+    }
+
+    .skip:focus {
+      top: 10px;
+    }
+
+    /* ===== 导航 ===== */
+
+    .header {
+      padding: 26px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      font: 24px "SimSun", serif;
+      letter-spacing: 4px;
+    }
+
+    .back {
+      font-size: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    /* ===== 开场 ===== */
+
+    .intro {
+      max-width: 1150px;
+      margin: auto;
+      padding: 85px 7% 80px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      align-items: center;
+      gap: 65px;
+    }
+
+    .intro h1 {
+      font-size: clamp(38px, 5vw, 64px);
+      letter-spacing: 5px;
+      line-height: 1.4;
+      margin: 25px 0;
+    }
+
+    .intro-copy {
+      max-width: 510px;
+      font-size: 14px;
+      line-height: 2.2;
+    }
+
+    .intro-link {
+      display: inline-block;
+      color: var(--red);
+      font-size: 13px;
+      margin-top: 22px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid var(--red);
+    }
+
+    .intro-art {
+      text-align: center;
+    }
+
+    .intro-art svg {
+      width: min(100%, 230px);
+      height: 300px;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.9;
+    }
+
+    /* ===== 地方文化介绍 ===== */
+
+    .story-section {
+      padding: 70px 7%;
+      background: #e9eddf;
+    }
+
+    .story-inner {
+      max-width: 1000px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 1.7fr;
+      gap: 70px;
+    }
+
+    .story-inner h2 {
+      margin: 12px 0;
+      font-size: 32px;
+      line-height: 1.6;
+      letter-spacing: 3px;
+    }
+
+    .story-inner p:not(.eyebrow) {
+      font-size: 14px;
+      line-height: 2.2;
+      margin-top: 0;
+    }
+
+    /* ===== 互动工坊 ===== */
+
+    .workshop {
+      max-width: 1200px;
+      margin: auto;
+      padding: 90px 7%;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .section-heading h2 {
+      margin: 15px 0;
+      font-size: 36px;
+      letter-spacing: 4px;
+    }
+
+    .section-heading > p:last-child {
+      font-size: 13px;
+      line-height: 2;
+      color: var(--muted);
+    }
+
+    .workshop-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 55px;
+      align-items: center;
+    }
+
+    /* 花灯展示舞台 */
+
+    .lantern-stage {
+      position: relative;
+      min-height: 535px;
+      display: grid;
+      place-items: center;
+      border-radius: 180px 180px 15px 15px;
+      background: #e8e7d8;
+      overflow: hidden;
+      transition: background 0.8s ease;
+    }
+
+    .lantern-stage.lit {
+      background: #233d34;
+    }
+
+    .stage-label {
+      position: absolute;
+      top: 28px;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #72806d;
+    }
+
+    .lit .stage-label,
+    .lit .stage-caption {
+      color: #e5d1a5;
+    }
+
+    .stage-caption {
+      position: absolute;
+      bottom: 16px;
+      text-align: center;
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.8;
+      padding: 0 20px;
+    }
+
+    .interactive-lantern {
+      position: relative;
+      z-index: 1;
+      width: 230px;
+      height: 410px;
+    }
+
+    .halo {
+      position: absolute;
+      width: 370px;
+      height: 370px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        #edc77d70 0%,
+        #edc77d20 45%,
+        transparent 70%
+      );
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+    }
+
+    .lit .halo {
+      opacity: 1;
+    }
+
+    /* 待组装与已组装状态 */
+
+    .piece {
+      opacity: 0.15;
+      transition:
+        opacity 0.5s ease,
+        filter 0.5s ease;
+    }
+
+    .piece.is-built {
+      opacity: 1;
+    }
+
+    .piece.is-selected {
+      filter: drop-shadow(0 0 5px #c3975b80);
+    }
+
+    .lit .piece.is-built {
+      filter: drop-shadow(0 0 12px #e6ac5750);
+    }
+
+    .inner-light {
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+    }
+
+    .lit .inner-light {
+      opacity: 0.85;
+    }
+
+    /* 右侧选择与文字 */
+
+    .part-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .part-button {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid #c9cebd;
+      border-radius: 8px;
+      padding: 15px 8px;
+      transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .part-button:hover {
+      transform: scale(1.05);
+    }
+
+    .part-button[aria-pressed="true"] {
+      border-color: var(--red);
+      background: #efe2d4;
+    }
+
+    .part-button small {
+      display: block;
+      margin-top: 7px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .part-number {
+      display: block;
+      color: var(--red);
+      font: 24px "SimSun", serif;
+      margin-bottom: 6px;
+    }
+
+    .detail {
+      min-height: 185px;
+      padding: 25px 0 15px;
+    }
+
+    .detail h3 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      letter-spacing: 3px;
+    }
+
+    .detail p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 2.1;
+    }
+
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    progress {
+      width: 100%;
+      height: 7px;
+      border: 0;
+      accent-color: var(--red);
+    }
+
+    progress::-webkit-progress-bar {
+      background: #e3e3d6;
+      border-radius: 10px;
+    }
+
+    progress::-webkit-progress-value {
+      background: var(--red);
+      border-radius: 10px;
+    }
+
+    progress::-moz-progress-bar {
+      background: var(--red);
+      border-radius: 10px;
+    }
+
+    .actions {
+      margin-top: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .primary-button,
+    .light-button {
+      border: 0;
+      border-radius: 30px;
+      padding: 13px 21px;
+      font-size: 13px;
+    }
+
+    .primary-button {
+      background: var(--red);
+      color: white;
+    }
+
+    .light-button {
+      background: var(--ink);
+      color: white;
+    }
+
+    .primary-button:disabled,
+    .light-button:disabled {
+      background: #dedfd4;
+      color: #8a9082;
+    }
+
+    .reset-button {
+      padding: 10px 0;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .status {
+      min-height: 50px;
+      font-size: 12px;
+      line-height: 1.9;
+      color: var(--red);
+      margin-top: 20px;
+    }
+
+    .experience-note {
+      margin-top: 25px;
+      font-size: 11px;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    /* ===== 结尾与来源 ===== */
+
+    .ending {
+      padding: 65px 7%;
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .ending h2 {
+      font-size: 29px;
+      letter-spacing: 3px;
+      line-height: 1.8;
+    }
+
+    .ending p {
+      font-size: 13px;
+      line-height: 2;
+      color: var(--muted);
+    }
+
+    .ending a {
+      display: inline-block;
+      margin-top: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--red);
+      font-size: 13px;
+      color: var(--red);
+    }
+
+    .footer {
+      padding: 30px 7%;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 11px;
+      line-height: 2;
+    }
+
+    .footer a {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    /* ===== 重复滚动显露 ===== */
+
+    .reveal-content {
+      opacity: 1;
+      transform: none;
+    }
+
+    .motion-enabled .reveal-content {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+    }
+
+    .motion-enabled .reveal.is-visible > .reveal-content,
+    .motion-enabled .reveal:focus-within > .reveal-content {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ===== 响应式 ===== */
+
+    @media (max-width: 760px) {
+      .intro {
+        padding: 60px 7%;
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .intro h1 {
+        font-size: 42px;
+      }
+
+      .intro-art svg {
+        height: 240px;
+      }
+
+      .story-inner {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .workshop-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+      }
+
+      .workshop {
+        padding: 65px 6%;
+      }
+
+      .section-heading h2 {
+        font-size: 29px;
+      }
+
+      .lantern-stage {
+        min-height: 480px;
+      }
+
+      .interactive-lantern {
+        height: 360px;
+      }
+
+      .detail {
+        min-height: 155px;
+      }
+
+      .ending h2 {
+        font-size: 25px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+
+      .motion-enabled .reveal-content {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a class="skip" href="#main">跳到主要内容</a>
+
+  <!-- 共用的花灯图形 -->
+  <svg
+    width="0"
+    height="0"
+    aria-hidden="true"
+    style="position:absolute;overflow:hidden"
+  >
+    <defs>
+
+      <symbol id="lantern-cap" viewBox="0 0 240 400">
+        <path
+          d="M120 12V52"
+          stroke="#9b805c"
+          stroke-width="3"
+        />
+
+        <path
+          d="M67 77 120 48 173 77 187 112H53Z"
+          fill="#a9533e"
+          stroke="#7e4636"
+          stroke-width="2"
+        />
+
+        <path
+          d="M67 77H173M58 101H182"
+          fill="none"
+          stroke="#e5bc77"
+          stroke-width="4"
+        />
+
+        <path
+          d="M120 50V109M88 66 80 109M152 66 160 109"
+          fill="none"
+          stroke="#d99e64"
+          stroke-width="2"
+        />
+
+        <path
+          d="M46 113H194"
+          stroke="#9d523b"
+          stroke-width="8"
+          stroke-linecap="round"
+        />
+      </symbol>
+
+      <symbol id="lantern-body" viewBox="0 0 240 400">
+        <path
+          d="M59 124H181L173 248H67Z"
+          fill="#cd7951"
+          stroke="#925038"
+          stroke-width="2"
+        />
+
+        <path
+          d="M69 130H171L165 239H75Z"
+          fill="#e0a25e"
+        />
+
+        <path
+          d="M88 126 91 246M120 126V246M152 126 149 246"
+          stroke="#f2d397"
+          stroke-width="5"
+        />
+
+        <path
+          d="M67 150H175M68 220H173"
+          stroke="#b76040"
+          stroke-width="5"
+        />
+
+        <path
+          d="M120 159 142 183 120 209 98 183Z"
+          fill="#a8533b"
+          stroke="#f2d397"
+          stroke-width="2"
+        />
+
+        <circle cx="120" cy="183" r="8" fill="#f1d79e"/>
+
+        <path
+          d="M62 252H178"
+          stroke="#995039"
+          stroke-width="8"
+          stroke-linecap="round"
+        />
+      </symbol>
+
+      <symbol id="lantern-skirt" viewBox="0 0 240 400">
+        <path
+          d="M67 262H173L188 283H52Z"
+          fill="#a9533e"
+          stroke="#874633"
+          stroke-width="2"
+        />
+
+        <path
+          d="M57 281H183"
+          stroke="#e4bc77"
+          stroke-width="4"
+        />
+
+        <g
+          stroke-width="9"
+          stroke-linecap="round"
+        >
+          <path d="M66 294V341" stroke="#c78552"/>
+          <path d="M87 294V356" stroke="#b75d43"/>
+          <path d="M109 294V369" stroke="#d4a35e"/>
+          <path d="M131 294V369" stroke="#b75d43"/>
+          <path d="M153 294V356" stroke="#d4a35e"/>
+          <path d="M174 294V341" stroke="#b75d43"/>
+        </g>
+
+        <g fill="#edce91">
+          <circle cx="66" cy="342" r="5"/>
+          <circle cx="87" cy="357" r="5"/>
+          <circle cx="109" cy="370" r="5"/>
+          <circle cx="131" cy="370" r="5"/>
+          <circle cx="153" cy="357" r="5"/>
+          <circle cx="174" cy="342" r="5"/>
+        </g>
+      </symbol>
+
+    </defs>
+  </svg>
+
+  <!-- 顶部 -->
+  <header class="header">
+    <a class="logo" href="./index.html">连平</a>
+    <a class="back" href="./index.html#explore">
+      ← 返回主题探索
+    </a>
+  </header>
+
+  <main id="main">
+
+    <!-- 开场 -->
+    <section class="intro" aria-labelledby="page-title">
+
+      <div>
+        <p class="eyebrow" lang="en">CULTURE & LIFE</p>
+
+        <h1 id="page-title">
+          点亮一盏灯，<br>
+          走近地方生活。
+        </h1>
+
+        <p class="intro-copy">
+          忠信花灯是连平的地方文化名片之一。
+          从一盏灯的结构出发，认识它的手艺，
+          也认识它与地方习俗之间的联系。
+        </p>
+
+        <a class="intro-link" href="#workshop">
+          认识并点亮一盏花灯 ↓
+        </a>
+      </div>
+
+      <div class="intro-art">
+        <svg
+          viewBox="0 0 240 400"
+          role="img"
+          aria-label="概括绘制的花灯，分为灯盖、灯身和灯裙"
+        >
+          <use href="#lantern-cap"/>
+          <use href="#lantern-body"/>
+          <use href="#lantern-skirt"/>
+        </svg>
+
+        <p class="caption">花灯结构概念示意</p>
+      </div>
+
+    </section>
+
+    <!-- 文化介绍 -->
+    <section class="story-section">
+
+      <div class="reveal">
+        <div class="story-inner reveal-content">
+
+          <div>
+            <p class="eyebrow" lang="en">A LOCAL TRADITION</p>
+
+            <h2>
+              花灯里，<br>
+              有地方的手艺。
+            </h2>
+          </div>
+
+          <div>
+            <p>
+              忠信花灯主要分布于连平县东南部忠信镇，
+              是一种以红色调为主的民间灯彩艺术。
+              2011年，灯彩（忠信花灯）列入国家级
+              非物质文化遗产代表性项目名录扩展项目。
+            </p>
+
+            <p>
+              花灯多采用竹编骨架，配以剪纸、图案、
+              纸穗和彩色灯带等装饰。
+              从上到下，可以认识灯盖、灯身、灯裙三个部分。
+              它也与当地的传统赏灯习俗相联系。
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 互动工坊 -->
+    <section
+      class="workshop"
+      id="workshop"
+      aria-labelledby="workshop-title"
+    >
+
+      <div class="reveal">
+        <div class="section-heading reveal-content">
+
+          <p class="eyebrow" lang="en">A LITTLE LANTERN WORKSHOP</p>
+
+          <h2 id="workshop-title">让一盏花灯慢慢完整</h2>
+
+          <p>
+            选一个部位，读一段介绍，再把它放上去。<br>
+            三个部分就位后，就可以点亮花灯。
+          </p>
+
+        </div>
+      </div>
+
+      <div class="workshop-grid">
+
+        <!-- 左侧：组合展示 -->
+        <div
+          class="lantern-stage"
+          id="lantern-stage"
+        >
+
+          <span class="stage-label" id="stage-label">
+            等待一盏灯慢慢完整
+          </span>
+
+          <div class="halo" aria-hidden="true"></div>
+
+          <svg
+            class="interactive-lantern"
+            viewBox="0 0 240 400"
+            role="img"
+            aria-labelledby="lantern-image-title"
+          >
+            <title id="lantern-image-title">
+              花灯组合预览：已放上0个部位
+            </title>
+
+            <g
+              class="piece is-selected"
+              id="piece-cap"
+            >
+              <use href="#lantern-cap"/>
+            </g>
+
+            <g
+              class="piece"
+              id="piece-body"
+            >
+              <use href="#lantern-body"/>
+            </g>
+
+            <g
+              class="piece"
+              id="piece-skirt"
+            >
+              <use href="#lantern-skirt"/>
+            </g>
+
+            <ellipse
+              class="inner-light"
+              cx="120"
+              cy="184"
+              rx="34"
+              ry="49"
+              fill="#ffe4a0"
+            />
+
+          </svg>
+
+          <p class="stage-caption">
+            图形为简化结构示意，<br>
+            不对应某一种真实花灯的完整形制。
+          </p>
+
+        </div>
+
+        <!-- 右侧：说明和操作 -->
+        <div class="controls">
+
+          <div
+            class="part-buttons"
+            role="group"
+            aria-label="选择要了解的花灯部位"
+          >
+
+            <button
+              class="part-button"
+              type="button"
+              data-part="cap"
+              aria-pressed="true"
+              aria-controls="part-detail"
+            >
+              <span class="part-number">01</span>
+              灯盖
+              <small id="state-cap">尚未放上</small>
+            </button>
+
+            <button
+              class="part-button"
+              type="button"
+              data-part="body"
+              aria-pressed="false"
+              aria-controls="part-detail"
+            >
+              <span class="part-number">02</span>
+              灯身
+              <small id="state-body">尚未放上</small>
+            </button>
+
+            <button
+              class="part-button"
+              type="button"
+              data-part="skirt"
+              aria-pressed="false"
+              aria-controls="part-detail"
+            >
+              <span class="part-number">03</span>
+              灯裙
+              <small id="state-skirt">尚未放上</small>
+            </button>
+
+          </div>
+
+          <div
+            class="detail"
+            id="part-detail"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <h3 id="part-title">灯盖</h3>
+
+            <p id="part-description">
+              先从花灯的上部看起。灯盖是从上到下认识
+              忠信花灯结构时的第一个部分。
+              这里用概括图形表现它的位置。
+            </p>
+          </div>
+
+          <div class="progress-row">
+            <span>组合进度</span>
+            <span id="progress-text">0 / 3</span>
+          </div>
+
+          <progress
+            id="assembly-progress"
+            max="3"
+            value="0"
+            aria-label="花灯组合进度"
+          ></progress>
+
+          <div class="actions">
+
+            <button
+              class="primary-button"
+              id="add-button"
+              type="button"
+            >
+              放上灯盖
+            </button>
+
+            <button
+              class="light-button"
+              id="light-button"
+              type="button"
+              aria-pressed="false"
+              disabled
+            >
+              点亮花灯
+            </button>
+
+            <button
+              class="reset-button"
+              id="reset-button"
+              type="button"
+            >
+              重新开始
+            </button>
+
+          </div>
+
+          <p
+            class="status"
+            id="status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            先选择一个部位，再点击“放上”。
+          </p>
+
+          <p class="experience-note">
+            这是认识结构的简化组合体验。
+            点亮效果为视觉设计，
+            不代表真实制作顺序或传统仪式。
+          </p>
+
+          <noscript>
+            <p>
+              当前浏览器未启用 JavaScript，
+              无法运行组合体验。
+              花灯可从上到下分为灯盖、灯身、灯裙；
+              灯身配有剪纸、图案等装饰，
+              灯裙由彩色灯带等构成。
+            </p>
+          </noscript>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- 结束 -->
+    <section class="ending">
+
+      <div class="reveal">
+        <div class="reveal-content">
+
+          <p class="eyebrow" lang="en">A LIGHT, A LOCAL STORY</p>
+
+          <h2>认识一盏灯，也走近一种生活。</h2>
+
+          <p>
+            图形之外，还有制作花灯的人，<br>
+            以及让这份手艺继续被看见的地方故事。
+          </p>
+
+          <a href="./index.html#explore">
+            回到探索图，看看其他故事 ↗
+          </a>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+
+    <p>走进连平 · 地方文化展示项目 · 非政府官方网站</p>
+
+    <p>
+      资料来源：
+      <a
+        href="https://www.ihchina.cn/project_details/14071.html"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        中国非物质文化遗产网 · 灯彩（忠信花灯）
+      </a>
+    </p>
+
+    <p>页面花灯为原创简化示意，正式形制需结合实物资料完善。</p>
+
+  </footer>
+
+  <script>
+    /* ===== 1. 花灯部位资料 ===== */
+
+    const parts = {
+      cap: {
+        title: "灯盖",
+        description:
+          "先从花灯的上部看起。灯盖是从上到下认识忠信花灯结构时的第一个部分。这里用概括图形表现它的位置。"
+      },
+
+      body: {
+        title: "灯身",
+        description:
+          "来到花灯的主体。忠信花灯多用竹编骨架，外层配以剪纸、图案、纸穗等装饰。从里到外，一般有2至4层；这幅图只保留了便于认识结构的简化外观。"
+      },
+
+      skirt: {
+        title: "灯裙",
+        description:
+          "再看花灯下方的灯裙。官方资料介绍，灯裙由各种花案彩色灯带组成。这里用垂落的彩带示意，让你更容易辨认这一部分。"
+      }
+    };
+
+    /* ===== 2. 当前状态 ===== */
+
+    let selectedPart = "cap";
+    let isLit = false;
+
+    const builtParts = new Set();
+
+    const partButtons = document.querySelectorAll(".part-button");
+    const stage = document.getElementById("lantern-stage");
+    const stageLabel = document.getElementById("stage-label");
+
+    const partTitle = document.getElementById("part-title");
+    const partDescription = document.getElementById("part-description");
+
+    const addButton = document.getElementById("add-button");
+    const lightButton = document.getElementById("light-button");
+    const resetButton = document.getElementById("reset-button");
+
+    const progress = document.getElementById("assembly-progress");
+    const progressText = document.getElementById("progress-text");
+    const status = document.getElementById("status");
+
+    const imageTitle = document.getElementById("lantern-image-title");
+
+    /* ===== 3. 更新界面 ===== */
+
+    function render() {
+      partButtons.forEach((button) => {
+        const part = button.dataset.part;
+        const isSelected = selectedPart === part;
+        const isBuilt = builtParts.has(part);
+
+        button.setAttribute("aria-pressed", String(isSelected));
+
+        document.getElementById(`state-${part}`).textContent =
+          isBuilt ? "已放上 ✓" : "尚未放上";
+
+        const piece = document.getElementById(`piece-${part}`);
+
+        piece.classList.toggle("is-built", isBuilt);
+        piece.classList.toggle("is-selected", isSelected);
+      });
+
+      partTitle.textContent = parts[selectedPart].title;
+      partDescription.textContent = parts[selectedPart].description;
+
+      const selectedIsBuilt = builtParts.has(selectedPart);
+
+      addButton.disabled = selectedIsBuilt;
+
+      addButton.textContent = selectedIsBuilt
+        ? `${parts[selectedPart].title}已放上`
+        : `放上${parts[selectedPart].title}`;
+
+      progress.value = builtParts.size;
+      progressText.textContent = `${builtParts.size} / 3`;
+
+      lightButton.disabled = builtParts.size !== 3;
+      lightButton.textContent = isLit ? "熄灭花灯" : "点亮花灯";
+      lightButton.setAttribute("aria-pressed", String(isLit));
+
+      stage.classList.toggle("lit", isLit);
+
+      if (isLit) {
+        stageLabel.textContent = "一盏花灯，亮起来了";
+      } else if (builtParts.size === 3) {
+        stageLabel.textContent = "花灯已完整，等待点亮";
+      } else {
+        stageLabel.textContent = "等待一盏灯慢慢完整";
+      }
+
+      imageTitle.textContent =
+        `花灯组合预览：已放上${builtParts.size}个部位` +
+        (isLit ? "，花灯已点亮" : "，花灯未点亮");
+    }
+
+    /* ===== 4. 点击选择部位 ===== */
+
+    partButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedPart = button.dataset.part;
+        render();
+      });
+    });
+
+    /* ===== 5. 放上部位 ===== */
+
+    addButton.addEventListener("click", () => {
+      if (builtParts.has(selectedPart)) {
+        return;
+      }
+
+      const addedPart = selectedPart;
+
+      builtParts.add(addedPart);
+
+      if (builtParts.size === 3) {
+        status.textContent =
+          "灯盖、灯身、灯裙都已就位。现在可以点亮花灯了。";
+
+        render();
+        lightButton.focus();
+        return;
+      }
+
+      const nextPart = Object.keys(parts).find(
+        (part) => !builtParts.has(part)
+      );
+
+      selectedPart = nextPart;
+
+      status.textContent =
+        `已放上${parts[addedPart].title}。` +
+        `接下来认识${parts[nextPart].title}。`;
+
+      render();
+    });
+
+    /* ===== 6. 点亮或熄灭 ===== */
+
+    lightButton.addEventListener("click", () => {
+      if (builtParts.size !== 3) {
+        return;
+      }
+
+      isLit = !isLit;
+
+      status.textContent = isLit
+        ? "花灯亮起来了。你已经认识了灯盖、灯身与灯裙。"
+        : "花灯已熄灭，可以再次点亮。";
+
+      render();
+    });
+
+    /* ===== 7. 重新开始 ===== */
+
+    resetButton.addEventListener("click", () => {
+      builtParts.clear();
+      selectedPart = "cap";
+      isLit = false;
+
+      status.textContent =
+        "已重新开始。先认识灯盖，再逐步组合花灯。";
+
+      render();
+
+      document.querySelector('[data-part="cap"]').focus();
+    });
+
+    render();
+
+    /* ===== 8. 每次进入视野重新显露 ===== */
+
+    const motionPreference = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
+    const revealElements = document.querySelectorAll(".reveal");
+
+    let revealObserver = null;
+
+    function setupReveal() {
+      if (revealObserver) {
+        revealObserver.disconnect();
+        revealObserver = null;
+      }
+
+      document.documentElement.classList.remove("motion-enabled");
+
+      revealElements.forEach((element) => {
+        element.classList.remove("is-visible");
+      });
+
+      if (
+        !("IntersectionObserver" in window) ||
+        motionPreference.matches
+      ) {
+        return;
+      }
+
+      revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            entry.target.classList.toggle(
+              "is-visible",
+              entry.isIntersecting
+            );
+          });
+        },
+        { threshold: 0 }
+      );
+
+      revealElements.forEach((element) => {
+        revealObserver.observe(element);
+      });
+
+      document.documentElement.classList.add("motion-enabled");
+    }
+
+    setupReveal();
+
+    if (motionPreference.addEventListener) {
+      motionPreference.addEventListener("change", setupReveal);
+    }
+  </script>
+
+</body>
+</html>
