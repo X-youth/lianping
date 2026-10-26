@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="探索连平上坪桃园、内莞风光与圣迹苍岩。">
+
+<title>走进山水｜走进连平</title>
+
+<style>
+:root {
+  --paper: #f8f5ed;
+  --ink: #314b40;
+  --muted: #7b8477;
+  --orange: #be6949;
+  --pale: #e7ecdc;
+  --line: #314b4025;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 30px;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+h1, h2, h3 {
+  font-family: "Songti SC", "SimSun", serif;
+  font-weight: 400;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 5px;
+}
+
+.skip {
+  position: absolute;
+  top: -100px;
+  left: 20px;
+  z-index: 10;
+  background: white;
+  padding: 12px;
+}
+
+.skip:focus { top: 10px; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px 6%;
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  font: 25px "SimSun", serif;
+  letter-spacing: 5px;
+}
+
+.back {
+  font-size: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 4px;
+}
+
+.copy {
+  font-size: 14px;
+  line-height: 2.2;
+}
+
+.note {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+.intro {
+  padding: 80px 7% 50px;
+  text-align: center;
+}
+
+.intro h1 {
+  font-size: clamp(40px, 6vw, 66px);
+  letter-spacing: 6px;
+  margin: 23px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 55px 7% 75px;
+}
+
+.place-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  max-width: 700px;
+  margin: 0 auto 45px;
+}
+
+.place-button {
+  padding: 17px 10px;
+  background: transparent;
+  border: 1px solid #c7cfbb;
+  border-radius: 10px;
+  color: var(--ink);
+  transition: transform .25s, background .25s;
+}
+
+.place-button:hover {
+  transform: scale(1.05);
+}
+
+.place-button[aria-pressed="true"] {
+  background: #e6dfce;
+  border-color: var(--orange);
+}
+
+.place-button small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.landscape-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.landscape-stage {
+  background: #e2e8d7;
+  border-radius: 160px 160px 15px 15px;
+  overflow: hidden;
+  min-height: 400px;
+  display: grid;
+  place-items: center;
+}
+
+.landscape-stage svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.place-info {
+  min-height: 340px;
+}
+
+.place-info h2 {
+  font-size: 34px;
+  letter-spacing: 4px;
+  margin: 14px 0 20px;
+}
+
+.season-buttons {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.season-button {
+  border: 1px solid #c3cbb6;
+  background: transparent;
+  color: var(--ink);
+  padding: 10px 17px;
+  border-radius: 25px;
+  font-size: 12px;
+}
+
+.season-button[aria-pressed="true"] {
+  background: var(--pale);
+  border-color: #7f9471;
+}
+
+.save-button {
+  border: 0;
+  padding: 13px 23px;
+  border-radius: 30px;
+  background: var(--orange);
+  color: white;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.save-button[aria-pressed="true"] {
+  background: var(--ink);
+}
+
+.feedback {
+  min-height: 44px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--orange);
+}
+
+.saved-section {
+  background: var(--pale);
+}
+
+.saved-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 50px;
+  align-items: start;
+}
+
+.saved-layout h2 {
+  font-size: 31px;
+  letter-spacing: 3px;
+  line-height: 1.7;
+}
+
+.saved-list {
+  list-style: none;
+  margin: 20px 0;
+  padding: 0;
+}
+
+.saved-list li {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+  border-bottom: 1px solid #314b4030;
+  padding: 15px 0;
+  font-size: 14px;
+}
+
+.saved-list button,
+.clear-button {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 5px 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.ending {
+  text-align: center;
+  padding: 65px 7%;
+}
+
+.ending h2 {
+  font-size: 28px;
+  line-height: 1.8;
+  letter-spacing: 3px;
+}
+
+.text-link {
+  display: inline-block;
+  border-bottom: 1px solid var(--orange);
+  color: var(--orange);
+  padding-bottom: 8px;
+  margin: 12px 10px;
+  font-size: 13px;
+}
+
+.footer {
+  padding: 30px 6%;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 11px;
+  line-height: 2;
+}
+
+.footer a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.reveal-inner {
+  opacity: 1;
+  transform: none;
+}
+
+.motion-enabled .reveal-inner {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .8s, transform .8s;
+}
+
+.motion-enabled .reveal.visible > .reveal-inner,
+.motion-enabled .reveal:focus-within > .reveal-inner {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 720px) {
+  .intro { padding-top: 55px; }
+
+  .intro h1 {
+    font-size: 40px;
+    letter-spacing: 4px;
+  }
+
+  .container {
+    padding: 45px 7% 60px;
+  }
+
+  .landscape-layout,
+  .saved-layout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .landscape-stage {
+    min-height: 280px;
+    border-radius: 100px 100px 12px 12px;
+  }
+
+  .place-buttons {
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+
+  .place-button {
+    font-size: 12px;
+    padding: 14px 5px;
+  }
+
+  .place-button small {
+    font-size: 9px;
+  }
+
+  .place-info {
+    min-height: 330px;
+  }
+
+  .place-info h2 {
+    font-size: 29px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .motion-enabled .reveal-inner {
+    opacity: 1;
+    transform: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="header">
+  <a class="logo" href="./index.html">连平</a>
+  <a class="back" href="./index.html#explore">
+    ← 返回主题探索
+  </a>
+</header>
+
+<main id="main">
+
+  <section class="intro" aria-labelledby="page-title">
+    <p class="eyebrow" lang="en">NATURE & SCENERY</p>
+    <h1 id="page-title">走进山水</h1>
+
+    <p class="copy">
+      在桃园、田野与溶洞之间，<br>
+      选择一处你想认识的风景。
+    </p>
+  </section>
+
+  <section class="container" aria-label="探索连平风景">
+
+    <div class="place-buttons" role="group" aria-label="选择地点">
+
+      <button
+        class="place-button"
+        type="button"
+        data-place="orchard"
+        aria-pressed="true"
+        aria-controls="place-info"
+      >
+        上坪桃园
+        <small>花开与果熟</small>
+      </button>
+
+      <button
+        class="place-button"
+        type="button"
+        data-place="village"
+        aria-pressed="false"
+        aria-controls="place-info"
+      >
+        内莞风光
+        <small>山水与田野</small>
+      </button>
+
+      <button
+        class="place-button"
+        type="button"
+        data-place="cave"
+        aria-pressed="false"
+        aria-controls="place-info"
+      >
+        圣迹苍岩
+        <small>溶洞与奇景</small>
+      </button>
+
+    </div>
+
+    <div class="landscape-layout">
+
+      <!-- 场景插图 -->
+      <div>
+        <div class="landscape-stage">
+
+          <svg
+            viewBox="0 0 600 450"
+            role="img"
+            aria-labelledby="landscape-art-title"
+          >
+            <title id="landscape-art-title">
+              上坪桃园花开状态的概念示意
+            </title>
+
+            <rect width="600" height="450" fill="#e6ead8"/>
+            <circle cx="460" cy="90" r="40" fill="#f1e7bd"/>
+
+            <!-- 背景山体 -->
+            <path
+              d="M0 280 115 100 245 275 375 80 600 270V450H0Z"
+              fill="#b4c3a6"
+            />
+
+            <path
+              d="M0 330 180 180 315 325 450 155 600 300V450H0Z"
+              fill="#8eaa83"
+            />
+
+            <path
+              d="M0 370Q150 275 300 340T600 330V450H0Z"
+              fill="#72956e"
+            />
+
+            <!-- 河流 -->
+            <path
+              d="M365 280Q245 330 355 370T310 450"
+              fill="none"
+              stroke="#b6d0c1"
+              stroke-width="35"
+            />
+
+            <!-- 桃园 -->
+            <g id="scene-orchard">
+              <g stroke="#897556" stroke-width="8">
+                <path d="M105 305V385"/>
+                <path d="M205 290V365"/>
+                <path d="M465 305V395"/>
+              </g>
+
+              <g class="tree-crowns" fill="#d8aaa0">
+                <circle cx="105" cy="285" r="45"/>
+                <circle cx="205" cy="272" r="39"/>
+                <circle cx="465" cy="285" r="48"/>
+              </g>
+
+              <g id="peach-fruits" fill="#d5a17d" hidden>
+                <circle cx="85" cy="280" r="8"/>
+                <circle cx="118" cy="302" r="8"/>
+                <circle cx="194" cy="267" r="8"/>
+                <circle cx="220" cy="284" r="8"/>
+                <circle cx="446" cy="281" r="8"/>
+                <circle cx="482" cy="302" r="8"/>
+              </g>
+            </g>
+
+            <!-- 村落 -->
+            <g id="scene-village" hidden>
+              <path
+                d="M30 360H225V430H30Z"
+                fill="#c4cb8e"
+              />
+
+              <path
+                d="M40 378H220M40 395H220M40 412H220"
+                stroke="#a8b279"
+                stroke-width="3"
+              />
+
+              <g transform="translate(100 265)">
+                <rect width="100" height="80" fill="#eadcba"/>
+                <path d="M-15 0 50-40 115 0Z" fill="#5f7361"/>
+                <rect x="44" y="37" width="24" height="43" fill="#927956"/>
+                <rect x="15" y="28" width="17" height="24" fill="#927956"/>
+              </g>
+
+              <g transform="translate(420 300)">
+                <rect width="90" height="70" fill="#eadcba"/>
+                <path d="M-12 0 45-35 102 0Z" fill="#5f7361"/>
+                <rect x="35" y="32" width="22" height="38" fill="#927956"/>
+              </g>
+            </g>
+
+            <!-- 溶洞 -->
+            <g id="scene-cave" hidden>
+              <path
+                d="M100 402Q118 145 320 175Q480 190 520 402Z"
+                fill="#81977b"
+              />
+
+              <path
+                d="M195 402Q200 235 315 240Q417 246 433 402Z"
+                fill="#355344"
+              />
+
+              <path
+                d="M220 248 244 321 266 244
+                   M299 240 322 338 345 244
+                   M365 252 386 313 400 270"
+                fill="#647d63"
+              />
+
+              <path
+                d="M232 402 255 345 277 402
+                   M338 402 359 329 382 402"
+                fill="#78906d"
+              />
+            </g>
+
+          </svg>
+
+        </div>
+
+        <p class="note">
+          场景为概念示意，不代表真实景区外观、地点分布或游览路线。
+        </p>
+      </div>
+
+      <!-- 地点介绍 -->
+      <div class="place-info" id="place-info">
+
+        <div aria-live="polite" aria-atomic="true">
+          <p class="eyebrow" id="place-category">桃园 · 季节</p>
+
+          <h2 id="place-title">上坪桃园</h2>
+
+          <p class="copy" id="place-description">
+            桃花与桃果，让同一片桃园呈现不同的季节面貌。
+            上坪也是认识连平鹰嘴蜜桃的重要地方。
+          </p>
+        </div>
+
+        <div
+          class="season-buttons"
+          id="season-controls"
+          role="group"
+          aria-label="切换桃园状态示意"
+        >
+          <button
+            class="season-button"
+            type="button"
+            data-season="flower"
+            aria-pressed="true"
+          >
+            看看花开
+          </button>
+
+          <button
+            class="season-button"
+            type="button"
+            data-season="fruit"
+            aria-pressed="false"
+          >
+            看看果熟
+          </button>
+        </div>
+
+        <button
+          class="save-button"
+          id="save-place"
+          type="button"
+          aria-pressed="false"
+        >
+          ＋ 加入“想去看看”
+        </button>
+
+        <p class="feedback" id="place-feedback" role="status"></p>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 想去清单 -->
+  <section class="saved-section">
+
+    <div class="container reveal">
+      <div class="saved-layout reveal-inner">
+
+        <div>
+          <p class="eyebrow" lang="en">PLACES TO REMEMBER</p>
+          <h2>先记下来，<br>以后去看看。</h2>
+          <p class="note">
+            清单仅保存在当前浏览器，<br>
+            不需要注册或登录。
+          </p>
+        </div>
+
+        <div>
+          <p class="copy" id="saved-empty">
+            还没有加入地点，先选一处你喜欢的风景吧。
+          </p>
+
+          <ul class="saved-list" id="saved-list"></ul>
+
+          <button
+            class="clear-button"
+            id="clear-saved"
+            type="button"
+            hidden
+          >
+            清空清单
+          </button>
+
+          <p class="note">
+            清单不是行程规划。
+            出行前请另行核实开放情况、交通、天气与预约信息。
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <section class="ending">
+    <h2>看过风景，再认识地方生活。</h2>
+
+    <a class="text-link" href="./life.html">
+      去看看忠信花灯 ↗
+    </a>
+
+    <a class="text-link" href="./index.html#explore">
+      返回主题探索
+    </a>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>走进连平 · 地方文化展示项目 · 非政府官方网站</p>
+
+  <p>资料参考：
+    <a
+      href="https://www.lianping.gov.cn/zjlp/lyxx/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >连平县政府 · 风景名胜</a>
+    ／
+    <a
+      href="https://www.lianping.gov.cn/zwgk/xxzc/nzz/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >内莞镇介绍</a>
+    ／
+    <a
+      href="https://www.lianping.gov.cn/zjlp/lyxx/fjms/content/post_597023.html"
+      target="_blank"
+      rel="noopener noreferrer"
+    >圣迹苍岩</a>
+  </p>
+</footer>
+
+<script>
+/* ===== 地点资料 ===== */
+
+const places = {
+  orchard: {
+    title: "上坪桃园",
+    category: "桃园 · 季节",
+    description:
+      "桃花与桃果，让同一片桃园呈现不同的季节面貌。上坪也是认识连平鹰嘴蜜桃的重要地方。可以切换下方状态，看看概念画面中的变化。"
+  },
+
+  village: {
+    title: "内莞风光",
+    category: "山水 · 田野",
+    description:
+      "内莞拥有田园风光与喀斯特地貌景观。山、水与村落，是认识这片地方的几个入口。实际游览地点和线路，可进一步查看当地官方旅游资料。"
+  },
+
+  cave: {
+    title: "圣迹苍岩",
+    category: "溶洞 · 老八景",
+    description:
+      "圣迹苍岩是连平老八景之一。官方介绍中的景区包括田园景色、天然溶洞奇观与果园等内容。这里用概括图形表现溶洞意象，并非真实洞内结构。"
+  }
+};
+
+let selectedPlace = "orchard";
+let selectedSeason = "flower";
+
+const storageKey = "lianping-places-v1";
+
+let savedPlaces = new Set();
+let storageAvailable = true;
+
+/* 读取当前浏览器中的清单 */
+try {
+  const value = JSON.parse(localStorage.getItem(storageKey) || "[]");
+
+  if (Array.isArray(value)) {
+    savedPlaces = new Set(
+      value.filter(key =>
+        typeof key === "string" &&
+        Object.prototype.hasOwnProperty.call(places, key)
+      )
+    );
+  }
+} catch (error) {
+  storageAvailable = false;
+}
+
+function persistSavedPlaces() {
+  try {
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify([...savedPlaces])
+    );
+
+    storageAvailable = true;
+  } catch (error) {
+    storageAvailable = false;
+  }
+}
+
+/* ===== 更新当前地点 ===== */
+
+function renderPlace() {
+  const place = places[selectedPlace];
+
+  document.querySelectorAll("[data-place]").forEach(button => {
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset.place === selectedPlace)
+    );
+  });
+
+  document.getElementById("place-category").textContent =
+    place.category;
+
+  document.getElementById("place-title").textContent =
+    place.title;
+
+  document.getElementById("place-description").textContent =
+    place.description;
+
+  document.getElementById("scene-orchard").hidden =
+    selectedPlace !== "orchard";
+
+  document.getElementById("scene-village").hidden =
+    selectedPlace !== "village";
+
+  document.getElementById("scene-cave").hidden =
+    selectedPlace !== "cave";
+
+  document.getElementById("season-controls").hidden =
+    selectedPlace !== "orchard";
+
+  document.querySelectorAll("[data-season]").forEach(button => {
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset.season === selectedSeason)
+    );
+  });
+
+  document.querySelector(".tree-crowns").setAttribute(
+    "fill",
+    selectedSeason === "flower" ? "#d8aaa0" : "#789563"
+  );
+
+  document.getElementById("peach-fruits").hidden =
+    selectedSeason !== "fruit";
+
+  document.getElementById("landscape-art-title").textContent =
+    `${place.title}概念示意` +
+    (selectedPlace === "orchard"
+      ? selectedSeason === "flower"
+        ? "，花开状态"
+        : "，果熟状态"
+      : "");
+
+  const isSaved = savedPlaces.has(selectedPlace);
+  const saveButton = document.getElementById("save-place");
+
+  saveButton.setAttribute("aria-pressed", String(isSaved));
+
+  saveButton.textContent = isSaved
+    ? "✓ 已加入，点击移除"
+    : "＋ 加入“想去看看”";
+}
+
+/* ===== 更新清单 ===== */
+
+function renderSavedList() {
+  const list = document.getElementById("saved-list");
+
+  list.replaceChildren();
+
+  savedPlaces.forEach(key => {
+    const item = document.createElement("li");
+
+    const name = document.createElement("span");
+    name.textContent = places[key].title;
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.textContent = "移除";
+    removeButton.setAttribute(
+      "aria-label",
+      `从清单移除${places[key].title}`
+    );
+
+    removeButton.addEventListener("click", () => {
+      savedPlaces.delete(key);
+      persistSavedPlaces();
+      renderSavedList();
+      renderPlace();
+
+      document.getElementById("place-feedback").textContent =
+        `已从清单移除${places[key].title}。`;
+
+      document.getElementById("save-place").focus();
+    });
+
+    item.append(name, removeButton);
+    list.appendChild(item);
+  });
+
+  document.getElementById("saved-empty").hidden =
+    savedPlaces.size > 0;
+
+  document.getElementById("clear-saved").hidden =
+    savedPlaces.size === 0;
+}
+
+/* ===== 地点与季节切换 ===== */
+
+document.querySelectorAll("[data-place]").forEach(button => {
+  button.addEventListener("click", () => {
+    selectedPlace = button.dataset.place;
+
+    document.getElementById("place-feedback").textContent = "";
+
+    renderPlace();
+  });
+});
+
+document.querySelectorAll("[data-season]").forEach(button => {
+  button.addEventListener("click", () => {
+    selectedSeason = button.dataset.season;
+
+    renderPlace();
+
+    document.getElementById("place-feedback").textContent =
+      selectedSeason === "flower"
+        ? "已切换为桃园花开概念示意。"
+        : "已切换为桃园果熟概念示意。";
+  });
+});
+
+/* ===== 加入与移除收藏 ===== */
+
+document.getElementById("save-place").addEventListener("click", () => {
+  const existed = savedPlaces.has(selectedPlace);
+
+  if (existed) {
+    savedPlaces.delete(selectedPlace);
+  } else {
+    savedPlaces.add(selectedPlace);
+  }
+
+  persistSavedPlaces();
+  renderPlace();
+  renderSavedList();
+
+  document.getElementById("place-feedback").textContent =
+    (existed
+      ? `已移除${places[selectedPlace].title}。`
+      : `已记下${places[selectedPlace].title}。`) +
+    (!storageAvailable
+      ? "当前浏览器无法持久保存，清单仅在本次打开期间保留。"
+      : "");
+});
+
+document.getElementById("clear-saved").addEventListener("click", () => {
+  savedPlaces.clear();
+
+  persistSavedPlaces();
+  renderPlace();
+  renderSavedList();
+
+  document.getElementById("place-feedback").textContent =
+    "想去清单已清空。";
+
+  document.getElementById("save-place").focus();
+});
+
+renderPlace();
+renderSavedList();
+
+/* ===== 重复滚动显露 ===== */
+
+const motionPreference = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+);
+
+let observer = null;
+
+function setupReveal() {
+  if (observer) {
+    observer.disconnect();
+    observer = null;
+  }
+
+  document.documentElement.classList.remove("motion-enabled");
+
+  const elements = document.querySelectorAll(".reveal");
+
+  elements.forEach(element => {
+    element.classList.remove("visible");
+  });
+
+  if (
+    !("IntersectionObserver" in window) ||
+    motionPreference.matches
+  ) {
+    return;
+  }
+
+  observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle(
+        "visible",
+        entry.isIntersecting
+      );
+    });
+  }, { threshold: 0 });
+
+  elements.forEach(element => observer.observe(element));
+
+  document.documentElement.classList.add("motion-enabled");
+}
+
+setupReveal();
+
+if (motionPreference.addEventListener) {
+  motionPreference.addEventListener("change", setupReveal);
+}
+</script>
+
+</body>
+</html>
