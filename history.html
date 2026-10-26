@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="从历史节点与地方文化，认识广东连平。">
+
+<title>读一段连平｜走进连平</title>
+
+<style>
+:root {
+  --paper: #f8f5ed;
+  --ink: #314b40;
+  --muted: #7b8477;
+  --orange: #be6949;
+  --pale: #e7ecdc;
+  --line: #314b4025;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 30px;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+h1, h2, h3 {
+  font-family: "Songti SC", "SimSun", serif;
+  font-weight: 400;
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 5px;
+}
+
+.skip {
+  position: absolute;
+  top: -100px;
+  left: 20px;
+  z-index: 10;
+  padding: 12px;
+  background: white;
+}
+
+.skip:focus { top: 10px; }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 6%;
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  font: 25px "SimSun", serif;
+  letter-spacing: 5px;
+}
+
+.back {
+  font-size: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--muted);
+}
+
+.intro {
+  text-align: center;
+  padding: 80px 7% 50px;
+}
+
+.intro h1 {
+  margin: 23px 0;
+  font-size: clamp(40px, 6vw, 66px);
+  letter-spacing: 6px;
+}
+
+.copy {
+  font-size: 14px;
+  line-height: 2.2;
+}
+
+.note {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+.container {
+  max-width: 1150px;
+  margin: auto;
+  padding: 65px 7%;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-heading h2 {
+  font-size: 33px;
+  letter-spacing: 4px;
+  margin: 15px 0;
+}
+
+.section-heading > p:last-child {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 2;
+}
+
+.history-layout {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 50px;
+  align-items: start;
+}
+
+.year-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-left: 1px solid #bbc5ae;
+  padding-left: 22px;
+}
+
+.year-button {
+  position: relative;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 15px 0;
+  background: transparent;
+  color: var(--muted);
+  text-align: left;
+  transition: color .25s, transform .25s;
+}
+
+.year-button::before {
+  content: "";
+  position: absolute;
+  left: -28px;
+  top: 30px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #bac3ad;
+}
+
+.year-button strong {
+  display: block;
+  font: 34px "SimSun", serif;
+}
+
+.year-button span {
+  display: block;
+  font-size: 11px;
+  margin-top: 9px;
+}
+
+.year-button:hover { transform: translateX(4px); }
+
+.year-button[aria-pressed="true"] {
+  color: var(--orange);
+}
+
+.year-button[aria-pressed="true"]::before {
+  background: var(--orange);
+}
+
+.history-stage {
+  min-height: 320px;
+  border-radius: 140px 140px 12px 12px;
+  display: grid;
+  place-items: center;
+  background: #e8e6d7;
+  overflow: hidden;
+}
+
+.history-stage svg {
+  width: 100%;
+  max-width: 450px;
+  height: 300px;
+}
+
+.story {
+  padding-top: 28px;
+}
+
+.story-year {
+  font: 47px "SimSun", serif;
+  color: var(--orange);
+}
+
+.story h3 {
+  font-size: 30px;
+  letter-spacing: 3px;
+  margin: 12px 0;
+}
+
+.story-text {
+  min-height: 115px;
+}
+
+.progress-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 28px 0 12px;
+}
+
+progress {
+  width: 100%;
+  height: 7px;
+  accent-color: var(--orange);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.primary-button {
+  border: 0;
+  border-radius: 30px;
+  background: var(--orange);
+  color: white;
+  padding: 13px 23px;
+  font-size: 13px;
+}
+
+.reset-button {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.reading-status {
+  min-height: 25px;
+  color: var(--orange);
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.culture-section {
+  background: var(--pale);
+}
+
+.culture-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 60px;
+}
+
+.culture-layout h2 {
+  font-size: 32px;
+  line-height: 1.7;
+  letter-spacing: 3px;
+}
+
+details {
+  border-top: 1px solid #314b4030;
+  padding: 20px 0;
+}
+
+details:last-child {
+  border-bottom: 1px solid #314b4030;
+}
+
+summary {
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+details p {
+  margin-bottom: 0;
+}
+
+.ending {
+  padding: 65px 7%;
+  text-align: center;
+}
+
+.ending h2 {
+  font-size: 28px;
+  letter-spacing: 3px;
+  line-height: 1.8;
+}
+
+.text-link {
+  display: inline-block;
+  color: var(--orange);
+  font-size: 13px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--orange);
+  margin: 12px 10px;
+}
+
+.footer {
+  padding: 30px 6%;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 11px;
+  line-height: 2;
+}
+
+.footer a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.reveal-inner { opacity: 1; transform: none; }
+
+.motion-enabled .reveal-inner {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+
+.motion-enabled .reveal.visible > .reveal-inner,
+.motion-enabled .reveal:focus-within > .reveal-inner {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 700px) {
+  .intro { padding-top: 55px; }
+  .intro h1 { font-size: 40px; letter-spacing: 4px; }
+
+  .container { padding: 55px 7%; }
+
+  .history-layout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .year-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .year-button { text-align: center; }
+  .year-button::before { display: none; }
+  .year-button strong { font-size: 29px; }
+  .year-button:hover { transform: translateY(-3px); }
+
+  .history-stage { min-height: 260px; }
+  .history-stage svg { height: 250px; }
+  .story-text { min-height: 145px; }
+
+  .culture-layout {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .culture-layout h2 { font-size: 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .motion-enabled .reveal-inner {
+    opacity: 1;
+    transform: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="header">
+  <a class="logo" href="./index.html">连平</a>
+  <a class="back" href="./index.html#explore">
+    ← 返回主题探索
+  </a>
+</header>
+
+<main id="main">
+
+  <section class="intro" aria-labelledby="page-title">
+    <p class="eyebrow" lang="en">THEN & NOW</p>
+
+    <h1 id="page-title">读一段连平</h1>
+
+    <p class="copy">
+      从几个时间节点开始，<br>
+      看看这座地方怎样走到今天。
+    </p>
+  </section>
+
+  <!-- 时间探索 -->
+  <section class="container" aria-labelledby="timeline-title">
+
+    <div class="reveal">
+      <div class="section-heading reveal-inner">
+        <p class="eyebrow" lang="en">FOLLOW THE YEARS</p>
+        <h2 id="timeline-title">沿着时间，慢慢读</h2>
+        <p>点击年份，查看对应的地方历史。</p>
+      </div>
+    </div>
+
+    <div class="history-layout">
+
+      <div class="year-list" role="group" aria-label="选择历史年份">
+        <button
+          class="year-button"
+          type="button"
+          data-year="1634"
+          aria-pressed="true"
+          aria-controls="history-story"
+        >
+          <strong>1634</strong>
+          <span>始建连平州</span>
+        </button>
+
+        <button
+          class="year-button"
+          type="button"
+          data-year="1911"
+          aria-pressed="false"
+          aria-controls="history-story"
+        >
+          <strong>1911</strong>
+          <span>改州为县</span>
+        </button>
+
+        <button
+          class="year-button"
+          type="button"
+          data-year="1988"
+          aria-pressed="false"
+          aria-controls="history-story"
+        >
+          <strong>1988</strong>
+          <span>划归河源市</span>
+        </button>
+      </div>
+
+      <div>
+
+        <div class="history-stage">
+
+          <svg
+            viewBox="0 0 480 320"
+            role="img"
+            aria-labelledby="history-art-title"
+          >
+            <title id="history-art-title">
+              建州历史的建筑概念示意，并非历史复原
+            </title>
+
+            <rect width="480" height="320" fill="#e8e6d7"/>
+
+            <circle cx="365" cy="75" r="35" fill="#eee6c6"/>
+
+            <path
+              d="M0 210 80 120 160 195 270 100 380 190 480 140V320H0Z"
+              fill="#b6c1a5"
+            />
+
+            <path
+              d="M0 250Q120 205 250 240T480 220V320H0Z"
+              fill="#9aac8e"
+            />
+
+            <!-- 建州：概括建筑 -->
+            <g id="art-1634">
+              <rect x="125" y="175" width="230" height="100"
+                fill="#e6d5ad"/>
+
+              <path d="M100 175 240 100 380 175Z"
+                fill="#64725f"/>
+
+              <path d="M95 179H385"
+                stroke="#455b4b" stroke-width="9"
+                stroke-linecap="round"/>
+
+              <rect x="217" y="211" width="46" height="64"
+                fill="#8a7152"/>
+
+              <rect x="155" y="207" width="30" height="35"
+                fill="#967d58"/>
+
+              <rect x="295" y="207" width="30" height="35"
+                fill="#967d58"/>
+
+              <path d="M112 278H368"
+                stroke="#b49b70" stroke-width="8"/>
+            </g>
+
+            <!-- 改县：文书意象 -->
+            <g id="art-1911" hidden>
+              <rect x="142" y="76" width="196" height="203"
+                rx="5" fill="#f4e8c9"
+                stroke="#baaa83" stroke-width="2"/>
+
+              <path d="M162 112H318M162 125H318"
+                stroke="#aa9571" stroke-width="3"/>
+
+              <text x="240" y="185" text-anchor="middle"
+                fill="#7f694e"
+                font-size="30"
+                font-family="serif">连平县</text>
+
+              <path d="M174 221H306M174 239H289"
+                stroke="#b4a17b" stroke-width="3"/>
+
+              <rect x="280" y="245" width="29" height="25"
+                fill="none" stroke="#ad6448" stroke-width="3"/>
+            </g>
+
+            <!-- 河源：位置关系意象 -->
+            <g id="art-1988" hidden>
+              <path d="M90 185H390"
+                fill="none" stroke="#7c9274"
+                stroke-width="3" stroke-dasharray="6 8"/>
+
+              <circle cx="115" cy="185" r="37" fill="#d4ddc7"/>
+              <circle cx="240" cy="185" r="37" fill="#d4ddc7"/>
+              <circle cx="365" cy="185" r="37" fill="#d9b28f"/>
+
+              <g font-family="sans-serif" font-size="17"
+                text-anchor="middle" fill="#455b4b">
+                <text x="115" y="191">广东</text>
+                <text x="240" y="191">河源</text>
+                <text x="365" y="191">连平</text>
+              </g>
+
+              <path d="M195 266Q235 234 279 266"
+                fill="none" stroke="#b9cfbe" stroke-width="12"/>
+            </g>
+
+          </svg>
+
+        </div>
+
+        <p class="note">
+          配图为设计意象，不是历史建筑复原、历史文物或真实地图。
+        </p>
+
+        <article
+          class="story"
+          id="history-story"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <span class="story-year" id="story-year">1634</span>
+          <h3 id="story-title">始建连平州</h3>
+
+          <div class="story-text">
+            <p class="copy" id="story-description">
+              明崇祯七年，划出和平、河源、长宁、翁源四县的部分地区，
+              设置连平州。这是认识连平建置历史的重要节点。
+            </p>
+          </div>
+        </article>
+
+        <div class="progress-row">
+          <span>已浏览的历史节点</span>
+          <span id="reading-count">1 / 3</span>
+        </div>
+
+        <progress
+          id="reading-progress"
+          max="3"
+          value="1"
+          aria-label="历史节点浏览进度"
+        ></progress>
+
+        <div class="actions">
+          <button class="primary-button" id="next-year" type="button">
+            看下一个年份 →
+          </button>
+
+          <button class="reset-button" id="reset-history" type="button">
+            从头看看
+          </button>
+        </div>
+
+        <p
+          class="reading-status"
+          id="reading-status"
+          role="status"
+        >
+          从1634年开始认识连平。
+        </p>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 颜氏文化 -->
+  <section class="culture-section">
+
+    <div class="container reveal">
+      <div class="culture-layout reveal-inner">
+
+        <div>
+          <p class="eyebrow" lang="en">PEOPLE & LOCAL MEMORY</p>
+          <h2>年份之后，<br>还有具体的人。</h2>
+        </div>
+
+        <div>
+          <p class="copy">
+            元善镇的颜氏文化，是继续了解连平历史的一个入口。
+            从人物、家族到流传的官箴，
+            地方历史也能通过具体的文字与故事被认识。
+          </p>
+
+          <details>
+            <summary>颜氏文化，可以从哪里开始了解？</summary>
+            <p class="copy">
+              连平县政府的元善镇介绍，将颜氏文化列为当地文化内容。
+              进一步阅读时，可以从清代颜氏人物、
+              三十六字官箴及相关历史资料入手。
+            </p>
+          </details>
+
+          <details>
+            <summary>“公生明，廉生威”表达了什么？</summary>
+            <p class="copy">
+              这句话见于相关官箴。
+              可以把它理解为对公正与廉洁的强调：
+              公正有助于明辨，廉洁有助于建立威信。
+            </p>
+          </details>
+
+          <p class="note">
+            人物具体经历、历史建筑与实物图片，
+            后续需结合原始资料进一步核实与补充。
+            本页暂不编写虚构历史情节。
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <section class="ending">
+    <h2>沿着时间，也沿着山水。</h2>
+
+    <a class="text-link" href="./nature.html">
+      继续走进山水 ↗
+    </a>
+
+    <a class="text-link" href="./index.html#explore">
+      返回主题探索
+    </a>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>走进连平 · 地方文化展示项目 · 非政府官方网站</p>
+
+  <p>资料参考：
+    <a
+      href="https://www.lianping.gov.cn/zjlp/lsyg/mindex.html"
+      target="_blank"
+      rel="noopener noreferrer"
+    >连平县政府 · 历史沿革</a>
+    ／
+    <a
+      href="https://www.lianping.gov.cn/zjlp/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >走进连平</a>
+    ／
+    <a
+      href="https://www.lianping.gov.cn/zwgk/xxzc/ysz/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >元善镇介绍</a>
+  </p>
+</footer>
+
+<script>
+/* ===== 历史节点切换 ===== */
+
+const historyData = {
+  "1634": {
+    title: "始建连平州",
+    description:
+      "明崇祯七年，划出和平、河源、长宁、翁源四县的部分地区，设置连平州。这是认识连平建置历史的重要节点。",
+    imageTitle:
+      "建州历史的建筑概念示意，并非历史复原"
+  },
+
+  "1911": {
+    title: "改州为县",
+    description:
+      "清宣统三年，连平改州为县。从地方名称和行政建置的变化中，可以读到一段历史的转换。这里用文书意象表现变化，并非真实历史文物。",
+    imageTitle:
+      "改州为县的文书概念示意，并非真实文物"
+  },
+
+  "1988": {
+    title: "划归河源市",
+    description:
+      "1988年1月，河源市成立，连平县改属河源市管辖。今天，我们从广东省、河源市、连平县这一位置关系，开始认识这里。",
+    imageTitle:
+      "广东、河源与连平的行政位置关系示意"
+  }
+};
+
+const years = Object.keys(historyData);
+const visited = new Set(["1634"]);
+
+let selectedYear = "1634";
+
+function renderHistory() {
+  const detail = historyData[selectedYear];
+
+  document.querySelectorAll("[data-year]").forEach(button => {
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset.year === selectedYear)
+    );
+  });
+
+  years.forEach(year => {
+    document.getElementById(`art-${year}`).hidden =
+      year !== selectedYear;
+  });
+
+  document.getElementById("story-year").textContent = selectedYear;
+  document.getElementById("story-title").textContent = detail.title;
+
+  document.getElementById("story-description").textContent =
+    detail.description;
+
+  document.getElementById("history-art-title").textContent =
+    detail.imageTitle;
+
+  document.getElementById("reading-count").textContent =
+    `${visited.size} / 3`;
+
+  document.getElementById("reading-progress").value = visited.size;
+
+  document.getElementById("next-year").textContent =
+    selectedYear === years[years.length - 1]
+      ? "回到第一个年份 ↺"
+      : "看下一个年份 →";
+}
+
+function chooseYear(year) {
+  selectedYear = year;
+  visited.add(year);
+
+  renderHistory();
+
+  document.getElementById("reading-status").textContent =
+    visited.size === 3
+      ? "三个历史节点都已浏览，你可以继续查看或向下了解人物文化。"
+      : `正在阅读${year}年，已浏览${visited.size}个节点。`;
+}
+
+document.querySelectorAll("[data-year]").forEach(button => {
+  button.addEventListener("click", () => {
+    chooseYear(button.dataset.year);
+  });
+});
+
+document.getElementById("next-year").addEventListener("click", () => {
+  const currentIndex = years.indexOf(selectedYear);
+  const nextIndex = (currentIndex + 1) % years.length;
+  chooseYear(years[nextIndex]);
+});
+
+document.getElementById("reset-history").addEventListener("click", () => {
+  visited.clear();
+  visited.add("1634");
+  selectedYear = "1634";
+
+  renderHistory();
+
+  document.getElementById("reading-status").textContent =
+    "已回到1634年，从头认识连平。";
+
+  document.querySelector('[data-year="1634"]').focus();
+});
+
+renderHistory();
+
+/* ===== 每次进入视野重新显露 ===== */
+
+const motionPreference = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+);
+
+let observer = null;
+
+function setupReveal() {
+  if (observer) {
+    observer.disconnect();
+    observer = null;
+  }
+
+  document.documentElement.classList.remove("motion-enabled");
+
+  const elements = document.querySelectorAll(".reveal");
+
+  elements.forEach(element => {
+    element.classList.remove("visible");
+  });
+
+  if (
+    !("IntersectionObserver" in window) ||
+    motionPreference.matches
+  ) {
+    return;
+  }
+
+  observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle(
+        "visible",
+        entry.isIntersecting
+      );
+    });
+  }, { threshold: 0 });
+
+  elements.forEach(element => observer.observe(element));
+
+  document.documentElement.classList.add("motion-enabled");
+}
+
+setupReveal();
+
+if (motionPreference.addEventListener) {
+  motionPreference.addEventListener("change", setupReveal);
+}
+</script>
+
+</body>
+</html>
