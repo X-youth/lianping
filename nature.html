@@ -155,9 +155,16 @@ button:focus-visible {
   background: #e2e8d7;
   border-radius: 160px 160px 15px 15px;
   overflow: hidden;
-  min-height: 400px;
+  height: 450px;
   display: grid;
   place-items: center;
+}
+
+.landscape-stage img {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .landscape-stage svg {
@@ -329,7 +336,7 @@ button:focus-visible {
   }
 
   .landscape-stage {
-    min-height: 280px;
+    height: 300px;
     border-radius: 100px 100px 12px 12px;
   }
 
@@ -440,125 +447,38 @@ button:focus-visible {
       <div>
         <div class="landscape-stage">
 
-          <svg
-            viewBox="0 0 600 450"
-            role="img"
-            aria-labelledby="landscape-art-title"
+          <img
+            id="scene-orchard"
+            src="./img/peach-blossom.png"
+            alt="连平上坪桃花盛开实景：漫山桃花与观景亭"
           >
-            <title id="landscape-art-title">
-              上坪桃园花开状态的概念示意
-            </title>
 
-            <rect width="600" height="450" fill="#e6ead8"/>
-            <circle cx="460" cy="90" r="40" fill="#f1e7bd"/>
+          <img
+            id="scene-orchard-fruit"
+            src="./img/peach-harvest.jpg"
+            alt="上坪桃园果熟时节，游客采摘鹰嘴蜜桃"
+            hidden
+          >
 
-            <!-- 背景山体 -->
-            <path
-              d="M0 280 115 100 245 275 375 80 600 270V450H0Z"
-              fill="#b4c3a6"
-            />
+          <img
+            id="scene-village"
+            src="./img/neiguan.png"
+            alt="连平内莞喀斯特峰林与田园村落实景"
+            hidden
+          >
 
-            <path
-              d="M0 330 180 180 315 325 450 155 600 300V450H0Z"
-              fill="#8eaa83"
-            />
-
-            <path
-              d="M0 370Q150 275 300 340T600 330V450H0Z"
-              fill="#72956e"
-            />
-
-            <!-- 河流 -->
-            <path
-              d="M365 280Q245 330 355 370T310 450"
-              fill="none"
-              stroke="#b6d0c1"
-              stroke-width="35"
-            />
-
-            <!-- 桃园 -->
-            <g id="scene-orchard">
-              <g stroke="#897556" stroke-width="8">
-                <path d="M105 305V385"/>
-                <path d="M205 290V365"/>
-                <path d="M465 305V395"/>
-              </g>
-
-              <g class="tree-crowns" fill="#d8aaa0">
-                <circle cx="105" cy="285" r="45"/>
-                <circle cx="205" cy="272" r="39"/>
-                <circle cx="465" cy="285" r="48"/>
-              </g>
-
-              <g id="peach-fruits" fill="#d5a17d" hidden>
-                <circle cx="85" cy="280" r="8"/>
-                <circle cx="118" cy="302" r="8"/>
-                <circle cx="194" cy="267" r="8"/>
-                <circle cx="220" cy="284" r="8"/>
-                <circle cx="446" cy="281" r="8"/>
-                <circle cx="482" cy="302" r="8"/>
-              </g>
-            </g>
-
-            <!-- 村落 -->
-            <g id="scene-village" hidden>
-              <path
-                d="M30 360H225V430H30Z"
-                fill="#c4cb8e"
-              />
-
-              <path
-                d="M40 378H220M40 395H220M40 412H220"
-                stroke="#a8b279"
-                stroke-width="3"
-              />
-
-              <g transform="translate(100 265)">
-                <rect width="100" height="80" fill="#eadcba"/>
-                <path d="M-15 0 50-40 115 0Z" fill="#5f7361"/>
-                <rect x="44" y="37" width="24" height="43" fill="#927956"/>
-                <rect x="15" y="28" width="17" height="24" fill="#927956"/>
-              </g>
-
-              <g transform="translate(420 300)">
-                <rect width="90" height="70" fill="#eadcba"/>
-                <path d="M-12 0 45-35 102 0Z" fill="#5f7361"/>
-                <rect x="35" y="32" width="22" height="38" fill="#927956"/>
-              </g>
-            </g>
-
-            <!-- 溶洞 -->
-            <g id="scene-cave" hidden>
-              <path
-                d="M100 402Q118 145 320 175Q480 190 520 402Z"
-                fill="#81977b"
-              />
-
-              <path
-                d="M195 402Q200 235 315 240Q417 246 433 402Z"
-                fill="#355344"
-              />
-
-              <path
-                d="M220 248 244 321 266 244
-                   M299 240 322 338 345 244
-                   M365 252 386 313 400 270"
-                fill="#647d63"
-              />
-
-              <path
-                d="M232 402 255 345 277 402
-                   M338 402 359 329 382 402"
-                fill="#78906d"
-              />
-            </g>
-
-          </svg>
+          <img
+            id="scene-cave"
+            src="./img/cave.jpg"
+            alt="圣迹苍岩溶洞内的钟乳石实景"
+            hidden
+          >
 
         </div>
 
         <p class="note">
-          场景为概念示意，不代表真实景区外观、地点分布或游览路线。
+          场景均为连平真实照片：上坪桃花、桃园采摘、
+          内莞喀斯特、圣迹苍岩溶洞。
         </p>
       </div>
 
@@ -705,21 +625,21 @@ const places = {
     title: "上坪桃园",
     category: "桃园 · 季节",
     description:
-      "桃花与桃果，让同一片桃园呈现不同的季节面貌。上坪也是认识连平鹰嘴蜜桃的重要地方。可以切换下方状态，看看概念画面中的变化。"
+      "每年春天，上坪镇漫山桃花盛开，是连平最有名的花季风景；到了夏天，枝头结满鹰嘴蜜桃。切换下方按钮，看看同一片桃园在两个季节的真实模样。"
   },
 
   village: {
     title: "内莞风光",
     category: "山水 · 田野",
     description:
-      "内莞拥有田园风光与喀斯特地貌景观。山、水与村落，是认识这片地方的几个入口。实际游览地点和线路，可进一步查看当地官方旅游资料。"
+      "内莞拥有田园风光与喀斯特地貌景观。配图是内莞的喀斯特峰林与村落田园实景——山、水与村落，是认识这片地方的几个入口。实际游览地点和线路，可进一步查看当地官方旅游资料。"
   },
 
   cave: {
     title: "圣迹苍岩",
     category: "溶洞 · 老八景",
     description:
-      "圣迹苍岩是连平老八景之一。官方介绍中的景区包括田园景色、天然溶洞奇观与果园等内容。这里用概括图形表现溶洞意象，并非真实洞内结构。"
+      "圣迹苍岩是连平老八景之一，景区包括田园景色、天然溶洞与果园等内容。配图是溶洞内真实的钟乳石景观。"
   }
 };
 
@@ -781,8 +701,14 @@ function renderPlace() {
   document.getElementById("place-description").textContent =
     place.description;
 
+  const showFruit =
+    selectedPlace === "orchard" && selectedSeason === "fruit";
+
   document.getElementById("scene-orchard").hidden =
-    selectedPlace !== "orchard";
+    selectedPlace !== "orchard" || showFruit;
+
+  document.getElementById("scene-orchard-fruit").hidden =
+    !showFruit;
 
   document.getElementById("scene-village").hidden =
     selectedPlace !== "village";
@@ -799,22 +725,6 @@ function renderPlace() {
       String(button.dataset.season === selectedSeason)
     );
   });
-
-  document.querySelector(".tree-crowns").setAttribute(
-    "fill",
-    selectedSeason === "flower" ? "#d8aaa0" : "#789563"
-  );
-
-  document.getElementById("peach-fruits").hidden =
-    selectedSeason !== "fruit";
-
-  document.getElementById("landscape-art-title").textContent =
-    `${place.title}概念示意` +
-    (selectedPlace === "orchard"
-      ? selectedSeason === "flower"
-        ? "，花开状态"
-        : "，果熟状态"
-      : "");
 
   const isSaved = savedPlaces.has(selectedPlace);
   const saveButton = document.getElementById("save-place");
@@ -890,8 +800,8 @@ document.querySelectorAll("[data-season]").forEach(button => {
 
     document.getElementById("place-feedback").textContent =
       selectedSeason === "flower"
-        ? "已切换为桃园花开概念示意。"
-        : "已切换为桃园果熟概念示意。";
+        ? "已切换为桃园花开的真实照片。"
+        : "已切换为桃园果熟的真实照片。";
   });
 });
 

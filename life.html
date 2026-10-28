@@ -144,15 +144,23 @@
       text-align: center;
     }
 
-    .intro-art svg {
-      width: min(100%, 230px);
-      height: 300px;
+    .intro-photo {
+      width: min(100%, 340px);
+      border-radius: 120px 120px 12px 12px;
+      box-shadow: 0 12px 30px #314b4024;
     }
 
     .caption {
       color: var(--muted);
       font-size: 11px;
       line-height: 1.9;
+    }
+
+    .story-photo {
+      display: block;
+      width: 100%;
+      margin-top: 22px;
+      border-radius: 14px;
     }
 
     /* ===== 地方文化介绍 ===== */
@@ -534,8 +542,8 @@
         font-size: 42px;
       }
 
-      .intro-art svg {
-        height: 240px;
+      .intro-photo {
+        width: min(100%, 260px);
       }
 
       .story-inner {
@@ -755,17 +763,15 @@
       </div>
 
       <div class="intro-art">
-        <svg
-          viewBox="0 0 240 400"
-          role="img"
-          aria-label="概括绘制的花灯，分为灯盖、灯身和灯裙"
+        <img
+          class="intro-photo"
+          src="./img/lantern.jpg"
+          alt="连平忠信花灯实物：大红色花灯悬挂，配有灯联与飘带"
         >
-          <use href="#lantern-cap"/>
-          <use href="#lantern-body"/>
-          <use href="#lantern-skirt"/>
-        </svg>
 
-        <p class="caption">花灯结构概念示意</p>
+        <p class="caption">
+          忠信花灯实物照片（连平县忠信镇）
+        </p>
       </div>
 
     </section>
@@ -798,6 +804,16 @@
               纸穗和彩色灯带等装饰。
               从上到下，可以认识灯盖、灯身、灯裙三个部分。
               它也与当地的传统赏灯习俗相联系。
+            </p>
+
+            <img
+              class="story-photo"
+              src="./img/lantern-making.jpg"
+              alt="忠信花灯传承人在教孩子们扎制灯架"
+            >
+
+            <p class="caption">
+              花灯手艺代代相传：传承人教孩子们扎制灯架
             </p>
           </div>
 

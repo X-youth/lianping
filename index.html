@@ -107,7 +107,7 @@
       gap: 25px;
 
       padding: 26px 6%;
-      color: #fffdf3;
+      color: #2f4a3d;
     }
 
     .site-logo {
@@ -156,7 +156,7 @@
 
       overflow: hidden;
       background: #a4b7a3;
-      color: #fffdf3;
+      color: #2f4a3d;
       text-align: center;
     }
 
@@ -165,6 +165,8 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      object-fit: cover;
+      object-position: center;
     }
 
     .hero-shade {
@@ -173,9 +175,9 @@
 
       background: linear-gradient(
         180deg,
-        #143e3435,
-        transparent 45%,
-        #183e3455
+        #f8f5ed38,
+        transparent 40%,
+        #f8f5eda6
       );
     }
 
@@ -196,6 +198,7 @@
       font-size: clamp(65px, 9vw, 130px);
       letter-spacing: 0.16em;
       padding-left: 0.16em;
+      text-shadow: 0 2px 32px #f8f5ed99;
     }
 
     .hero-subtitle {
@@ -221,7 +224,7 @@
       content: "";
       width: 1px;
       height: 40px;
-      background: #fffaf0a0;
+      background: #2f4a3d80;
     }
 
     .hero-note {
@@ -408,6 +411,14 @@
       width: 100%;
       height: 100%;
       padding: 18px;
+    }
+
+    .entry-art img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
     }
 
     .entry:hover .entry-art,
@@ -742,61 +753,11 @@
   <!-- 第一屏 -->
   <section class="hero" aria-labelledby="hero-title">
 
-    <svg
+    <img
       class="hero-scenery"
-      viewBox="0 0 1440 900"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
+      src="./img/cover.png"
+      alt="连平风物长卷：雾气缭绕的群山之间，桃花沿河谷盛开，古村静立，一盏花灯悬于檐下，桌上一篮蜜桃"
     >
-      <defs>
-        <linearGradient id="hero-sky" x2="0" y2="1">
-          <stop stop-color="#c2cec0"/>
-          <stop offset="1" stop-color="#e9e7cf"/>
-        </linearGradient>
-      </defs>
-
-      <rect
-        width="1440"
-        height="900"
-        fill="url(#hero-sky)"
-      />
-
-      <circle
-        cx="1080"
-        cy="230"
-        r="75"
-        fill="#f2e9c9"
-      />
-
-      <path
-        d="M0 490 160 350 310 430 510 230 730 430
-           920 290 1120 410 1300 280 1440 400V900H0Z"
-        fill="#9bad97"
-      />
-
-      <path
-        d="M0 590 190 470 390 560 600 390 800 570
-           1020 420 1230 530 1440 460V900H0Z"
-        fill="#789780"
-      />
-
-      <path
-        d="M0 700Q210 540 440 680T900 650T1440 620V900H0Z"
-        fill="#547c65"
-      />
-
-      <path
-        d="M0 800Q230 650 470 790T980 760T1440 750V900H0Z"
-        fill="#365e4e"
-      />
-
-      <path
-        d="M740 620Q570 710 790 770T730 900"
-        fill="none"
-        stroke="#bbd0bd"
-        stroke-width="35"
-      />
-    </svg>
 
     <div class="hero-shade" aria-hidden="true"></div>
 
@@ -817,7 +778,7 @@
     </a>
 
     <span class="hero-note">
-      风景为概念示意，后续替换实景
+      封面：连平风物长卷<br>桃花 · 古村 · 花灯 · 蜜桃
     </span>
 
   </section>
@@ -1123,56 +1084,7 @@
           >
 
             <span class="entry-art">
-              <svg viewBox="0 0 100 100" aria-hidden="true">
-
-                <path
-                  d="M18 43H82V86H18Z"
-                  fill="#ddceb2"
-                />
-
-                <path
-                  d="M8 43 50 18 92 43Z"
-                  fill="#657465"
-                />
-
-                <path
-                  d="M5 44Q22 42 24 35M95 44Q78 42 76 35"
-                  fill="none"
-                  stroke="#657465"
-                  stroke-width="5"
-                />
-
-                <rect
-                  x="42"
-                  y="57"
-                  width="17"
-                  height="29"
-                  fill="#8c7359"
-                />
-
-                <rect
-                  x="25"
-                  y="56"
-                  width="10"
-                  height="13"
-                  fill="#8c7359"
-                />
-
-                <rect
-                  x="66"
-                  y="56"
-                  width="10"
-                  height="13"
-                  fill="#8c7359"
-                />
-
-                <path
-                  d="M13 88H88"
-                  stroke="#b7a785"
-                  stroke-width="4"
-                />
-
-              </svg>
+              <img src="./img/weilongwu.png" alt="">
             </span>
 
             <span class="entry-title">
@@ -1196,36 +1108,7 @@
           >
 
             <span class="entry-art">
-              <svg viewBox="0 0 100 100" aria-hidden="true">
-
-                <path
-                  d="M5 76 36 19 69 76Z"
-                  fill="#9bb193"
-                />
-
-                <path
-                  d="M35 76 66 29 97 76Z"
-                  fill="#668c72"
-                />
-
-                <path
-                  d="M0 80Q25 64 50 80T100 80V96H0Z"
-                  fill="#b4cec0"
-                />
-
-                <path
-                  d="M60 76Q35 83 54 97"
-                  fill="none"
-                  stroke="#edf0dc"
-                  stroke-width="5"
-                />
-
-                <path
-                  d="M57 72Q66 48 78 72Z"
-                  fill="#375b49"
-                />
-
-              </svg>
+              <img src="./img/peach-blossom.png" alt="">
             </span>
 
             <span class="entry-title">
@@ -1249,47 +1132,7 @@
           >
 
             <span class="entry-art">
-              <svg viewBox="0 0 100 100" aria-hidden="true">
-
-                <path
-                  d="M50 5V18"
-                  stroke="#927451"
-                  stroke-width="3"
-                />
-
-                <path
-                  d="M25 26 50 15 75 26 83 43H17Z"
-                  fill="#aa6247"
-                />
-
-                <path
-                  d="M24 43H76L69 73H31Z"
-                  fill="#d99065"
-                />
-
-                <path
-                  d="M34 43 38 73M50 43V73M66 43 62 73"
-                  stroke="#f1d29b"
-                  stroke-width="3"
-                />
-
-                <path
-                  d="M30 73H70L76 80H24Z"
-                  fill="#aa6247"
-                />
-
-                <path
-                  d="M32 80V94M43 80V98M56 80V98M67 80V94"
-                  stroke="#c68c54"
-                  stroke-width="3"
-                />
-
-                <path
-                  d="M42 53 50 47 58 53 50 66Z"
-                  fill="#f6dfac"
-                />
-
-              </svg>
+              <img src="./img/lantern.jpg" alt="">
             </span>
 
             <span class="entry-title">
@@ -1313,54 +1156,7 @@
           >
 
             <span class="entry-art">
-              <svg viewBox="0 0 100 100" aria-hidden="true">
-
-                <path
-                  d="M31 32C9 24 3 55 24 69
-                     Q34 78 43 64C63 47 50 24 35 33Z"
-                  fill="#b6c58c"
-                />
-
-                <path
-                  d="M33 33Q31 18 47 17Q47 29 33 33Z"
-                  fill="#7e9b68"
-                />
-
-                <path
-                  d="M33 34Q40 49 32 68"
-                  fill="none"
-                  stroke="#c4806b"
-                  stroke-width="2"
-                />
-
-                <path
-                  d="M53 64H91V86H53Z"
-                  fill="#d8bd8c"
-                />
-
-                <path
-                  d="M53 69H91M53 75H91M53 81H91"
-                  stroke="#f7e7c5"
-                  stroke-width="3"
-                />
-
-                <path
-                  d="M58 61H87"
-                  stroke="#7f9865"
-                  stroke-width="4"
-                />
-
-                <path
-                  d="M66 41Q78 22 91 42Z"
-                  fill="#927459"
-                />
-
-                <path
-                  d="M76 42V56H83V42"
-                  fill="#d4c19b"
-                />
-
-              </svg>
+              <img src="./img/peach-fruit.jpg" alt="">
             </span>
 
             <span class="entry-title">
@@ -1381,8 +1177,8 @@
       </div>
 
       <p class="note map-note">
-        主题探索示意图 · 场景与物件为概括图形，<br>
-        不代表实际地理分布或准确建筑、工艺形制。
+        入口为连平真实照片：大湖镇围龙屋、上坪桃花、忠信花灯、鹰嘴蜜桃。<br>
+        场景底图为概括图形，不代表实际地理分布。
       </p>
 
     </section>

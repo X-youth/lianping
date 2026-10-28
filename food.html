@@ -213,12 +213,15 @@
       place-items: center;
       border-radius: 150px 150px 15px 15px;
       background: #e0e8d2;
+      overflow: hidden;
     }
 
-    .peach-svg {
-      width: 280px;
-      max-width: 85%;
-      height: 300px;
+    .peach-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .hotspot {
@@ -382,6 +385,13 @@
       line-height: 2.2;
     }
 
+    .story-photo {
+      display: block;
+      width: 100%;
+      margin: 18px 0 6px;
+      border-radius: 14px;
+    }
+
     .progress-label {
       display: flex;
       justify-content: space-between;
@@ -480,10 +490,12 @@
       justify-content: center;
     }
 
-    .card-front svg {
+    .card-photo {
       width: 100px;
       height: 100px;
       margin-bottom: 17px;
+      border-radius: 50%;
+      object-fit: cover;
     }
 
     .card-title {
@@ -619,42 +631,6 @@
 
   <a class="skip" href="#main">跳到主要内容</a>
 
-  <!-- 共用的香菇图形 -->
-  <svg
-    width="0"
-    height="0"
-    aria-hidden="true"
-    style="position:absolute;overflow:hidden"
-  >
-    <defs>
-      <symbol id="mushroom-icon" viewBox="0 0 120 120">
-        <path
-          d="M49 59H71L77 104H43Z"
-          fill="#c8b48c"
-        />
-        <path
-          d="M15 63C15 10 105 10 105 63
-             Q60 82 15 63Z"
-          fill="#89684e"
-        />
-        <path
-          d="M23 62Q60 76 97 62"
-          fill="none"
-          stroke="#d9c49b"
-          stroke-width="5"
-        />
-        <path
-          d="M43 30 51 42M73 28 68 42
-             M34 47 45 50M83 46 73 51"
-          fill="none"
-          stroke="#bda27c"
-          stroke-width="3"
-          stroke-linecap="round"
-        />
-      </symbol>
-    </defs>
-  </svg>
-
   <header class="header">
     <a class="logo" href="./index.html">连平</a>
     <a class="back" href="./index.html#explore">
@@ -700,61 +676,11 @@
         <div class="layout">
 
           <div class="peach-stage">
-            <svg
-              class="peach-svg"
-              viewBox="0 0 300 300"
-              role="img"
-              aria-label="青绿底色、局部带红晕的鹰嘴桃概念示意"
+            <img
+              class="peach-photo"
+              src="./img/peach-fruit.jpg"
+              alt="挂在枝头的连平鹰嘴蜜桃，果顶尖翘形似鹰嘴"
             >
-              <path
-                d="M153 78C102 37 48 84 50 146
-                   C51 202 94 242 141 254
-                   Q150 258 160 251
-                   C232 235 269 184 248 127
-                   C230 77 189 58 153 78Z"
-                fill="#b6c58c"
-              />
-
-              <path
-                d="M153 78C187 61 228 86 243 126
-                   Q269 201 178 246
-                   C204 191 198 120 153 78Z"
-                fill="#d4a18b"
-                opacity=".8"
-              />
-
-              <path
-                d="M141 254 155 274 165 250"
-                fill="#b6c58c"
-              />
-
-              <path
-                d="M153 79Q135 157 155 252"
-                stroke="#a58e70"
-                stroke-width="3"
-                fill="none"
-              />
-
-              <path
-                d="M153 80Q159 51 181 37"
-                stroke="#88724c"
-                stroke-width="6"
-                fill="none"
-                stroke-linecap="round"
-              />
-
-              <path
-                d="M170 53Q192 13 231 33
-                   Q217 70 170 53Z"
-                fill="#718d5d"
-              />
-
-              <path
-                d="M174 52 222 35"
-                stroke="#a7ba7b"
-                stroke-width="2"
-              />
-            </svg>
 
             <button
               type="button"
@@ -800,7 +726,7 @@
             </div>
 
             <p class="small-note">
-              图形为概念示意，颜色与形态不作为果品识别标准。
+              照片为枝头生长的连平鹰嘴蜜桃（连平县上坪镇桃园）。
             </p>
           </div>
 
@@ -853,6 +779,16 @@
               九重皮是连平特色传统小吃。
               米浆逐层蒸熟，反复叠加，
               最后一层可撒上香菇末、虾米、葱花等配料。
+            </p>
+
+            <img
+              class="story-photo"
+              src="./img/jiuzhongpi.jpg"
+              alt="连平九重皮蒸制摊位：蒸笼里的米皮与“九重皮”招牌"
+            >
+
+            <p class="small-note">
+              九重皮蒸制场景，摄于连平街头摊位。
             </p>
 
             <div class="progress-label">
@@ -948,9 +884,7 @@
             <span class="card-inner">
 
               <span class="card-face card-front">
-                <svg viewBox="0 0 120 120" aria-hidden="true">
-                  <use href="#mushroom-icon"/>
-                </svg>
+                <img class="card-photo" src="./img/mushroom.jpg" alt="">
                 <span class="card-title">地方物产</span>
                 <span class="card-hint">点击翻开 ↗</span>
               </span>
@@ -977,9 +911,7 @@
             <span class="card-inner">
 
               <span class="card-face card-front">
-                <svg viewBox="0 0 120 120" aria-hidden="true">
-                  <use href="#mushroom-icon"/>
-                </svg>
+                <img class="card-photo" src="./img/mushroom.jpg" alt="">
                 <span class="card-title">产地故事</span>
                 <span class="card-hint">点击翻开 ↗</span>
               </span>
@@ -1006,9 +938,7 @@
             <span class="card-inner">
 
               <span class="card-face card-front">
-                <svg viewBox="0 0 120 120" aria-hidden="true">
-                  <use href="#mushroom-icon"/>
-                </svg>
+                <img class="card-photo" src="./img/mushroom.jpg" alt="">
                 <span class="card-title">餐桌故事</span>
                 <span class="card-hint">点击翻开 ↗</span>
               </span>
@@ -1029,7 +959,7 @@
         </div>
 
         <p class="small-note">
-          香菇图形为概括示意，不作为品种或产地识别依据。
+          卡片照片为干香菇特写。
         </p>
 
         <noscript>
