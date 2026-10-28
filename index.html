@@ -193,7 +193,8 @@
         #f8f5edcc 0%,
         #f8f5ed1a 34%,
         #f8f5ed0d 58%,
-        #f8f5edd9 100%
+        #f8f5edcc 88%,
+        var(--paper) 100%
       );
     }
 
@@ -654,8 +655,18 @@
     /* ========= 5. 探索地图 ========= */
 
     .explore-section {
-      padding: 70px 5% 100px;
-      background: #ecefe4;
+      padding: 80px 5% 110px;
+
+      /* 上下都从纸色渐入，不留硬边 */
+      background: linear-gradient(
+        180deg,
+        var(--paper) 0%,
+        #f0f2e8 9%,
+        #ecefe4 26%,
+        #ecefe4 74%,
+        #f0f2e8 91%,
+        var(--paper) 100%
+      );
     }
 
     .map-stage {
@@ -798,8 +809,38 @@
     /* ========= 6. 结尾 ========= */
 
     .closing-section {
-      padding: 85px 20px;
+      position: relative;
+
+      padding: 85px 20px 235px;
       text-align: center;
+
+      background: var(--paper);
+    }
+
+    /* 结尾向下柔和落入深色页脚 */
+    .closing-section::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      height: 190px;
+
+      background: linear-gradient(
+        180deg,
+        #314b4000 0%,
+        #314b4014 34%,
+        #314b4066 66%,
+        var(--ink) 100%
+      );
+
+      pointer-events: none;
+    }
+
+    .closing-section > * {
+      position: relative;
+      z-index: 1;
     }
 
     .closing-section h2 {
