@@ -731,6 +731,24 @@
       transform: none;
     }
 
+    /* 内嵌花灯互动页面 */
+
+    .lantern-embed {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 7% 90px;
+    }
+
+    .lantern-embed iframe {
+      display: block;
+      width: 100%;
+      height: 850px;
+
+      border: 0;
+      border-radius: 8px;
+      background: #151713;
+    }
+
     /* ===== 响应式 ===== */
 
     @media (max-width: 760px) {
@@ -760,6 +778,14 @@
 
       .workshop {
         padding: 65px 6%;
+      }
+
+      .lantern-embed {
+        padding: 0 6% 65px;
+      }
+
+      .lantern-embed iframe {
+        height: 750px;
       }
 
       .section-heading h2 {
@@ -1355,6 +1381,15 @@
 
       </div>
 
+    </section>
+
+    <!-- 花灯结构互动（内嵌独立页面，标题在页面内部） -->
+    <section class="lantern-embed" aria-label="花灯结构互动">
+      <iframe
+        src="./lantern/index.html"
+        title="连平花灯结构探索：拖动旋转，点击部件拆解"
+        loading="lazy"
+      ></iframe>
     </section>
 
     <!-- 结束 -->
