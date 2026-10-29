@@ -261,7 +261,7 @@
 
     /* 背景：地形线缓慢前进，中心留白给文字 */
 
-    .hero-canvas {
+    .hero-topo {
       position: absolute;
       inset: 0;
       z-index: 0;
@@ -269,8 +269,11 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
+      border: 0;
+      background: transparent;
+      overflow: hidden;
 
-      animation: hero-canvas-in 1.4s ease 0.35s both;
+      animation: hero-topo-in 1.4s ease 0.35s both;
 
       -webkit-mask-image: radial-gradient(
         ellipse 64% 48% at 50% 46%,
@@ -288,7 +291,7 @@
       );
     }
 
-    @keyframes hero-canvas-in {
+    @keyframes hero-topo-in {
       from {
         opacity: 0;
       }
@@ -916,7 +919,7 @@
         margin: 22px 0 24px;
       }
 
-      .hero-canvas {
+      .hero-topo {
         -webkit-mask-image: radial-gradient(
           ellipse 84% 38% at 50% 46%,
           transparent 0%,
@@ -1087,7 +1090,8 @@
   <!-- 第一屏 -->
   <section class="hero" aria-labelledby="hero-title">
 
-    <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
+    <iframe class="hero-topo" id="hero-topo" src="./topo/index.html"
+      title="地形线背景" tabindex="-1" aria-hidden="true"></iframe>
 
     <div class="hero-inner">
       <p class="hero-location">广东 · 河源 · 连平</p>
@@ -1803,202 +1807,55 @@
   </script>
 
   <script>
-    /* 首屏背景：地形线（Topography）效果，米白底 + 绿色线，参数集中在 TOPO */
+    /* 首屏背景：地形线由 ./topo/index.html（React 构建产物）渲染，
+       这里只把指针位置转发过去，让背景能响应鼠标 */
 
     (function () {
-      const canvas = document.getElementById("hero-canvas");
-      if (!canvas) return;
+      const frame = document.getElementById("hero-topo");
+      if (!frame) return;
 
-      const ctx = canvas.getContext("2d");
-      const hero = canvas.closest(".hero");
+      const hero = frame.closest(".hero");
 
-      const TOPO = {
-        color: "86, 110, 78", // 线条颜色（绿）
-        lineCount: 22,       // 线条数
-        lineWidth: 1.2,      // 线宽
-        elevation: 1,        // 起伏高度
-        tilt: 32,            // 俯视角度，30–45 之间
-        speed: 0.25,         // 前进速度
-        glow: 0.6,           // 光晕强度
-        fog: 0.35,           // 远处朦胧程度
-        depthOfField: 0.4,   // 远近虚实差
-        maxAlpha: 0.5        // 线条最深浓度
-      };
+      frame.addEventListener("load", function () {
+        const win = frame.contentWindow;
+        if (!win) return;
 
-      const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-      const lowPower = (navigator.hardwareConcurrency || 8) <= 4;
-
-      let W = 0;
-      let H = 0;
-      let dpr = 1;
-      let last = 0;
-
-      const pointer = { x: -9999, inside: false, lift: 0 };
-      const pulses = [];
-
-      function build() {
-        const rect = hero.getBoundingClientRect();
-        W = Math.max(Math.round(rect.width), 320);
-        H = Math.max(Math.round(rect.height), 480);
-        dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-        canvas.width = Math.round(W * dpr);
-        canvas.height = Math.round(H * dpr);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-
-      function heightAt(u, d, t) {
-        return (
-          Math.sin(u * 3.1 + d * 3.4 + t * 0.55) * 0.5 +
-          Math.sin(u * 6.7 - d * 2.2 - t * 0.4) * 0.28 +
-          Math.sin(u * 1.6 + d * 5.1 + t * 0.24) * 0.42
-        );
-      }
-
-      function pulseHeight(px, t) {
-        let h = 0;
-
-        for (let i = pulses.length - 1; i >= 0; i -= 1) {
-          const age = t - pulses[i].t0;
-
-          if (age > 1.6) {
-            pulses.splice(i, 1);
-            continue;
-          }
-
-          const g = Math.exp(-Math.pow((px - pulses[i].x) / (W * 0.18), 2));
-          h += g * Math.sin(age * 7) * Math.exp(-age * 1.1) * 0.7;
-        }
-
-        return h;
-      }
-
-      function paint(now) {
-        const t = now / 1000;
-        const cosTilt = Math.cos((TOPO.tilt * Math.PI) / 180);
-        const horizon = H * 0.3;
-
-        ctx.clearRect(0, 0, W, H);
-
-        pointer.lift += ((pointer.inside ? 1 : 0) - pointer.lift) * 0.06;
-
-        for (let i = 0; i < TOPO.lineCount; i += 1) {
-          const wrapped =
-            (((i + t * TOPO.speed) % TOPO.lineCount) + TOPO.lineCount) %
-            TOPO.lineCount;
-          const d = wrapped / TOPO.lineCount;
-
-          if (d < 0.02 || d > 0.94) continue;
-
-          const edge = Math.min(
-            1,
-            Math.min(d - 0.02, 0.94 - d) / 0.1
+        const send = function (type, event) {
+          const rect = frame.getBoundingClientRect();
+          win.postMessage(
+            {
+              type: type,
+              x: event.clientX - rect.left,
+              y: event.clientY - rect.top
+            },
+            "*"
           );
+        };
 
-          const baseY = horizon + Math.pow(d, 1.7) * H * 0.74 * cosTilt;
-          const halfW = W * (0.16 + 0.92 * d);
-          const amp = H * 0.062 * TOPO.elevation * Math.pow(d, 1.25);
-
-          const fogFade = 1 - TOPO.fog * (1 - d);
-          const alpha = TOPO.maxAlpha * fogFade * edge;
-          const lw = TOPO.lineWidth * (0.7 + 0.6 * d);
-
-          ctx.shadowColor =
-            "rgba(" + TOPO.color + "," + (0.3 * TOPO.glow * edge).toFixed(3) + ")";
-          ctx.shadowBlur = 16 * d * TOPO.glow;
-          ctx.lineWidth = lw;
-          ctx.strokeStyle =
-            "rgba(" + TOPO.color + "," + alpha.toFixed(3) + ")";
-
-          ctx.beginPath();
-
-          for (let s = 0; s <= 44; s += 1) {
-            const u = -1 + (s / 44) * 2;
-            const px = W / 2 + u * halfW;
-
-            let h = heightAt(u, d, t);
-
-            if (pointer.lift) {
-              h +=
-                Math.exp(-Math.pow((px - pointer.x) / (W * 0.28), 2)) *
-                pointer.lift *
-                0.5;
-            }
-
-            if (pulses.length) h += pulseHeight(px, t);
-
-            const py = baseY - h * amp;
-
-            if (s === 0) ctx.moveTo(px, py);
-            else ctx.lineTo(px, py);
-          }
-
-          ctx.stroke();
-        }
-
-        ctx.shadowBlur = 0;
-      }
-
-      function frame(now) {
-        const rect = hero.getBoundingClientRect();
-        const visible = rect.bottom > -80 && rect.top < window.innerHeight + 80;
-
-        if (visible) {
-          const gap = lowPower ? 34 : 0;
-
-          if (!last || now - last >= gap) {
-            last = now;
-            paint(now);
-          }
-        }
-
-        requestAnimationFrame(frame);
-      }
-
-      build();
-
-      if (!reduceMotion) {
-        window.addEventListener(
+        hero.addEventListener(
           "pointermove",
-          (event) => {
-            const rect = hero.getBoundingClientRect();
-            pointer.x = event.clientX - rect.left;
-            pointer.inside = true;
+          function (event) {
+            send("topo-pointer", event);
+          },
+          { passive: true }
+        );
+
+        hero.addEventListener(
+          "pointerdown",
+          function (event) {
+            send("topo-click", event);
           },
           { passive: true }
         );
 
         hero.addEventListener(
           "pointerleave",
-          () => {
-            pointer.inside = false;
+          function () {
+            win.postMessage({ type: "topo-leave" }, "*");
           },
           { passive: true }
         );
-
-        hero.addEventListener("pointerdown", (event) => {
-          const rect = hero.getBoundingClientRect();
-          pulses.push({ x: event.clientX - rect.left, t0: performance.now() / 1000 });
-        });
-
-        let lastWidth = window.innerWidth;
-
-        window.addEventListener(
-          "resize",
-          () => {
-            if (window.innerWidth === lastWidth) return;
-            lastWidth = window.innerWidth;
-            build();
-          },
-          { passive: true }
-        );
-
-        requestAnimationFrame(frame);
-      } else {
-        paint(1200);
-      }
+      });
     })();
   </script>
 
