@@ -314,6 +314,31 @@ html.has-cursor select { cursor: auto; }
   margin: 0;
 }
 
+/* 花灯：默认画稿，悬停换实景 */
+
+.photo-swap {
+  position: relative;
+  margin-bottom: 12px;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.photo-swap .photo {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-swap .hover-art {
+  opacity: 1;
+  transition: opacity .45s ease;
+  pointer-events: none;
+}
+
+.photo-swap:hover .hover-art { opacity: 0; }
+
 .story-figure .photo { margin-bottom: 12px; }
 
 .story-figure figcaption {
@@ -570,11 +595,19 @@ html.has-cursor select { cursor: auto; }
           </h2>
 
           <figure class="story-figure">
-            <img
-              class="photo"
-              src="./img/lantern.jpg"
-              alt="连平忠信花灯实物：大红色花灯悬挂，配有灯联与飘带"
-            >
+            <div class="photo-swap">
+              <img
+                class="photo"
+                src="./img/lantern.jpg"
+                alt="连平忠信花灯实物：大红色花灯悬挂，配有灯联与飘带"
+              >
+              <img
+                class="photo hover-art"
+                src="./img/hover-lantern.png"
+                alt=""
+                aria-hidden="true"
+              >
+            </div>
             <figcaption>
               忠信花灯实物照片（连平县忠信镇）
             </figcaption>

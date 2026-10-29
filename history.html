@@ -420,12 +420,12 @@ html.has-cursor select {
 }
 
 .hover-art {
-  opacity: 0;
+  opacity: 1;
   transition: opacity .5s ease;
   pointer-events: none;
 }
 
-.history-stage:hover .hover-art { opacity: 1; }
+.history-stage:hover .hover-art { opacity: 0; }
 
 .story {
   padding-top: 32px;
@@ -854,7 +854,7 @@ details p {
 
           <div>
 
-            <!-- 图片：默认实景，悬停换插画 -->
+            <!-- 图片：默认插画，悬停换实景 -->
             <div class="history-stage" id="history-stage">
               <div class="stage-frame">
 
