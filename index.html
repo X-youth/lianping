@@ -259,7 +259,7 @@
       text-align: center;
     }
 
-    /* 背景：成束细曲线缓慢流动，中心留白给文字 */
+    /* 背景：地形线缓慢前进，中心留白给文字 */
 
     .hero-canvas {
       position: absolute;
@@ -275,16 +275,16 @@
       -webkit-mask-image: radial-gradient(
         ellipse 64% 48% at 50% 46%,
         transparent 0%,
-        transparent 42%,
-        rgba(0, 0, 0, 0.18) 66%,
-        #000 92%
+        transparent 26%,
+        rgba(0, 0, 0, 0.22) 54%,
+        #000 88%
       );
       mask-image: radial-gradient(
         ellipse 64% 48% at 50% 46%,
         transparent 0%,
-        transparent 42%,
-        rgba(0, 0, 0, 0.18) 66%,
-        #000 92%
+        transparent 26%,
+        rgba(0, 0, 0, 0.22) 54%,
+        #000 88%
       );
     }
 
@@ -920,16 +920,16 @@
         -webkit-mask-image: radial-gradient(
           ellipse 84% 38% at 50% 46%,
           transparent 0%,
-          transparent 40%,
-          rgba(0, 0, 0, 0.18) 66%,
-          #000 94%
+          transparent 30%,
+          rgba(0, 0, 0, 0.2) 56%,
+          #000 90%
         );
         mask-image: radial-gradient(
           ellipse 84% 38% at 50% 46%,
           transparent 0%,
-          transparent 40%,
-          rgba(0, 0, 0, 0.18) 66%,
-          #000 94%
+          transparent 30%,
+          rgba(0, 0, 0, 0.2) 56%,
+          #000 90%
         );
       }
 
@@ -1803,7 +1803,7 @@
   </script>
 
   <script>
-    /* 首屏：成束细曲线缓慢流动，24 秒一循环，鼠标靠近柔和弯折 */
+    /* 首屏背景：地形线（Topography）效果，米白底 + 绿色线，参数集中在 TOPO */
 
     (function () {
       const canvas = document.getElementById("hero-canvas");
@@ -1811,160 +1811,194 @@
 
       const ctx = canvas.getContext("2d");
       const hero = canvas.closest(".hero");
+
+      const TOPO = {
+        color: "86, 110, 78", // 线条颜色（绿）
+        lineCount: 22,       // 线条数
+        lineWidth: 1.2,      // 线宽
+        elevation: 1,        // 起伏高度
+        tilt: 32,            // 俯视角度，30–45 之间
+        speed: 0.25,         // 前进速度
+        glow: 0.6,           // 光晕强度
+        fog: 0.35,           // 远处朦胧程度
+        depthOfField: 0.4,   // 远近虚实差
+        maxAlpha: 0.5        // 线条最深浓度
+      };
+
       const reduceMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
+      const lowPower = (navigator.hardwareConcurrency || 8) <= 4;
 
       let W = 0;
       let H = 0;
-      let bundles = [];
-      let scrollY = window.scrollY || 0;
+      let dpr = 1;
+      let last = 0;
 
-      const pointer = { x: -9999, bend: 0, target: 0, vel: 0 };
-
-      function colorFor(bundle, line) {
-        const greens = [
-          "rgba(104, 126, 94, 0.52)",
-          "rgba(122, 141, 113, 0.38)",
-          "rgba(132, 152, 119, 0.44)",
-          "rgba(96, 118, 86, 0.3)"
-        ];
-        return greens[line % greens.length];
-      }
+      const pointer = { x: -9999, inside: false, lift: 0 };
+      const pulses = [];
 
       function build() {
         const rect = hero.getBoundingClientRect();
         W = Math.max(Math.round(rect.width), 320);
         H = Math.max(Math.round(rect.height), 480);
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
         canvas.width = Math.round(W * dpr);
         canvas.height = Math.round(H * dpr);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-        const compact = W < 760;
-        const count = compact ? 3 : 4;
-        const tones = compact ? [0, 1, 3] : [0, 1, 2, 3];
-
-        bundles = [];
-        for (let i = 0; i < count; i++) {
-          bundles.push({
-            cy: H * (compact ? 0.2 + i * 0.3 : 0.16 + i * 0.23),
-            gap: H * (compact ? 0.026 : 0.019),
-            lines: compact ? 7 : 9,
-            tone: tones[i],
-            k1: 1.05 + i * 0.2,
-            k2: 2.3 + i * 0.28,
-            a1: H * (0.042 + i * 0.005),
-            a2: H * (0.014 + i * 0.003),
-            ph1: i * 1.7,
-            ph2: i * 2.6,
-            speed: 0.32 + i * 0.06
-          });
-        }
       }
 
-      function render(now) {
-        const t = reduceMotion ? 1.4 : (now / 1000) * (Math.PI * 2 / 24);
+      function heightAt(u, d, t) {
+        return (
+          Math.sin(u * 3.1 + d * 3.4 + t * 0.55) * 0.5 +
+          Math.sin(u * 6.7 - d * 2.2 - t * 0.4) * 0.28 +
+          Math.sin(u * 1.6 + d * 5.1 + t * 0.24) * 0.42
+        );
+      }
 
-        pointer.vel =
-          (pointer.vel + (pointer.target - pointer.bend) * 0.02) * 0.9;
-        pointer.bend += pointer.vel;
+      function pulseHeight(px, t) {
+        let h = 0;
+
+        for (let i = pulses.length - 1; i >= 0; i -= 1) {
+          const age = t - pulses[i].t0;
+
+          if (age > 1.6) {
+            pulses.splice(i, 1);
+            continue;
+          }
+
+          const g = Math.exp(-Math.pow((px - pulses[i].x) / (W * 0.18), 2));
+          h += g * Math.sin(age * 7) * Math.exp(-age * 1.1) * 0.7;
+        }
+
+        return h;
+      }
+
+      function paint(now) {
+        const t = now / 1000;
+        const cosTilt = Math.cos((TOPO.tilt * Math.PI) / 180);
+        const horizon = H * 0.3;
 
         ctx.clearRect(0, 0, W, H);
-        ctx.lineWidth = 1;
 
-        const step = W < 760 ? 9 : 6;
-        const parallax = scrollY * 0.05;
+        pointer.lift += ((pointer.inside ? 1 : 0) - pointer.lift) * 0.06;
 
-        bundles.forEach((bundle) => {
-          const half = (bundle.lines - 1) / 2;
-          const swing = 1 + 0.16 * Math.sin(t * 0.5 + bundle.ph1);
+        for (let i = 0; i < TOPO.lineCount; i += 1) {
+          const wrapped =
+            (((i + t * TOPO.speed) % TOPO.lineCount) + TOPO.lineCount) %
+            TOPO.lineCount;
+          const d = wrapped / TOPO.lineCount;
 
-          for (let line = 0; line < bundle.lines; line += 1) {
-            const baseY = bundle.cy + (line - half) * bundle.gap;
+          if (d < 0.02 || d > 0.94) continue;
 
-            ctx.beginPath();
+          const edge = Math.min(
+            1,
+            Math.min(d - 0.02, 0.94 - d) / 0.1
+          );
 
-            for (let x = -step; x <= W + step; x += step) {
-              const u = x / W;
+          const baseY = horizon + Math.pow(d, 1.7) * H * 0.74 * cosTilt;
+          const halfW = W * (0.16 + 0.92 * d);
+          const amp = H * 0.062 * TOPO.elevation * Math.pow(d, 1.25);
 
-              let y =
-                Math.sin(u * Math.PI * bundle.k1 + bundle.ph1 + t * bundle.speed) *
-                  bundle.a1 * swing +
-                Math.sin(
-                  u * Math.PI * bundle.k2 -
-                    bundle.ph2 -
-                    t * bundle.speed * 0.8
-                ) * bundle.a2;
+          const fogFade = 1 - TOPO.fog * (1 - d);
+          const alpha = TOPO.maxAlpha * fogFade * edge;
+          const lw = TOPO.lineWidth * (0.7 + 0.6 * d);
 
-              if (pointer.bend) {
-                const d = (x - pointer.x) / (W * 0.3);
-                y += Math.exp(-d * d) * pointer.bend;
-              }
+          ctx.shadowColor =
+            "rgba(" + TOPO.color + "," + (0.3 * TOPO.glow * edge).toFixed(3) + ")";
+          ctx.shadowBlur = 16 * d * TOPO.glow;
+          ctx.lineWidth = lw;
+          ctx.strokeStyle =
+            "rgba(" + TOPO.color + "," + alpha.toFixed(3) + ")";
 
-              const py = baseY + y + parallax;
+          ctx.beginPath();
 
-              if (x <= -step) ctx.moveTo(x, py);
-              else ctx.lineTo(x, py);
+          for (let s = 0; s <= 44; s += 1) {
+            const u = -1 + (s / 44) * 2;
+            const px = W / 2 + u * halfW;
+
+            let h = heightAt(u, d, t);
+
+            if (pointer.lift) {
+              h +=
+                Math.exp(-Math.pow((px - pointer.x) / (W * 0.28), 2)) *
+                pointer.lift *
+                0.5;
             }
 
-            ctx.strokeStyle = colorFor(bundle, line);
-            ctx.stroke();
+            if (pulses.length) h += pulseHeight(px, t);
+
+            const py = baseY - h * amp;
+
+            if (s === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
           }
-        });
+
+          ctx.stroke();
+        }
+
+        ctx.shadowBlur = 0;
       }
 
       function frame(now) {
         const rect = hero.getBoundingClientRect();
+        const visible = rect.bottom > -80 && rect.top < window.innerHeight + 80;
 
-        if (rect.bottom > -60 && rect.top < window.innerHeight + 60) {
-          render(now);
+        if (visible) {
+          const gap = lowPower ? 34 : 0;
+
+          if (!last || now - last >= gap) {
+            last = now;
+            paint(now);
+          }
         }
 
-        if (!reduceMotion) requestAnimationFrame(frame);
+        requestAnimationFrame(frame);
       }
 
-      window.addEventListener(
-        "pointermove",
-        (event) => {
-          const rect = hero.getBoundingClientRect();
-          pointer.x = event.clientX - rect.left;
-          pointer.target = H * 0.018;
-        },
-        { passive: true }
-      );
-
-      document.documentElement.addEventListener(
-        "mouseleave",
-        () => {
-          pointer.target = 0;
-        },
-        { passive: true }
-      );
-
-      window.addEventListener(
-        "scroll",
-        () => {
-          scrollY = window.scrollY || 0;
-        },
-        { passive: true }
-      );
-
-      let lastWidth = window.innerWidth;
-
-      window.addEventListener(
-        "resize",
-        () => {
-          if (window.innerWidth === lastWidth) return;
-          lastWidth = window.innerWidth;
-          build();
-        },
-        { passive: true }
-      );
-
       build();
-      requestAnimationFrame(frame);
+
+      if (!reduceMotion) {
+        window.addEventListener(
+          "pointermove",
+          (event) => {
+            const rect = hero.getBoundingClientRect();
+            pointer.x = event.clientX - rect.left;
+            pointer.inside = true;
+          },
+          { passive: true }
+        );
+
+        hero.addEventListener(
+          "pointerleave",
+          () => {
+            pointer.inside = false;
+          },
+          { passive: true }
+        );
+
+        hero.addEventListener("pointerdown", (event) => {
+          const rect = hero.getBoundingClientRect();
+          pulses.push({ x: event.clientX - rect.left, t0: performance.now() / 1000 });
+        });
+
+        let lastWidth = window.innerWidth;
+
+        window.addEventListener(
+          "resize",
+          () => {
+            if (window.innerWidth === lastWidth) return;
+            lastWidth = window.innerWidth;
+            build();
+          },
+          { passive: true }
+        );
+
+        requestAnimationFrame(frame);
+      } else {
+        paint(1200);
+      }
     })();
   </script>
 
