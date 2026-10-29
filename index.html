@@ -785,6 +785,7 @@
     }
 
     .entry-thumb {
+      position: relative;
       display: block;
       width: 96px;
       height: 96px;
@@ -803,6 +804,21 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    /* 入口圆图：默认画稿，悬停换实景 */
+
+    .entry-thumb .hover-art {
+      position: absolute;
+      inset: 0;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .entry:hover .entry-thumb .hover-art,
+    .entry:focus-visible .entry-thumb .hover-art {
+      opacity: 0;
     }
 
     .entry:hover .entry-thumb,
@@ -1880,6 +1896,13 @@
                 <img
                   src="./img/peach-fruit.jpg"
                   alt="连平上坪的鹰嘴桃果实"
+                  loading="lazy"
+                >
+                <img
+                  class="hover-art"
+                  src="./img/hover-peach-fruit.jpg"
+                  alt=""
+                  aria-hidden="true"
                   loading="lazy"
                 >
               </span>

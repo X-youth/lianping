@@ -360,6 +360,18 @@ html.has-cursor select { cursor: auto; }
   mask-image: none;
 }
 
+/* 蜜桃：默认画稿，悬停换实景 */
+
+.peach-stage .hover-art {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity .45s ease;
+  pointer-events: none;
+}
+
+.peach-stage:hover .hover-art { opacity: 0; }
+
 .hotspot {
   position: absolute;
   display: grid;
@@ -916,6 +928,12 @@ progress::-moz-progress-bar {
             class="peach-photo"
             src="./img/peach-fruit.jpg"
             alt="挂在枝头的连平鹰嘴蜜桃，果顶尖翘形似鹰嘴"
+          >
+          <img
+            class="peach-photo hover-art"
+            src="./img/hover-peach-fruit.jpg"
+            alt=""
+            aria-hidden="true"
           >
 
           <button
