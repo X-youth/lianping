@@ -136,12 +136,31 @@
     }
 
     .site-nav a {
+      position: relative;
       padding: 8px 0;
-      border-bottom: 1px solid transparent;
     }
 
-    .site-nav a:hover {
-      border-color: currentColor;
+    /* 下划线从左扫入 */
+    .site-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+
+      width: 100%;
+      height: 1px;
+
+      background: currentColor;
+
+      transform: scaleX(0);
+      transform-origin: left;
+
+      transition: transform 0.45s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .site-nav a:hover::after,
+    .site-nav a:focus-visible::after {
+      transform: scaleX(1);
     }
 
     /* ========= 3. 第一屏 ========= */
@@ -175,6 +194,7 @@
     .hero-shade {
       position: absolute;
       inset: 0;
+      z-index: 2;
 
       background: linear-gradient(
         180deg,
@@ -187,10 +207,117 @@
       );
     }
 
+    /*
+      白墙上流动的光。
+      四团暖白光斑缓慢漂移，用 screen 叠在实景上，
+      鼠标移动时整层跟着轻微偏移。
+    */
+    .hero-light {
+      position: absolute;
+      inset: -18%;
+      z-index: 1;
+
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.42;
+
+      will-change: transform;
+    }
+
+    .hero-light i {
+      position: absolute;
+      display: block;
+
+      border-radius: 50%;
+
+      background: radial-gradient(
+        circle,
+        #fff6e4 0%,
+        #fff6e480 42%,
+        #fff6e400 70%
+      );
+
+      filter: blur(38px);
+      will-change: transform;
+    }
+
+    .hero-light i:nth-child(1) {
+      left: 4%;
+      top: 2%;
+
+      width: 46%;
+      aspect-ratio: 1;
+
+      animation: light-drift-a 24s ease-in-out infinite alternate;
+    }
+
+    .hero-light i:nth-child(2) {
+      right: 2%;
+      top: 14%;
+
+      width: 38%;
+      aspect-ratio: 1;
+
+      opacity: 0.8;
+
+      animation: light-drift-b 31s ease-in-out infinite alternate;
+    }
+
+    .hero-light i:nth-child(3) {
+      left: 24%;
+      bottom: 0%;
+
+      width: 42%;
+      aspect-ratio: 1;
+
+      opacity: 0.7;
+
+      animation: light-drift-c 27s ease-in-out infinite alternate;
+    }
+
+    .hero-light i:nth-child(4) {
+      right: 18%;
+      bottom: 8%;
+
+      width: 30%;
+      aspect-ratio: 1;
+
+      opacity: 0.55;
+
+      animation: light-drift-b 19s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes light-drift-a {
+      from {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      to {
+        transform: translate3d(16%, 12%, 0) scale(1.16);
+      }
+    }
+
+    @keyframes light-drift-b {
+      from {
+        transform: translate3d(0, 0, 0) scale(1.04);
+      }
+      to {
+        transform: translate3d(-14%, 16%, 0) scale(0.92);
+      }
+    }
+
+    @keyframes light-drift-c {
+      from {
+        transform: translate3d(0, 0, 0) scale(0.94);
+      }
+      to {
+        transform: translate3d(10%, -14%, 0) scale(1.2);
+      }
+    }
+
     /* 标题后方只压一圈柔和的暗色，照片保持清晰 */
     .hero-content {
       position: relative;
-      z-index: 1;
+      z-index: 3;
 
       margin-top: -35px;
       padding: 30px 40px;
@@ -236,7 +363,7 @@
     .scroll-guide {
       position: absolute;
       bottom: 35px;
-      z-index: 2;
+      z-index: 3;
 
       display: flex;
       flex-direction: column;
@@ -263,7 +390,7 @@
       position: absolute;
       right: 25px;
       bottom: 20px;
-      z-index: 2;
+      z-index: 3;
 
       padding: 8px 12px;
 
@@ -581,7 +708,9 @@
       color: var(--muted);
 
       cursor: pointer;
-      transition: color 0.3s ease;
+      transition:
+        color 0.3s ease,
+        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* 当前主题前的橙色小点 */
@@ -608,6 +737,7 @@
 
     .theme-tab:hover {
       color: var(--ink);
+      transform: translateX(6px);
     }
 
     .theme-tab.is-active {
@@ -702,6 +832,11 @@
 
     .explore-photo {
       margin: 0;
+
+      overflow: hidden;
+      border-radius: 6px;
+
+      box-shadow: 0 26px 60px #314b4026;
     }
 
     .explore-photo img {
@@ -710,8 +845,16 @@
       aspect-ratio: 3 / 2;
       object-fit: cover;
 
-      border-radius: 6px;
-      box-shadow: 0 26px 60px #314b4026;
+      transform-origin: center;
+
+      transition:
+        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.6s ease;
+    }
+
+    .explore-photo:hover img {
+      transform: scale(1.035);
+      filter: brightness(1.06);
     }
 
     .explore-photo figcaption {
@@ -832,16 +975,19 @@
     .motion-enabled .reveal-inner {
       opacity: 0;
       transform: translateY(30px);
+      filter: blur(10px);
 
       transition:
-        opacity 0.8s ease,
-        transform 0.8s ease;
+        opacity 0.9s ease,
+        transform 0.9s ease,
+        filter 0.9s ease;
     }
 
     .motion-enabled .reveal.is-visible > .reveal-inner,
     .motion-enabled .reveal:focus-within > .reveal-inner {
       opacity: 1;
       transform: none;
+      filter: none;
     }
 
     /* ========= 8. 平板适配 ========= */
@@ -989,6 +1135,10 @@
         transform: none;
         transition: none;
       }
+
+      .hero-light i {
+        animation: none;
+      }
     }
   </style>
 </head>
@@ -1027,6 +1177,14 @@
       src="./img/weilongwu.png"
       alt="大湖镇围龙屋：半月形池塘环抱着客家围屋，屋后铺开连平的田野与村庄"
     >
+
+    <!-- 墙上的光：缓慢漂移的暖白光斑 -->
+    <div class="hero-light" aria-hidden="true">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </div>
 
     <div class="hero-shade" aria-hidden="true"></div>
 
@@ -1430,6 +1588,67 @@
   <script src="./assets/anime.min.js"></script>
 
   <script>
+    /* ========= 首屏光斑：跟随指针轻微偏移 ========= */
+
+    (function () {
+      const hero = document.querySelector(".hero");
+      const light = document.querySelector(".hero-light");
+
+      if (!hero || !light || motionPreference.matches) {
+        return;
+      }
+
+      let targetX = 0;
+      let targetY = 0;
+      let currentX = 0;
+      let currentY = 0;
+      let running = false;
+
+      function tick() {
+        currentX += (targetX - currentX) * 0.06;
+        currentY += (targetY - currentY) * 0.06;
+
+        light.style.transform =
+          "translate3d(" +
+          currentX.toFixed(2) +
+          "px," +
+          currentY.toFixed(2) +
+          "px,0)";
+
+        if (Math.abs(targetX - currentX) < 0.05 &&
+            Math.abs(targetY - currentY) < 0.05) {
+          running = false;
+          return;
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      hero.addEventListener("pointermove", (event) => {
+        const rect = hero.getBoundingClientRect();
+
+        targetX = ((event.clientX - rect.left) / rect.width - 0.5) * 34;
+        targetY = ((event.clientY - rect.top) / rect.height - 0.5) * 22;
+
+        if (!running) {
+          running = true;
+          requestAnimationFrame(tick);
+        }
+      });
+
+      hero.addEventListener("pointerleave", () => {
+        targetX = 0;
+        targetY = 0;
+
+        if (!running) {
+          running = true;
+          requestAnimationFrame(tick);
+        }
+      });
+    })();
+  </script>
+
+  <script>
     /* ========= 首屏入场（Anime.js） ========= */
 
     (function () {
@@ -1463,6 +1682,7 @@
         {
           opacity: [0, 1],
           y: [30, 0],
+          filter: ["blur(14px)", "blur(0px)"],
           letterSpacing: ["0.14em", "0.06em"],
           duration: 900
         },
