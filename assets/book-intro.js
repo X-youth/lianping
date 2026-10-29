@@ -365,6 +365,25 @@
 
   /* ---------- 初始化 ---------- */
 
+  /* 站内返回（浏览器后退，或从其他子页点回首页）时不再播放开屏，直接进首页 */
+  var navEntries = performance.getEntriesByType
+    ? performance.getEntriesByType("navigation")
+    : [];
+  var navType = navEntries.length ? navEntries[0].type : "";
+
+  var fromSite = false;
+  try {
+    fromSite =
+      !!document.referrer &&
+      new URL(document.referrer, location.href).origin === location.origin;
+  } catch (e) {}
+
+  if (navType === "back_forward" || fromSite) {
+    state = "open";
+    root.classList.add("is-done");
+    return;
+  }
+
   if (location.hash) {
     history.replaceState(null, "", location.pathname + location.search);
   }
