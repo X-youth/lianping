@@ -342,86 +342,22 @@ html.has-cursor select { cursor: auto; }
 
 .peach { background: var(--paper); }
 
-.peach-stage {
-  position: relative;
-  height: 420px;
+/* 鹰嘴桃生长互动嵌入 */
+
+.peach-grow {
   background: var(--paper);
-  border: 1px solid var(--line);
+  padding-bottom: 40px;
 }
 
-.peach-photo {
+.peach-grow-embed {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0;
-  box-shadow: none;
-  -webkit-mask-image: none;
-  mask-image: none;
+  height: 850px;
+  border: 0;
 }
 
-/* 蜜桃：默认画稿，悬停换实景 */
-
-.peach-stage .hover-art {
-  position: absolute;
-  inset: 0;
-  opacity: 1;
-  transition: opacity .45s ease;
-  pointer-events: none;
-}
-
-.peach-stage:hover .hover-art { opacity: 0; }
-
-.hotspot {
-  position: absolute;
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--ink);
-  border-radius: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-size: 12px;
-  letter-spacing: 0;
-  transition: background .3s ease, color .3s ease;
-}
-
-.hotspot:hover,
-.hotspot[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.hotspot-one { top: 30%; left: 22%; }
-.hotspot-two { top: 58%; right: 20%; }
-.hotspot-three { top: 18%; right: 22%; }
-
-.peach-detail {
-  min-height: 168px;
-  padding-bottom: 6px;
-}
-
-.detail-number {
-  display: block;
-  color: var(--accent);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 28px;
-  letter-spacing: .1em;
-  line-height: 1.2;
-  margin-bottom: 10px;
-}
-
-.peach-detail h3 {
-  margin-bottom: 14px;
-  font-size: 26px;
-  letter-spacing: .16em;
-}
-
-.peach-detail p {
-  margin: 0;
-  font-size: 13px;
-  line-height: 2.15;
+@media (max-width: 700px) {
+  .peach-grow-embed { height: 800px; }
 }
 
 /* ===== 九重皮 ===== */
@@ -783,8 +719,6 @@ progress::-moz-progress-bar {
     grid-template-columns: 1fr;
     gap: 34px;
   }
-
-  .peach-stage { height: 380px; }
 }
 
 @media (max-width: 700px) {
@@ -818,14 +752,6 @@ progress::-moz-progress-bar {
   .section { padding: 78px 7%; }
 
   .section-heading h2 { font-size: 26px; }
-
-  .peach-stage { height: 320px; }
-
-  .hotspot { width: 34px; height: 34px; }
-
-  .hotspot-one { left: 14%; }
-  .hotspot-two { right: 12%; }
-  .hotspot-three { right: 14%; }
 
   .rice-stage { min-height: 380px; }
 
@@ -917,75 +843,23 @@ progress::-moz-progress-bar {
         <div class="section-heading reveal-content">
           <p class="eyebrow">01 · 鹰嘴蜜桃</p>
           <h2 id="peach-title">先认识这颗桃</h2>
-          <p>点击图上的三个标记，看看它有什么特点。</p>
         </div>
       </div>
 
-      <div class="layout">
-
-        <div class="peach-stage">
-          <img
-            class="peach-photo"
-            src="./img/peach-fruit.jpg"
-            alt="挂在枝头的连平鹰嘴蜜桃，果顶尖翘形似鹰嘴"
-          >
-          <img
-            class="peach-photo hover-art"
-            src="./img/hover-peach-fruit.jpg"
-            alt=""
-            aria-hidden="true"
-          >
-
-          <button
-            type="button"
-            class="hotspot hotspot-one"
-            data-peach="shape"
-            aria-label="查看果形介绍"
-            aria-pressed="true"
-            aria-controls="peach-detail"
-          >1</button>
-
-          <button
-            type="button"
-            class="hotspot hotspot-two"
-            data-peach="taste"
-            aria-label="查看口感介绍"
-            aria-pressed="false"
-            aria-controls="peach-detail"
-          >2</button>
-
-          <button
-            type="button"
-            class="hotspot hotspot-three"
-            data-peach="place"
-            aria-label="查看产地联系"
-            aria-pressed="false"
-            aria-controls="peach-detail"
-          >3</button>
-        </div>
-
-        <div>
-          <div
-            class="peach-detail"
-            id="peach-detail"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            <span class="detail-number" id="peach-number">01</span>
-            <h3 id="peach-heading">名字藏在果形里</h3>
-            <p id="peach-description">
-              鹰嘴蜜桃的果顶微微尖翘，形似鹰嘴。
-              看桃子时，不妨先留意这个有辨识度的小细节。
-            </p>
-          </div>
-
-          <p class="small-note">
-            照片为枝头生长的连平鹰嘴蜜桃（连平县上坪镇桃园）。
-          </p>
-        </div>
-
-      </div>
     </div>
+  </section>
+
+  <!-- 鹰嘴桃生长互动 -->
+  <section
+    class="peach-grow"
+    aria-label="鹰嘴桃生长互动演示"
+  >
+    <iframe
+      class="peach-grow-embed"
+      src="./peach/index.html"
+      title="鹰嘴桃生长互动：从含苞到成熟"
+      loading="lazy"
+    ></iframe>
   </section>
 
   <!-- 九重皮 -->
@@ -1296,57 +1170,7 @@ progress::-moz-progress-bar {
 </footer>
 
 <script>
-/* ===== 1. 桃子热点 ===== */
-
-const peachDetails = {
-  shape: {
-    number: "01",
-    title: "名字藏在果形里",
-    description:
-      "鹰嘴蜜桃的果顶微微尖翘，形似鹰嘴。看桃子时，不妨先留意这个有辨识度的小细节。"
-  },
-
-  taste: {
-    number: "02",
-    title: "认识它的脆甜",
-    description:
-      "官方报道以“口感脆甜”介绍连平鹰嘴蜜桃。具体风味会受成熟度、种植条件等影响，还是值得亲自尝一尝。"
-  },
-
-  place: {
-    number: "03",
-    title: "从上坪的桃园出发",
-    description:
-      "上坪是认识连平鹰嘴蜜桃的重要地方。除了果实，桃园也连接着种植、采摘与地方旅游的故事。"
-  }
-};
-
-const peachButtons = document.querySelectorAll("[data-peach]");
-
-peachButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    const selected = button.dataset.peach;
-    const detail = peachDetails[selected];
-
-    peachButtons.forEach(item => {
-      item.setAttribute(
-        "aria-pressed",
-        String(item === button)
-      );
-    });
-
-    document.getElementById("peach-number").textContent =
-      detail.number;
-
-    document.getElementById("peach-heading").textContent =
-      detail.title;
-
-    document.getElementById("peach-description").textContent =
-      detail.description;
-  });
-});
-
-/* ===== 2. 九重皮叠层 ===== */
+/* ===== 1. 九重皮叠层 ===== */
 
 let riceLayers = 0;
 
@@ -1427,7 +1251,7 @@ riceReset.addEventListener("click", () => {
 
 updateRice();
 
-/* ===== 3. 香菇翻卡 ===== */
+/* ===== 2. 香菇翻卡 ===== */
 
 document.querySelectorAll(".flavor-card").forEach(card => {
   card.addEventListener("click", () => {
@@ -1456,7 +1280,7 @@ document.querySelectorAll(".flavor-card").forEach(card => {
   });
 });
 
-/* ===== 4. 重复滚动显露 ===== */
+/* ===== 3. 重复滚动显露 ===== */
 
 const motionPreference = window.matchMedia(
   "(prefers-reduced-motion: reduce)"
