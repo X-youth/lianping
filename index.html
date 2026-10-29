@@ -396,9 +396,9 @@
 
     .about-layout {
       display: grid;
-      grid-template-columns: 0.8fr 1.8fr 1fr;
+      grid-template-columns: 0.78fr 1.32fr 1.32fr;
       align-items: center;
-      gap: 54px;
+      gap: 44px;
     }
 
     .location {
@@ -437,35 +437,207 @@
       line-height: 2.15;
     }
 
-    .locator {
+    /* 广东省地图：线性省界 + 连平高亮 */
+
+    .gd-figure {
+      margin: 0;
       border: 1px solid var(--line);
       background: var(--paper);
-      padding: 36px 24px 30px;
-      text-align: center;
+      padding: 22px 22px 20px;
     }
 
-    .locator span {
+    .gd-frame {
+      position: relative;
+    }
+
+    .gd-svg {
       display: block;
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      line-height: 2;
+      width: 100%;
+      height: auto;
+      overflow: visible;
     }
 
-    .locator strong {
+    .gd-province {
+      fill: none;
+      stroke: var(--ink);
+      stroke-width: 1.4;
+      stroke-linejoin: round;
+    }
+
+    .gd-cities {
+      fill: none;
+      stroke: rgba(20, 19, 18, 0.16);
+      stroke-width: 0.8;
+      stroke-linejoin: round;
+    }
+
+    /* 线条自绘入场 */
+
+    .gd-province,
+    .gd-cities {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+
+      transition: stroke-dashoffset 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .gd-map.is-drawn .gd-cities {
+      stroke-dashoffset: 0;
+      transition-delay: 0.15s;
+    }
+
+    .gd-map.is-drawn .gd-province {
+      stroke-dashoffset: 0;
+    }
+
+    .gd-hit {
+      fill: transparent;
+      pointer-events: all;
+      cursor: pointer;
+    }
+
+    .gd-lp {
+      fill: rgba(125, 107, 82, 0.3);
+      stroke: var(--accent);
+      stroke-width: 1.2;
+      stroke-linejoin: round;
+
+      cursor: pointer;
+
+      transition:
+        fill 0.45s ease,
+        stroke-width 0.45s ease;
+    }
+
+    .gd-map.is-lit .gd-lp {
+      fill: rgba(125, 107, 82, 0.82);
+      stroke-width: 1.6;
+    }
+
+    .gd-halo {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 1;
+
+      opacity: 0;
+      transform-origin: center;
+    }
+
+    .gd-map.is-lit .gd-halo {
+      animation: halo-pulse 2.4s ease-out infinite;
+    }
+
+    @keyframes halo-pulse {
+      0% {
+        opacity: 0.55;
+        transform: scale(0.6);
+      }
+      70% {
+        opacity: 0;
+        transform: scale(1.9);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.9);
+      }
+    }
+
+    .gd-pin {
+      fill: var(--accent);
+    }
+
+    .gd-label {
+      position: absolute;
+
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 6px 11px;
+
+      background: #f8f5edf2;
+      box-shadow: 0 8px 20px rgba(20, 19, 18, 0.08);
+
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      white-space: nowrap;
+
+      transform: translate(-50%, -150%);
+
+      pointer-events: none;
+    }
+
+    .gd-label i {
       display: block;
-      margin: 6px 0;
-      color: var(--ink);
-      font-size: 26px;
-      font-weight: 400;
-      letter-spacing: 0.2em;
-      line-height: 1.6;
+
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+      background: var(--accent);
     }
 
-    .locator .note {
-      margin-top: 20px;
-      padding-top: 16px;
+    .gd-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px 16px;
+
+      margin-top: 14px;
+      padding-top: 12px;
+
       border-top: 1px solid var(--line);
+
+      font: 10px/1.8 Consolas, "Courier New", monospace;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .gd-meta b {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .gd-hint {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 9.5px;
+      letter-spacing: 0.14em;
+      line-height: 1.9;
+    }
+
+    .gd-hint span {
+      color: var(--accent);
+    }
+
+    .zone-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      margin-top: 14px;
+    }
+
+    .zone-chips a {
+      padding: 7px 14px;
+
+      border: 1px solid var(--line);
+
+      font-size: 11.5px;
+      letter-spacing: 0.16em;
+
+      transition:
+        border-color 0.25s ease,
+        color 0.25s ease,
+        background 0.25s ease;
+    }
+
+    .zone-chips a:hover,
+    .zone-chips a:focus-visible {
+      border-color: var(--accent);
+      background: rgba(125, 107, 82, 0.08);
+      color: var(--accent);
     }
 
     /* ========= 7. 探索连平 ========= */
@@ -651,11 +823,15 @@
       }
 
       .about-layout {
-        grid-template-columns: 1fr 1.6fr;
+        grid-template-columns: 1fr 1.4fr;
         gap: 34px;
       }
 
-      .locator {
+      .gd-figure {
+        grid-column: 1 / -1;
+      }
+
+      .about-map {
         grid-column: 1 / -1;
       }
 
@@ -734,8 +910,8 @@
         font-size: 22px;
       }
 
-      .locator {
-        padding: 28px 20px 24px;
+      .gd-figure {
+        padding: 16px 16px 14px;
       }
 
       .map-stage {
@@ -938,27 +1114,66 @@
             </div>
           </div>
 
-          <!-- 右侧定位示意 -->
-          <div class="locator-wrap reveal">
-            <div
-              class="locator reveal-inner"
-              aria-label="连平的行政位置"
+          <!-- 右侧：广东省地图 -->
+          <div class="reveal about-map">
+            <figure
+              class="gd-figure reveal-inner gd-map"
+              id="gd-map"
             >
 
-              <span>广东省</span>
-              <span aria-hidden="true">↓</span>
+              <div class="gd-frame">
 
-              <span>河源市</span>
-              <span aria-hidden="true">↓</span>
+                <svg
+                  class="gd-svg"
+                  viewBox="0 0 780 600"
+                  role="img"
+                  aria-label="广东省地图，高亮部分是连平县"
+                >
+                  <path class="gd-province" id="gd-province" d=""></path>
+                  <path class="gd-cities" id="gd-cities" d=""></path>
 
-              <strong>连平县</strong>
+                  <g id="lp-group">
+                    <path
+                      class="gd-lp"
+                      id="lp-hotspot"
+                      d=""
+                      tabindex="0"
+                      role="button"
+                      aria-label="连平县：广东省北部，河源市下辖县"
+                    ></path>
 
-              <p class="note">
-                位置关系示意<br>
-                准确定位地图将在后续加入
+                    <circle class="gd-halo" id="lp-halo" r="16"></circle>
+                    <circle class="gd-pin" id="lp-pin" r="4.5"></circle>
+                    <circle class="gd-hit" id="lp-hit" r="24"></circle>
+                  </g>
+                </svg>
+
+                <span class="gd-label" id="lp-label">
+                  <i aria-hidden="true"></i>连平县
+                </span>
+
+              </div>
+
+              <figcaption class="gd-meta">
+                <span>
+                  <b>连平县</b>　23°57′43″N　114°31′12″E
+                </span>
+
+                <span>GUANGDONG · HEYUAN · LIANPING</span>
+              </figcaption>
+
+              <p class="gd-hint">
+                HOVER THE ORANGE COUNTY · <span>把鼠标移到橙色的连平县上</span>
               </p>
 
-            </div>
+              <nav class="zone-chips" aria-label="主题入口">
+                <a href="./history.html">历史</a>
+                <a href="./nature.html">山水</a>
+                <a href="./life.html">生活</a>
+                <a href="./food.html">风味</a>
+              </nav>
+
+            </figure>
           </div>
 
         </div>
@@ -1192,6 +1407,108 @@
     </a>
 
   </footer>
+
+  <script src="./assets/lianping-map.js?v=1"></script>
+
+  <script>
+    /* ========= 广东省地图：填路径 + 悬停高亮连平 ========= */
+
+    (function () {
+      const data = window.LIANPING_MAP;
+
+      if (!data) {
+        return;
+      }
+
+      const map = document.getElementById("gd-map");
+      const province = document.getElementById("gd-province");
+      const cities = document.getElementById("gd-cities");
+      const hotspot = document.getElementById("lp-hotspot");
+
+      if (!map || !province || !cities || !hotspot) {
+        return;
+      }
+
+      const halo = document.getElementById("lp-halo");
+      const pin = document.getElementById("lp-pin");
+      const hit = document.getElementById("lp-hit");
+      const label = document.getElementById("lp-label");
+
+      province.setAttribute("d", data.province);
+      cities.setAttribute("d", data.cities);
+      hotspot.setAttribute("d", data.lianping);
+
+      const [cx, cy] = data.centroid;
+
+      [halo, pin, hit].forEach((element) => {
+        element.setAttribute("cx", cx);
+        element.setAttribute("cy", cy);
+      });
+
+      halo.style.transformOrigin = cx + "px " + cy + "px";
+
+      label.style.left = (cx / 780) * 100 + "%";
+      label.style.top = (cy / 600) * 100 + "%";
+
+      /* 入场自绘 */
+
+      [province, cities].forEach((path) => {
+        path.setAttribute("pathLength", "1");
+      });
+
+      if ("IntersectionObserver" in window) {
+        const drawObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                map.classList.add("is-drawn");
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+
+        drawObserver.observe(map);
+      } else {
+        map.classList.add("is-drawn");
+      }
+
+      /* 悬停 / 聚焦 / 点按，亮起连平 */
+
+      const group = document.getElementById("lp-group");
+      const light = () => map.classList.add("is-lit");
+      const unlight = () => map.classList.remove("is-lit");
+
+      group.addEventListener("pointerenter", light);
+      group.addEventListener("pointerleave", unlight);
+      group.addEventListener("touchstart", light, { passive: true });
+
+      hotspot.addEventListener("focus", light);
+      hotspot.addEventListener("blur", unlight);
+
+      /* 点一下连平，滚到下面的主题探索 */
+
+      const goExplore = (event) => {
+        event.preventDefault();
+
+        const target = document.getElementById("explore");
+
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      };
+
+      [hotspot, hit].forEach((element) => {
+        element.addEventListener("click", goExplore);
+      });
+
+      hotspot.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          goExplore(event);
+        }
+      });
+    })();
+  </script>
 
   <script>
     /* ========= 滚动显露 ========= */
