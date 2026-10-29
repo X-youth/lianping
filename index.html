@@ -1116,6 +1116,402 @@
         transition: none;
       }
     }
+
+    /* ========= 11. 开屏：翻开一本书 ========= */
+
+    html.intro-lock,
+    html.intro-lock body {
+      overflow: hidden;
+    }
+
+    .book-intro {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: transparent;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .book-intro.is-done {
+      display: none;
+    }
+
+    .bi-veil {
+      position: absolute;
+      inset: 0;
+      background: var(--paper);
+      pointer-events: none;
+    }
+
+    .bi-stage {
+      position: absolute;
+      inset: 0;
+
+      display: grid;
+      place-items: center;
+
+      perspective: 1600px;
+      perspective-origin: 50% 46%;
+    }
+
+    .bi-book {
+      position: relative;
+
+      width: clamp(268px, min(31vw, 50vh), 424px);
+      aspect-ratio: 0.74;
+
+      transform-style: preserve-3d;
+      transform: rotateX(5deg) rotateY(-7deg);
+      will-change: transform;
+    }
+
+    .bi-stack {
+      position: absolute;
+      inset: -3px -8px -8px -3px;
+
+      border-radius: 2px 8px 8px 3px;
+      background: linear-gradient(
+        90deg,
+        #ece6d7 0%,
+        #fdfaf3 16%,
+        #f6f1e5 78%,
+        #e2dccb 100%
+      );
+      box-shadow: 0 22px 48px rgba(20, 19, 18, 0.16);
+
+      transform: translateZ(-12px);
+    }
+
+    .bi-stack::after {
+      content: "";
+      position: absolute;
+      top: 8px;
+      right: 0;
+      bottom: 8px;
+      width: 8px;
+
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(20, 19, 18, 0.14) 0 1px,
+        rgba(255, 255, 255, 0) 1px 3px
+      );
+      opacity: 0.5;
+    }
+
+    .bi-pages {
+      position: absolute;
+      inset: 0;
+
+      border-radius: 2px 8px 8px 3px;
+      background:
+        linear-gradient(90deg, rgba(20, 19, 18, 0.05), rgba(20, 19, 18, 0) 18%),
+        linear-gradient(180deg, #fdfbf5 0%, #f7f2e6 100%);
+      overflow: hidden;
+    }
+
+    .bi-pages::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background: linear-gradient(
+        90deg,
+        rgba(20, 19, 18, 0.42) 0%,
+        rgba(20, 19, 18, 0) 26%
+      );
+      opacity: var(--bi-page-shadow, 0.2);
+    }
+
+    .bi-cover {
+      position: absolute;
+      inset: 0;
+
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .bi-cover-face {
+      position: absolute;
+      inset: 0;
+
+      border-radius: 2px 8px 8px 3px;
+      overflow: hidden;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .bi-cover-front {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+
+      background:
+        linear-gradient(180deg, rgba(243, 240, 233, 0.5), rgba(243, 240, 233, 0.78)),
+        url("./img/hero-lines.webp") center / cover no-repeat;
+      border: 1px solid rgba(20, 19, 18, 0.14);
+      box-shadow:
+        inset 0 0 0 10px rgba(243, 240, 233, 0.42),
+        0 10px 22px rgba(20, 19, 18, 0.1);
+    }
+
+    .bi-cover-kicker {
+      margin: 0;
+      color: var(--muted);
+      font-size: 8.5px;
+      letter-spacing: 0.38em;
+      line-height: 1.6;
+    }
+
+    .bi-cover-title {
+      margin: 0;
+      padding-left: 0.12em;
+
+      color: rgba(20, 19, 18, 0.62);
+
+      font-family:
+        "STXingkai",
+        "华文行楷",
+        "STKaiti",
+        "楷体",
+        "KaiTi",
+        serif;
+      font-size: clamp(34px, 4.4vw, 56px);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      line-height: 1.25;
+    }
+
+    .bi-cover-rule {
+      display: block;
+      width: 34px;
+      height: 1px;
+      background: rgba(20, 19, 18, 0.18);
+    }
+
+    .bi-cover-sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      line-height: 1.8;
+    }
+
+    .bi-cover-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(
+        90deg,
+        #ece6d7 0%,
+        #faf6ec 26%,
+        #f3eee1 100%
+      );
+      box-shadow: inset 0 0 0 1px rgba(20, 19, 18, 0.1);
+    }
+
+    .bi-cover-back::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(20, 19, 18, 0.16),
+        rgba(20, 19, 18, 0) 14%
+      );
+    }
+
+    .bi-spine {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 13px;
+      z-index: 3;
+
+      background: linear-gradient(
+        90deg,
+        rgba(20, 19, 18, 0.18),
+        rgba(20, 19, 18, 0.02) 80%,
+        rgba(20, 19, 18, 0.1)
+      );
+      border-radius: 3px 0 0 3px;
+      pointer-events: none;
+    }
+
+    .bi-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 7%;
+      z-index: 2;
+
+      margin: 0;
+      transform: translateX(-50%);
+
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      line-height: 1.8;
+      white-space: nowrap;
+    }
+
+    .bi-hint::after {
+      content: "";
+      display: block;
+      width: 1px;
+      height: 28px;
+      margin: 12px auto 0;
+      background: var(--line);
+    }
+
+    .bi-skip {
+      position: absolute;
+      right: 5%;
+      bottom: 5%;
+      z-index: 2;
+
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      padding: 6px 0;
+      background: transparent;
+
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+    }
+
+    .bi-skip:hover,
+    .bi-skip:focus-visible {
+      color: var(--ink);
+      border-bottom-color: var(--ink);
+    }
+
+    .bi-reopen {
+      position: absolute;
+      left: 50%;
+      top: calc(50% + clamp(268px, min(31vw, 50vh), 424px) * 0.6757 + 28px);
+      z-index: 2;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    .bi-reopen[hidden] {
+      display: none;
+    }
+
+    .bi-reopen p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 10.5px;
+      letter-spacing: 0.24em;
+      line-height: 1.8;
+    }
+
+    .bi-reopen button {
+      border: 1px solid var(--line);
+      padding: 14px 24px;
+      background: transparent;
+
+      color: var(--ink);
+      font-size: 11.5px;
+      letter-spacing: 0.2em;
+
+      transition:
+        border-color 0.35s ease,
+        background 0.35s ease;
+    }
+
+    .bi-reopen button:hover,
+    .bi-reopen button:focus-visible {
+      border-color: var(--ink);
+      background: rgba(20, 19, 18, 0.04);
+    }
+
+    /* ========= 12. 阅读结束 ========= */
+
+    .book-end {
+      padding: 110px 7% 118px;
+      background: var(--paper);
+      text-align: center;
+    }
+
+    .book-end h2 {
+      margin: 18px auto 30px;
+      max-width: 620px;
+
+      font-size: clamp(22px, 2.6vw, 30px);
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      line-height: 1.9;
+    }
+
+    .book-end-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+
+      border: 1px solid var(--line);
+      padding: 16px 26px;
+      background: transparent;
+
+      color: var(--ink);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+
+      transition:
+        border-color 0.35s ease,
+        background 0.35s ease;
+    }
+
+    .book-end-button:hover,
+    .book-end-button:focus-visible {
+      border-color: var(--ink);
+      background: rgba(20, 19, 18, 0.04);
+    }
+
+    .book-end-button svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      opacity: 0.62;
+    }
+
+    @media (max-width: 700px) {
+      .bi-book {
+        width: min(70vw, 320px, 56vh);
+      }
+
+      .bi-hint {
+        bottom: 13%;
+        font-size: 10px;
+      }
+
+      .bi-skip {
+        right: 6%;
+        bottom: 4%;
+      }
+
+      .bi-reopen {
+        top: calc(50% + min(70vw, 320px, 56vh) * 0.6757 + 24px);
+        bottom: auto;
+      }
+
+      .book-end {
+        padding: 82px 7% 88px;
+      }
+    }
   </style>
 </head>
 
@@ -1130,6 +1526,67 @@
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="bg-flow" aria-hidden="true"></div>
   <div class="page-glow" aria-hidden="true"></div>
+
+  <!-- 开屏：翻开一本书 -->
+  <div class="book-intro" id="book-intro">
+
+    <div class="bi-veil" aria-hidden="true"></div>
+
+    <div class="bi-stage">
+
+      <div class="bi-book">
+
+        <div class="bi-stack" aria-hidden="true"></div>
+        <div class="bi-pages" aria-hidden="true"></div>
+
+        <div class="bi-cover" id="bi-cover">
+
+          <div class="bi-cover-face bi-cover-front">
+
+            <p class="bi-cover-kicker" lang="en">
+              GUANGDONG · HEYUAN
+            </p>
+
+            <h2 class="bi-cover-title">
+              走进连平
+            </h2>
+
+            <span class="bi-cover-rule" aria-hidden="true"></span>
+
+            <p class="bi-cover-sub">
+              山水之间，生活正好
+            </p>
+
+          </div>
+
+          <div class="bi-cover-face bi-cover-back" aria-hidden="true"></div>
+
+        </div>
+
+        <div class="bi-spine" aria-hidden="true"></div>
+
+      </div>
+
+    </div>
+
+    <p class="bi-hint">
+      向下滚动，翻开连平
+    </p>
+
+    <button class="bi-skip" type="button">
+      跳过动画
+    </button>
+
+    <div class="bi-reopen" hidden>
+      <p>
+        连平的故事，等你再次翻阅
+      </p>
+      <button type="button">
+        再次翻阅
+      </button>
+    </div>
+
+  </div>
 
   <!-- 顶部导航 -->
   <header class="site-header">
@@ -1528,6 +1985,41 @@
 
   </footer>
 
+  <!-- 阅读结束：合上这本书 -->
+  <section class="book-end" id="book-end">
+
+    <div class="reveal">
+      <div class="reveal-inner">
+
+        <p class="eyebrow" lang="en">
+          THE END
+        </p>
+
+        <h2>
+          连平的故事，等你再次翻阅。
+        </h2>
+
+        <button class="book-end-button" type="button" id="close-book">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="1.2"
+            aria-hidden="true"
+          >
+            <path d="M4 5.5c3-1.4 6-1.4 8 0 2-1.4 5-1.4 8 0v13c-3-1.4-6-1.4-8 0-2-1.4-5-1.4-8 0Z"/>
+            <path d="M12 5.5v13"/>
+          </svg>
+
+          合上这本书
+
+        </button>
+
+      </div>
+    </div>
+
+  </section>
+
   <script src="./assets/lianping-map.js?v=1"></script>
 
   <script>
@@ -1915,5 +2407,7 @@
     })();
   </script>
 
+
+  <script src="./assets/book-intro.js?v=2"></script>
 </body>
 </html>
