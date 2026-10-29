@@ -644,16 +644,36 @@ progress::-moz-progress-bar {
   -webkit-backface-visibility: hidden;
 }
 
-.card-front img {
+/* 卡片配图：默认画稿，悬停换实景 */
+
+.card-swap {
+  position: relative;
   display: block;
   width: 100%;
   height: 128px;
   margin-bottom: 18px;
+  overflow: hidden;
+}
+
+.card-swap img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 0;
   -webkit-mask-image: none;
   mask-image: none;
 }
+
+.card-swap .hover-art {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity .45s ease;
+  pointer-events: none;
+}
+
+.card-front:hover .hover-art { opacity: 0; }
 
 .card-title {
   display: block;
@@ -1101,7 +1121,15 @@ progress::-moz-progress-bar {
           <span class="card-inner">
 
             <span class="card-face card-front">
-              <img src="./img/mushroom.jpg" alt="">
+              <span class="card-swap">
+                <img src="./img/mushroom.jpg" alt="">
+                <img
+                  class="hover-art"
+                  src="./img/hover-mushroom.png"
+                  alt=""
+                  aria-hidden="true"
+                >
+              </span>
               <span class="card-title">地方物产</span>
               <span class="card-hint">点击翻开 ↗</span>
             </span>
@@ -1128,7 +1156,15 @@ progress::-moz-progress-bar {
           <span class="card-inner">
 
             <span class="card-face card-front">
-              <img src="./img/mushroom.jpg" alt="">
+              <span class="card-swap">
+                <img src="./img/mushroom.jpg" alt="">
+                <img
+                  class="hover-art"
+                  src="./img/hover-mushroom.png"
+                  alt=""
+                  aria-hidden="true"
+                >
+              </span>
               <span class="card-title">产地故事</span>
               <span class="card-hint">点击翻开 ↗</span>
             </span>
@@ -1155,7 +1191,15 @@ progress::-moz-progress-bar {
           <span class="card-inner">
 
             <span class="card-face card-front">
-              <img src="./img/mushroom.jpg" alt="">
+              <span class="card-swap">
+                <img src="./img/mushroom.jpg" alt="">
+                <img
+                  class="hover-art"
+                  src="./img/hover-mushroom.png"
+                  alt=""
+                  aria-hidden="true"
+                >
+              </span>
               <span class="card-title">餐桌故事</span>
               <span class="card-hint">点击翻开 ↗</span>
             </span>

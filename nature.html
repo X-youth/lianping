@@ -718,6 +718,15 @@ html.has-cursor select { cursor: auto; }
               hidden
             >
 
+            <img
+              class="hover-art"
+              id="hover-scene-cave"
+              src="./img/hover-cave.png"
+              alt=""
+              aria-hidden="true"
+              hidden
+            >
+
           </div>
 
           <p class="note">
@@ -972,6 +981,9 @@ function renderPlace() {
 
   document.getElementById("hover-scene-village").hidden =
     selectedPlace !== "village";
+
+  document.getElementById("hover-scene-cave").hidden =
+    selectedPlace !== "cave";
 
   document.getElementById("season-controls").hidden =
     selectedPlace !== "orchard";
