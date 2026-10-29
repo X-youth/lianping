@@ -259,32 +259,41 @@
       text-align: center;
     }
 
-    /* 背景：大面积柔焦灰影缓慢漂移，中心留白 */
+    /* 背景：成束细曲线缓慢流动，中心留白给文字 */
 
-    .hero-shade {
-      --shade-blur: 44px;
-      --shade-opacity: 0.95;
-
+    .hero-canvas {
       position: absolute;
-      top: -7%;
-      left: -7%;
+      inset: 0;
       z-index: 0;
       display: block;
-      width: 114%;
-      height: 114%;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
 
-      opacity: 0;
-      animation: hero-shade-in 2.2s ease 0.15s both;
-      filter: blur(var(--shade-blur)) saturate(0.55);
+      animation: hero-canvas-in 1.4s ease 0.35s both;
+
+      -webkit-mask-image: radial-gradient(
+        ellipse 64% 48% at 50% 46%,
+        transparent 0%,
+        transparent 42%,
+        rgba(0, 0, 0, 0.18) 66%,
+        #000 92%
+      );
+      mask-image: radial-gradient(
+        ellipse 64% 48% at 50% 46%,
+        transparent 0%,
+        transparent 42%,
+        rgba(0, 0, 0, 0.18) 66%,
+        #000 92%
+      );
     }
 
-    @keyframes hero-shade-in {
+    @keyframes hero-canvas-in {
       from {
         opacity: 0;
       }
       to {
-        opacity: var(--shade-opacity);
+        opacity: 1;
       }
     }
 
@@ -907,9 +916,21 @@
         margin: 22px 0 24px;
       }
 
-      .hero-shade {
-        --shade-blur: 34px;
-        --shade-opacity: 0.92;
+      .hero-canvas {
+        -webkit-mask-image: radial-gradient(
+          ellipse 84% 38% at 50% 46%,
+          transparent 0%,
+          transparent 40%,
+          rgba(0, 0, 0, 0.18) 66%,
+          #000 94%
+        );
+        mask-image: radial-gradient(
+          ellipse 84% 38% at 50% 46%,
+          transparent 0%,
+          transparent 40%,
+          rgba(0, 0, 0, 0.18) 66%,
+          #000 94%
+        );
       }
 
       .hero-subtitle {
@@ -1066,7 +1087,7 @@
   <!-- 第一屏 -->
   <section class="hero" aria-labelledby="hero-title">
 
-    <canvas class="hero-shade" id="hero-shade" aria-hidden="true"></canvas>
+    <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
 
     <div class="hero-inner">
       <p class="hero-location">广东 · 河源 · 连平</p>
@@ -1782,144 +1803,174 @@
   </script>
 
   <script>
-    /* 首屏背景：大面积柔焦灰影缓慢漂移，参数集中在 SHADE 中 */
+    /* 首屏：成束细曲线缓慢流动，24 秒一循环，鼠标靠近柔和弯折 */
 
     (function () {
-      const canvas = document.getElementById("hero-shade");
+      const canvas = document.getElementById("hero-canvas");
       if (!canvas) return;
 
       const ctx = canvas.getContext("2d");
       const hero = canvas.closest(".hero");
-
-      const SHADE = {
-        color: "150, 146, 138", // 灰影颜色（偏暖灰）
-        strength: 0.15,         // 灰影浓度：越大越深
-        speed: 1,               // 流动速度倍率
-        mouse: 1,               // 鼠标响应强度
-        resolution: 6           // 低分辨率倍率：越大越柔、越省性能
-      };
-
       const reduceMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
-      const lowPower = (navigator.hardwareConcurrency || 8) <= 4;
-
-      // 灰影：相对位置、大小、浓度权重、相位
-      const blobs = [
-        { x: 0.14, y: 0.15, r: 0.62, a: 1.0, p: 0.0 },
-        { x: 0.88, y: 0.2, r: 0.52, a: 0.85, p: 1.7 },
-        { x: 0.7, y: 0.88, r: 0.66, a: 0.95, p: 3.1 },
-        { x: 0.22, y: 0.82, r: 0.48, a: 0.75, p: 4.4 },
-        { x: 0.52, y: 0.64, r: 0.5, a: 0.4, p: 5.6 }
-      ];
 
       let W = 0;
       let H = 0;
-      let last = 0;
+      let bundles = [];
+      let scrollY = window.scrollY || 0;
 
-      const mouse = { tx: 0, ty: 0, x: 0, y: 0 };
+      const pointer = { x: -9999, bend: 0, target: 0, vel: 0 };
 
-      function build() {
-        const w = canvas.clientWidth || hero.clientWidth;
-        const h = canvas.clientHeight || hero.clientHeight;
-
-        W = Math.max(Math.round(w / SHADE.resolution), 48);
-        H = Math.max(Math.round(h / SHADE.resolution), 48);
-
-        canvas.width = W;
-        canvas.height = H;
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+      function colorFor(bundle, line) {
+        if (bundle.tone === 3) {
+          return line % 4 === 0
+            ? "rgba(211, 158, 155, 0.32)"
+            : "rgba(198, 133, 88, 0.28)";
+        }
+        if (bundle.tone === 1) {
+          return line % 4 === 0
+            ? "rgba(122, 141, 113, 0.3)"
+            : "rgba(135, 156, 168, 0.42)";
+        }
+        return line % 5 === 0
+          ? "rgba(135, 156, 168, 0.28)"
+          : "rgba(122, 141, 113, 0.46)";
       }
 
-      function paint(t) {
+      function build() {
+        const rect = hero.getBoundingClientRect();
+        W = Math.max(Math.round(rect.width), 320);
+        H = Math.max(Math.round(rect.height), 480);
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(W * dpr);
+        canvas.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const compact = W < 760;
+        const count = compact ? 3 : 4;
+        const tones = compact ? [0, 1, 3] : [0, 1, 2, 3];
+
+        bundles = [];
+        for (let i = 0; i < count; i++) {
+          bundles.push({
+            cy: H * (compact ? 0.2 + i * 0.3 : 0.16 + i * 0.23),
+            gap: H * (compact ? 0.026 : 0.019),
+            lines: compact ? 7 : 9,
+            tone: tones[i],
+            k1: 1.05 + i * 0.2,
+            k2: 2.3 + i * 0.28,
+            a1: H * (0.042 + i * 0.005),
+            a2: H * (0.014 + i * 0.003),
+            ph1: i * 1.7,
+            ph2: i * 2.6,
+            speed: 0.32 + i * 0.06
+          });
+        }
+      }
+
+      function render(now) {
+        const t = reduceMotion ? 1.4 : (now / 1000) * (Math.PI * 2 / 24);
+
+        pointer.vel =
+          (pointer.vel + (pointer.target - pointer.bend) * 0.02) * 0.9;
+        pointer.bend += pointer.vel;
+
         ctx.clearRect(0, 0, W, H);
-        ctx.save();
-        ctx.translate(mouse.x * SHADE.mouse * 1.4, mouse.y * SHADE.mouse * 1.1);
+        ctx.lineWidth = 1;
 
-        const R = Math.max(W, H);
+        const step = W < 760 ? 9 : 6;
+        const parallax = scrollY * 0.05;
 
-        blobs.forEach((b) => {
-          const dx =
-            Math.sin(t * 0.21 + b.p) * 0.045 +
-            Math.sin(t * 0.083 + b.p * 2) * 0.02;
-          const dy =
-            Math.sin(t * 0.17 + b.p * 1.3) * 0.038 +
-            Math.cos(t * 0.061 + b.p) * 0.018;
+        bundles.forEach((bundle) => {
+          const half = (bundle.lines - 1) / 2;
+          const swing = 1 + 0.16 * Math.sin(t * 0.5 + bundle.ph1);
 
-          const cx = (b.x + dx) * W;
-          const cy = (b.y + dy) * H;
-          const radius = b.r * R * (1 + 0.11 * Math.sin(t * 0.12 + b.p));
+          for (let line = 0; line < bundle.lines; line += 1) {
+            const baseY = bundle.cy + (line - half) * bundle.gap;
 
-          // 三个错位的光斑叠成不规则有机形
-          for (let k = 0; k < 3; k += 1) {
-            const angle = t * 0.07 + b.p + k * 2.1;
-            const lx = cx + Math.cos(angle) * radius * 0.3;
-            const ly = cy + Math.sin(angle * 0.8) * radius * 0.22;
-            const lr = radius * (0.66 + 0.1 * Math.sin(t * 0.16 + k + b.p));
-            const alpha = SHADE.strength * b.a * (k === 0 ? 1 : 0.5);
+            ctx.beginPath();
 
-            const g = ctx.createRadialGradient(lx, ly, 0, lx, ly, lr);
-            g.addColorStop(0, "rgba(" + SHADE.color + "," + alpha + ")");
-            g.addColorStop(
-              0.5,
-              "rgba(" + SHADE.color + "," + alpha * 0.55 + ")"
-            );
-            g.addColorStop(1, "rgba(" + SHADE.color + ",0)");
+            for (let x = -step; x <= W + step; x += step) {
+              const u = x / W;
 
-            ctx.fillStyle = g;
-            ctx.fillRect(lx - lr, ly - lr, lr * 2, lr * 2);
+              let y =
+                Math.sin(u * Math.PI * bundle.k1 + bundle.ph1 + t * bundle.speed) *
+                  bundle.a1 * swing +
+                Math.sin(
+                  u * Math.PI * bundle.k2 -
+                    bundle.ph2 -
+                    t * bundle.speed * 0.8
+                ) * bundle.a2;
+
+              if (pointer.bend) {
+                const d = (x - pointer.x) / (W * 0.3);
+                y += Math.exp(-d * d) * pointer.bend;
+              }
+
+              const py = baseY + y + parallax;
+
+              if (x <= -step) ctx.moveTo(x, py);
+              else ctx.lineTo(x, py);
+            }
+
+            ctx.strokeStyle = colorFor(bundle, line);
+            ctx.stroke();
           }
         });
-
-        ctx.restore();
       }
 
       function frame(now) {
         const rect = hero.getBoundingClientRect();
-        const visible = rect.bottom > -80 && rect.top < window.innerHeight + 80;
 
-        if (visible) {
-          const gap = lowPower ? 34 : 0;
-
-          if (!last || now - last >= gap) {
-            last = now;
-            mouse.x += (mouse.tx - mouse.x) * 0.045;
-            mouse.y += (mouse.ty - mouse.y) * 0.045;
-            paint((now / 1000) * SHADE.speed);
-          }
+        if (rect.bottom > -60 && rect.top < window.innerHeight + 60) {
+          render(now);
         }
 
-        requestAnimationFrame(frame);
+        if (!reduceMotion) requestAnimationFrame(frame);
       }
+
+      window.addEventListener(
+        "pointermove",
+        (event) => {
+          const rect = hero.getBoundingClientRect();
+          pointer.x = event.clientX - rect.left;
+          pointer.target = H * 0.018;
+        },
+        { passive: true }
+      );
+
+      document.documentElement.addEventListener(
+        "mouseleave",
+        () => {
+          pointer.target = 0;
+        },
+        { passive: true }
+      );
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          scrollY = window.scrollY || 0;
+        },
+        { passive: true }
+      );
+
+      let lastWidth = window.innerWidth;
+
+      window.addEventListener(
+        "resize",
+        () => {
+          if (window.innerWidth === lastWidth) return;
+          lastWidth = window.innerWidth;
+          build();
+        },
+        { passive: true }
+      );
 
       build();
-
-      if (!reduceMotion) {
-        window.addEventListener(
-          "pointermove",
-          (event) => {
-            mouse.tx = (event.clientX / window.innerWidth - 0.5) * 1.6;
-            mouse.ty = (event.clientY / window.innerHeight - 0.5) * 1.6;
-          },
-          { passive: true }
-        );
-
-        let lastWidth = window.innerWidth;
-
-        window.addEventListener(
-          "resize",
-          () => {
-            if (window.innerWidth === lastWidth) return;
-            lastWidth = window.innerWidth;
-            build();
-          },
-          { passive: true }
-        );
-
-        requestAnimationFrame(frame);
-      } else {
-        paint(6.2);
-      }
+      requestAnimationFrame(frame);
     })();
   </script>
 
