@@ -175,51 +175,27 @@
       place-items: center;
 
       overflow: hidden;
-      background: #20302a;
-      color: #f6f2e6;
+      background: radial-gradient(
+        120% 105% at 50% 0%,
+        #fdfbf4 0%,
+        #f8f5ed 52%,
+        #f2edde 100%
+      );
+      color: var(--ink);
       text-align: center;
     }
 
-    /* 首屏实景：围龙屋，保留材质，不做羽化 */
-    .hero-scenery {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 42%;
-    }
-
-    /* 顶部压暗护住导航，底部落回纸面，中间保留光影 */
-    .hero-shade {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-
-      background: linear-gradient(
-        180deg,
-        #182720b3 0%,
-        #18272059 14%,
-        #18272000 30%,
-        #18272000 62%,
-        #f8f5ed21 84%,
-        var(--paper) 100%
-      );
-    }
-
     /*
-      白墙上流动的光。
-      四团暖白光斑缓慢漂移，用 screen 叠在实景上，
-      鼠标移动时整层跟着轻微偏移。
+      白墙上的光：
+      一层缓慢漂移的明暗，加上一团跟随鼠标的暖白光。
+      两层叠加，让画面有呼吸也有回应。
     */
     .hero-light {
       position: absolute;
-      inset: -18%;
+      inset: -16%;
       z-index: 1;
 
       pointer-events: none;
-      mix-blend-mode: screen;
-      opacity: 0.42;
 
       will-change: transform;
     }
@@ -230,61 +206,98 @@
 
       border-radius: 50%;
 
-      background: radial-gradient(
-        circle,
-        #fff6e4 0%,
-        #fff6e480 42%,
-        #fff6e400 70%
-      );
-
-      filter: blur(38px);
+      filter: blur(46px);
       will-change: transform;
     }
 
     .hero-light i:nth-child(1) {
-      left: 4%;
-      top: 2%;
+      left: 2%;
+      top: -4%;
 
-      width: 46%;
+      width: 48%;
       aspect-ratio: 1;
 
-      animation: light-drift-a 24s ease-in-out infinite alternate;
+      background: radial-gradient(
+        circle,
+        #e8e1cf 0%,
+        #e8e1cf00 70%
+      );
+
+      opacity: 0.6;
+
+      animation: light-drift-a 25s ease-in-out infinite alternate;
     }
 
     .hero-light i:nth-child(2) {
-      right: 2%;
-      top: 14%;
-
-      width: 38%;
-      aspect-ratio: 1;
-
-      opacity: 0.8;
-
-      animation: light-drift-b 31s ease-in-out infinite alternate;
-    }
-
-    .hero-light i:nth-child(3) {
-      left: 24%;
-      bottom: 0%;
+      right: -2%;
+      top: 8%;
 
       width: 42%;
       aspect-ratio: 1;
 
-      opacity: 0.7;
+      background: radial-gradient(
+        circle,
+        #ffffff 0%,
+        #ffffff00 68%
+      );
 
-      animation: light-drift-c 27s ease-in-out infinite alternate;
+      opacity: 0.9;
+
+      animation: light-drift-b 32s ease-in-out infinite alternate;
+    }
+
+    .hero-light i:nth-child(3) {
+      left: 18%;
+      bottom: -6%;
+
+      width: 46%;
+      aspect-ratio: 1;
+
+      background: radial-gradient(
+        circle,
+        #ece5d3 0%,
+        #ece5d300 72%
+      );
+
+      opacity: 0.5;
+
+      animation: light-drift-c 28s ease-in-out infinite alternate;
     }
 
     .hero-light i:nth-child(4) {
-      right: 18%;
-      bottom: 8%;
+      right: 12%;
+      bottom: 2%;
 
-      width: 30%;
+      width: 34%;
       aspect-ratio: 1;
 
-      opacity: 0.55;
+      background: radial-gradient(
+        circle,
+        #ffffff 0%,
+        #ffffff00 66%
+      );
 
-      animation: light-drift-b 19s ease-in-out infinite alternate-reverse;
+      opacity: 0.7;
+
+      animation: light-drift-b 21s ease-in-out infinite alternate-reverse;
+    }
+
+    /* 跟着鼠标走的暖白光 */
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+
+      pointer-events: none;
+
+      background: radial-gradient(
+        420px circle at var(--gx, 50%) var(--gy, 42%),
+        #fffdf2 0%,
+        #fffaeec4 26%,
+        #fff9e000 62%
+      );
+
+      filter: blur(8px);
     }
 
     @keyframes light-drift-a {
@@ -314,7 +327,6 @@
       }
     }
 
-    /* 标题后方只压一圈柔和的暗色，照片保持清晰 */
     .hero-content {
       position: relative;
       z-index: 3;
@@ -323,26 +335,10 @@
       padding: 30px 40px;
     }
 
-    .hero-content::before {
-      content: "";
-      position: absolute;
-      inset: -24% -32%;
-      z-index: -1;
-
-      border-radius: 50%;
-
-      background: radial-gradient(
-        ellipse 55% 52% at 50% 50%,
-        #101d17cc 0%,
-        #101d1780 42%,
-        #101d1700 72%
-      );
-    }
-
     .hero-location {
       font-size: 12px;
       letter-spacing: 7px;
-      color: #f6f2e6cc;
+      color: #5f6b5b;
     }
 
     .hero-title {
@@ -351,13 +347,13 @@
       font-size: clamp(72px, 11vw, 150px);
       letter-spacing: 0.06em;
       padding-left: 0.06em;
-      text-shadow: 0 2px 34px #10180fa6;
+      text-shadow: 0 2px 30px #f8f5edcc;
     }
 
     .hero-subtitle {
       font-size: 17px;
       letter-spacing: 6px;
-      color: #f6f2e6e0;
+      color: #4b584b;
     }
 
     .scroll-guide {
@@ -376,34 +372,14 @@
 
       font-size: 11px;
       letter-spacing: 3px;
-      color: #f6f2e6cc;
+      color: #5f6b5b;
     }
 
     .scroll-guide::after {
       content: "";
       width: 1px;
       height: 40px;
-      background: #f6f2e680;
-    }
-
-    .hero-note {
-      position: absolute;
-      right: 25px;
-      bottom: 20px;
-      z-index: 3;
-
-      padding: 8px 12px;
-
-      border-radius: 10px;
-
-      background: #14211b99;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-
-      color: #f6f2e6d9;
-      font-size: 10px;
-      line-height: 1.7;
-      letter-spacing: 1px;
+      background: #314b4066;
     }
 
     /* ========= 4. 地点介绍 ========= */
@@ -1064,12 +1040,6 @@
         letter-spacing: 3px;
       }
 
-      .hero-note {
-        max-width: 90px;
-        line-height: 1.8;
-        text-align: right;
-      }
-
       .about-section {
         padding: 75px 7%;
       }
@@ -1172,13 +1142,7 @@
   <!-- 第一屏 -->
   <section class="hero" aria-labelledby="hero-title">
 
-    <img
-      class="hero-scenery"
-      src="./img/weilongwu.png"
-      alt="大湖镇围龙屋：半月形池塘环抱着客家围屋，屋后铺开连平的田野与村庄"
-    >
-
-    <!-- 墙上的光：缓慢漂移的暖白光斑 -->
+    <!-- 白墙上的光：缓慢漂移的明暗 + 跟随鼠标的暖白光 -->
     <div class="hero-light" aria-hidden="true">
       <i></i>
       <i></i>
@@ -1186,7 +1150,7 @@
       <i></i>
     </div>
 
-    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
 
     <div class="hero-content">
       <p class="hero-location">广东 · 河源 · 连平</p>
@@ -1203,10 +1167,6 @@
     <a class="scroll-guide" href="#about">
       向下探索
     </a>
-
-    <span class="hero-note">
-      首屏实景：大湖镇 · 围龙屋
-    </span>
 
   </section>
 
@@ -1593,26 +1553,32 @@
     (function () {
       const hero = document.querySelector(".hero");
       const light = document.querySelector(".hero-light");
+      const glow = document.querySelector(".hero-glow");
 
-      if (!hero || !light || motionPreference.matches) {
+      if (!hero || !light || !glow || motionPreference.matches) {
         return;
       }
 
-      let targetX = 0;
-      let targetY = 0;
-      let currentX = 0;
-      let currentY = 0;
+      let targetX = 50;
+      let targetY = 42;
+      let currentX = 50;
+      let currentY = 42;
       let running = false;
 
       function tick() {
-        currentX += (targetX - currentX) * 0.06;
-        currentY += (targetY - currentY) * 0.06;
+        currentX += (targetX - currentX) * 0.1;
+        currentY += (targetY - currentY) * 0.1;
 
+        // 光斑圆心跟着指针走，略有延迟，像手电筒慢慢扫过墙面
+        glow.style.setProperty("--gx", currentX.toFixed(2) + "%");
+        glow.style.setProperty("--gy", currentY.toFixed(2) + "%");
+
+        // 底层明暗反向轻移，形成一点视差
         light.style.transform =
           "translate3d(" +
-          currentX.toFixed(2) +
+          ((currentX - 50) * 0.55).toFixed(2) +
           "px," +
-          currentY.toFixed(2) +
+          ((currentY - 42) * 0.45).toFixed(2) +
           "px,0)";
 
         if (Math.abs(targetX - currentX) < 0.05 &&
@@ -1627,18 +1593,8 @@
       hero.addEventListener("pointermove", (event) => {
         const rect = hero.getBoundingClientRect();
 
-        targetX = ((event.clientX - rect.left) / rect.width - 0.5) * 34;
-        targetY = ((event.clientY - rect.top) / rect.height - 0.5) * 22;
-
-        if (!running) {
-          running = true;
-          requestAnimationFrame(tick);
-        }
-      });
-
-      hero.addEventListener("pointerleave", () => {
-        targetX = 0;
-        targetY = 0;
+        targetX = ((event.clientX - rect.left) / rect.width) * 100;
+        targetY = ((event.clientY - rect.top) / rect.height) * 100;
 
         if (!running) {
           running = true;
@@ -1663,11 +1619,15 @@
         defaults: { ease: "outCubic" }
       });
 
-      // 照片轻轻推近落位
-      tl.add(".hero-scenery", {
-        scale: [1.07, 1],
-        opacity: [0.55, 1],
-        duration: 1600
+      // 光层淡淡浮现
+      tl.add(".hero-glow", {
+        opacity: [0, 1],
+        duration: 1500
+      });
+
+      tl.add(".hero-light", {
+        opacity: [0, 1],
+        duration: 1500
       });
 
       // 标题组依次浮起，字距顺势收紧
@@ -1699,12 +1659,6 @@
         ".scroll-guide",
         { opacity: [0, 1], duration: 600 },
         1200
-      );
-
-      tl.add(
-        ".hero-note",
-        { opacity: [0, 1], duration: 600 },
-        1300
       );
     })();
   </script>
