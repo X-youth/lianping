@@ -702,7 +702,7 @@
       position: relative;
       max-width: 1080px;
       margin: 0 auto;
-      aspect-ratio: 1.32;
+      aspect-ratio: 1000 / 620;
       isolation: isolate;
     }
 
@@ -717,7 +717,7 @@
 
     .map-caption {
       position: absolute;
-      left: 2%;
+      left: 0;
       top: 0;
       z-index: 1;
 
@@ -728,74 +728,134 @@
       line-height: 2;
     }
 
+    .map-neighbor {
+      fill: none;
+      stroke: rgba(20, 19, 18, 0.12);
+      stroke-width: 1;
+    }
+
+    .map-county {
+      fill: rgba(146, 174, 118, 0.22);
+      stroke: rgba(20, 19, 18, 0.46);
+      stroke-width: 1.1;
+    }
+
+    .map-link {
+      fill: none;
+      stroke: #be6949;
+      stroke-width: 1;
+      stroke-dasharray: 4 5;
+      opacity: 0.42;
+    }
+
+    .map-dot {
+      fill: #be6949;
+    }
+
+    .map-label {
+      position: absolute;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      color: var(--muted);
+      font-size: 10.5px;
+      letter-spacing: 0.16em;
+      line-height: 1.6;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .map-label.is-county {
+      color: var(--ink);
+      font-size: 13px;
+      letter-spacing: 0.34em;
+      opacity: 0.5;
+    }
+
+    .map-label.is-outside {
+      letter-spacing: 0.1em;
+      opacity: 0.55;
+    }
+
     .entry {
       position: absolute;
       z-index: 2;
       display: block;
-      width: 190px;
-      padding-top: 16px;
-      border-top: 1px solid var(--line);
+      width: 168px;
+      text-align: center;
     }
 
-    .entry-num {
+    .entry-thumb {
       display: block;
-      color: var(--muted);
-      font-size: 28px;
-      letter-spacing: 0.1em;
-      line-height: 1;
-      transition: color 0.35s ease;
+      width: 96px;
+      height: 96px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid rgba(20, 19, 18, 0.16);
+      border-radius: 50%;
+      background: var(--pale);
+      transition:
+        border-color 0.4s ease,
+        transform 0.5s cubic-bezier(0.2, 0.6, 0.2, 1);
+    }
+
+    .entry-thumb img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .entry:hover .entry-thumb,
+    .entry:focus-visible .entry-thumb {
+      border-color: #be6949;
+      transform: scale(1.04);
     }
 
     .entry-title {
       display: block;
-      margin-top: 14px;
+      margin-top: 16px;
       color: var(--ink);
-      font-size: 22px;
-      letter-spacing: 0.18em;
+      font-size: 19px;
+      letter-spacing: 0.16em;
       line-height: 1.6;
     }
 
     .entry-description {
       display: block;
-      margin-top: 8px;
+      margin-top: 6px;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 10.5px;
       letter-spacing: 0.12em;
       line-height: 1.9;
     }
 
     .entry-hint {
       display: block;
-      margin-top: 8px;
-      color: var(--accent);
+      margin-top: 4px;
+      color: #be6949;
       font-size: 10px;
       letter-spacing: 0.16em;
       line-height: 1.8;
     }
 
-    .entry:hover .entry-num,
-    .entry:focus-visible .entry-num {
-      color: var(--ink);
-    }
-
-    .entry-history {
-      left: 9%;
-      top: 22%;
-    }
-
     .entry-nature {
-      right: 7%;
-      top: 12%;
-    }
-
-    .entry-life {
       left: 14%;
-      bottom: 12%;
+      top: 4%;
     }
 
     .entry-food {
-      right: 8%;
-      bottom: 18%;
+      left: 72%;
+      top: 8%;
+    }
+
+    .entry-history {
+      left: 74%;
+      bottom: 9%;
+    }
+
+    .entry-life {
+      left: 34%;
+      bottom: 3%;
     }
 
     .map-note {
@@ -977,53 +1037,57 @@
 
       .map-stage {
         aspect-ratio: auto;
-        height: 660px;
+        height: auto;
+        max-width: none;
       }
 
-      .map-caption {
-        left: 0;
-        top: 0;
-        font-size: 9.5px;
+      .explore-map,
+      .map-caption,
+      .map-label {
+        display: none;
       }
 
       .entry {
-        width: 42vw;
-        max-width: 190px;
-        padding-top: 12px;
+        position: static;
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        grid-template-rows: auto auto auto;
+        column-gap: 18px;
+        row-gap: 2px;
+        align-items: center;
+
+        width: 100%;
+        padding: 18px 0;
+        border-top: 1px solid var(--line);
+        text-align: left;
       }
 
-      .entry-num {
-        font-size: 23px;
+      .entry:last-of-type {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .entry-thumb {
+        grid-row: 1 / span 3;
+        width: 64px;
+        height: 64px;
+        margin: 0;
       }
 
       .entry-title {
-        margin-top: 10px;
+        margin-top: 0;
         font-size: 17px;
         letter-spacing: 0.14em;
       }
 
       .entry-description {
+        grid-column: 2;
+        margin-top: 0;
         font-size: 10px;
       }
 
-      .entry-history {
-        left: 0;
-        top: 18%;
-      }
-
-      .entry-nature {
-        right: 0;
-        top: 8%;
-      }
-
-      .entry-life {
-        left: 0;
-        bottom: 10%;
-      }
-
-      .entry-food {
-        right: 0;
-        bottom: 26%;
+      .entry-hint {
+        grid-column: 2;
+        margin-top: 0;
       }
 
       .site-footer {
@@ -1281,103 +1345,61 @@
               认识连平
             </p>
 
-            <!-- 极简线稿地图 -->
+            <!-- 连平县地图 -->
             <svg
               class="explore-map"
-              viewBox="0 0 1000 800"
-              preserveAspectRatio="none"
+              viewBox="0 0 1000 620"
+              preserveAspectRatio="xMidYMid meet"
               aria-hidden="true"
             >
 
-              <!-- 地域轮廓 -->
-              <path
-                d="M150 210C230 120 360 95 500 120S760 120 845 215
-                   C930 310 905 430 835 515S700 730 555 735
-                   S300 780 205 655 60 350 150 210Z"
-                fill="none"
-                stroke="#141312"
-                stroke-width="1"
-              />
-
-              <path
-                d="M250 250C340 185 470 175 590 205S780 240 800 340
-                   C820 440 745 520 640 560S420 620 310 560 175 430 250 250Z"
-                fill="none"
-                stroke="#14131226"
-                stroke-width="1"
-              />
-
-              <!-- 河流 -->
-              <path
-                d="M620 245C470 330 730 350 600 430
-                   S420 510 570 585S520 680 430 750"
-                fill="none"
-                stroke="#7d6b52"
-                stroke-width="1.2"
-                stroke-dasharray="7 7"
-              />
-
-              <!-- 小路 -->
-              <path
-                d="M285 310C330 180 740 270 775 350
-                   S610 510 700 600
-                   S370 720 290 560"
-                fill="none"
-                stroke="#14131255"
-                stroke-width="1"
-                stroke-dasharray="3 9"
-              />
-
-              <!-- 山形 -->
-              <g
-                fill="none"
-                stroke="#14131266"
-                stroke-width="1"
-              >
-                <path d="M510 260 620 90 745 260"/>
-                <path d="M640 260 770 120 910 260"/>
-                <path d="M430 285 530 165 650 285"/>
+              <!-- 相邻县域 -->
+              <g class="map-neighbors">
+                <path class="map-neighbor" d="M682,66 L675,69 L671,64 L663,59 L660,65 L652,66 L638,56 L619,61 L621,71 L619,78 L624,87 L622,95 L626,104 L621,106 L616,118 L612,114 L608,115 L598,141 L603,144 L605,153 L598,166 L599,175 L597,180 L587,187 L596,195 L602,205 L610,209 L616,206 L620,215 L628,218 L628,225 L640,240 L625,252 L631,267 L636,272 L629,277 L627,284 L640,295 L633,307 L644,321 L640,331 L635,362 L637,366 L644,367 L657,362 L670,373 L676,374 L680,369 L677,343 L679,335 L683,328 L687,327 L693,333 L696,354 L702,358 L706,358 L709,353 L712,339 L723,337 L730,342 L734,353 L744,356 L747,369 L772,354 L781,352 L780,367 L787,371 L794,390 L800,390 L807,401 L820,404 L825,419 L825,425 L829,430 L828,436 L841,443 L856,435 L867,445 L868,452 L872,458 L887,463 L899,462 L903,479 L916,477 L928,471 L933,464 L942,467 L947,459 L961,456 L981,462 L992,456 L1005,440 L1027,438 L1037,418 L1049,408 L1047,386 L1035,383 L1027,376 L1012,374 L1013,354 L1003,348 L1002,345 L1004,341 L1001,330 L1002,324 L997,320 L1005,309 L1018,306 L1027,295 L1032,274 L1030,271 L1030,255 L1037,252 L1038,246 L1049,241 L1053,236 L1042,219 L1042,212 L1049,213 L1039,202 L1035,191 L1046,182 L1050,171 L1036,163 L1035,157 L1042,155 L1042,151 L1039,147 L1040,145 L1053,148 L1055,146 L1034,133 L1025,116 L1026,113 L1032,114 L1037,105 L1043,102 L1055,100 L1054,83 L1057,77 L1063,69 L1080,58 L1078,53 L1057,42 L1039,23 L1036,16 L1024,11 L1014,-4 L1015,-10 L1013,-14 L990,-17 L978,-11 L972,-12 L964,-4 L953,-4 L955,1 L952,1 L952,6 L956,4 L949,12 L945,6 L940,5 L936,8 L934,2 L928,2 L929,-4 L925,-1 L917,-22 L911,-19 L910,-25 L895,-25 L893,-31 L891,-23 L885,-18 L887,-11 L873,-1 L868,7 L861,3 L854,4 L850,-2 L848,-2 L840,3 L829,3 L815,11 L806,22 L797,25 L793,20 L794,10 L779,9 L774,11 L769,19 L770,30 L765,36 L768,41 L761,50 L764,64 L758,77 L757,88 L751,89 L748,100 L736,106 L730,102 L724,87 L728,74 L718,69 L706,75 L700,82 L683,68 Z"/>
+                <path class="map-neighbor" d="M918,476 L903,479 L899,462 L887,463 L872,458 L868,452 L867,445 L856,435 L841,443 L831,439 L828,436 L829,430 L825,425 L825,419 L820,404 L807,401 L800,390 L796,389 L784,397 L755,404 L752,425 L738,452 L734,453 L730,450 L726,438 L716,438 L707,441 L703,447 L709,457 L709,463 L695,466 L685,478 L676,480 L673,489 L659,482 L648,489 L644,488 L636,495 L626,496 L623,499 L625,506 L615,521 L608,518 L601,524 L588,520 L576,524 L567,523 L563,513 L565,503 L550,489 L550,482 L545,477 L537,472 L530,473 L527,478 L526,484 L547,505 L546,524 L536,524 L532,521 L522,524 L510,540 L503,539 L501,526 L494,518 L495,511 L480,501 L475,506 L474,512 L470,512 L462,507 L455,512 L453,499 L450,499 L435,527 L431,529 L421,518 L417,518 L416,519 L418,531 L406,550 L376,565 L372,570 L371,580 L375,597 L362,597 L357,610 L351,602 L337,605 L340,611 L331,616 L328,624 L330,630 L335,633 L333,635 L328,633 L326,643 L331,655 L326,661 L329,668 L323,672 L321,677 L325,691 L324,694 L315,695 L313,709 L306,712 L308,720 L304,726 L299,728 L295,735 L294,741 L300,746 L304,747 L303,749 L293,752 L281,764 L278,792 L283,805 L290,806 L292,810 L290,811 L292,816 L297,821 L295,828 L289,834 L288,841 L292,851 L291,858 L305,863 L306,868 L302,873 L307,879 L314,882 L322,865 L325,869 L330,870 L339,888 L340,895 L345,898 L354,895 L358,897 L359,913 L365,911 L374,918 L402,903 L410,904 L436,916 L442,935 L448,935 L451,930 L455,933 L462,932 L472,918 L478,914 L488,915 L490,912 L508,910 L507,907 L510,899 L507,893 L509,889 L505,884 L513,874 L525,868 L515,855 L514,850 L525,845 L527,838 L545,843 L550,835 L549,829 L556,829 L558,827 L556,816 L559,811 L565,814 L574,802 L583,802 L585,798 L580,799 L577,797 L581,794 L587,797 L582,792 L586,787 L583,783 L582,778 L588,768 L595,768 L596,771 L600,768 L605,771 L603,780 L611,784 L611,788 L623,799 L620,804 L622,812 L619,812 L616,815 L617,819 L615,822 L618,825 L622,835 L626,838 L621,852 L633,859 L633,862 L636,861 L639,864 L644,864 L650,872 L657,865 L664,869 L673,867 L677,869 L679,864 L682,867 L685,866 L700,855 L706,859 L706,862 L718,858 L723,864 L723,869 L728,864 L735,868 L744,865 L752,866 L755,862 L761,864 L772,858 L777,863 L785,865 L793,862 L799,864 L805,872 L814,870 L815,874 L812,878 L812,882 L817,880 L816,884 L822,887 L830,884 L827,882 L831,866 L843,859 L848,860 L854,853 L859,853 L865,857 L867,866 L879,865 L881,880 L890,882 L892,887 L903,889 L907,894 L915,894 L922,904 L920,909 L923,913 L941,919 L949,915 L954,918 L959,918 L964,910 L972,912 L970,908 L973,902 L985,902 L993,893 L1006,892 L1015,881 L1010,877 L1009,869 L1015,865 L1021,867 L1027,862 L1030,863 L1031,858 L1040,851 L1043,854 L1066,851 L1067,857 L1075,861 L1086,860 L1099,847 L1115,853 L1115,849 L1139,830 L1142,829 L1145,822 L1150,820 L1144,811 L1151,813 L1154,809 L1150,808 L1151,801 L1143,799 L1143,796 L1148,788 L1146,783 L1147,774 L1152,770 L1127,757 L1126,747 L1117,742 L1108,726 L1101,723 L1103,715 L1090,714 L1085,703 L1077,700 L1081,691 L1074,692 L1070,681 L1058,680 L1059,677 L1055,673 L1049,678 L1049,683 L1040,682 L1037,679 L1032,683 L1026,682 L1017,690 L1017,685 L1013,686 L1013,683 L1008,685 L1001,677 L990,674 L991,667 L997,661 L995,658 L1001,654 L1001,649 L997,647 L990,650 L975,636 L974,632 L967,632 L967,626 L970,624 L966,619 L968,617 L977,617 L985,627 L993,628 L997,620 L981,604 L973,590 L971,582 L959,580 L955,569 L949,568 L950,557 L944,553 L944,550 L951,541 L943,532 L942,520 L933,532 L909,538 L903,537 L901,531 L896,527 L902,519 L906,505 L915,499 L916,484 Z"/>
               </g>
 
-              <!-- 节点 -->
-              <g fill="none" stroke="#14131288">
-                <circle cx="285" cy="310" r="3"/>
-                <circle cx="775" cy="350" r="3"/>
-                <circle cx="290" cy="560" r="3"/>
-                <circle cx="700" cy="600" r="3"/>
+              <!-- 连平县 -->
+              <path class="map-county" d="M332,105 L325,105 L321,104 L320,97 L317,94 L311,92 L308,86 L302,87 L303,80 L297,82 L295,85 L299,91 L296,95 L294,90 L290,86 L282,93 L279,93 L276,90 L262,95 L264,110 L260,113 L250,116 L245,122 L246,129 L233,133 L232,136 L233,139 L239,143 L239,153 L242,160 L255,172 L258,178 L264,182 L265,186 L261,189 L250,193 L242,207 L221,223 L216,225 L207,233 L210,246 L217,257 L213,269 L215,285 L213,292 L216,293 L224,291 L237,289 L250,301 L249,306 L239,315 L233,326 L233,330 L239,337 L240,342 L233,358 L226,365 L225,370 L227,375 L217,381 L216,384 L222,386 L233,386 L233,388 L230,390 L217,390 L215,391 L215,394 L224,399 L228,403 L235,422 L234,430 L248,435 L253,440 L254,447 L247,456 L247,462 L261,474 L266,488 L281,500 L281,510 L283,512 L287,512 L290,502 L297,495 L300,495 L311,505 L314,506 L325,498 L329,499 L333,497 L353,499 L356,498 L358,506 L363,506 L367,503 L373,515 L380,515 L394,525 L399,522 L406,524 L410,518 L405,512 L403,502 L393,497 L399,494 L399,477 L393,478 L391,470 L398,468 L401,474 L407,471 L416,451 L425,446 L433,438 L435,432 L465,414 L472,400 L474,399 L482,413 L490,417 L502,418 L507,431 L501,442 L502,445 L501,454 L509,463 L506,472 L504,476 L482,480 L474,488 L478,500 L495,511 L494,518 L501,526 L503,539 L511,539 L522,524 L530,521 L540,524 L546,524 L545,518 L547,505 L537,497 L526,484 L527,478 L533,472 L537,472 L545,477 L550,482 L550,489 L565,503 L563,513 L567,523 L576,524 L588,520 L601,524 L605,522 L608,518 L615,521 L625,506 L623,499 L626,496 L636,495 L644,488 L648,489 L659,482 L673,489 L676,480 L685,478 L695,466 L709,463 L710,460 L709,457 L704,451 L703,447 L707,441 L711,441 L716,438 L726,438 L730,450 L734,453 L738,452 L752,425 L754,414 L753,407 L755,404 L784,397 L794,390 L787,371 L781,370 L780,367 L781,352 L772,354 L767,358 L747,369 L744,356 L734,353 L730,342 L723,337 L712,339 L709,353 L706,358 L702,358 L696,354 L693,333 L687,327 L683,328 L679,335 L677,343 L680,369 L676,374 L670,373 L664,366 L657,362 L644,367 L637,366 L635,362 L639,347 L640,331 L644,321 L642,317 L633,307 L634,304 L638,301 L640,295 L638,291 L631,288 L627,284 L629,277 L636,272 L631,267 L625,252 L640,240 L628,225 L628,218 L620,215 L616,206 L613,209 L610,209 L602,205 L596,195 L587,187 L599,177 L598,166 L605,153 L603,144 L598,141 L593,130 L581,127 L570,102 L568,97 L570,94 L564,86 L540,99 L536,98 L532,93 L530,94 L516,105 L508,116 L503,129 L486,125 L477,129 L467,126 L464,124 L457,112 L451,109 L444,119 L435,125 L429,126 L425,132 L418,132 L409,136 L399,154 L384,164 L376,165 L364,177 L359,167 L352,166 L349,162 L342,166 L345,147 L343,137 L331,132 L331,121 L329,119 L333,105 Z"/>
+
+              <!-- 引导线 -->
+              <g class="map-links">
+                <path class="map-link" d="M414,112 L320,86"/>
+                <path class="map-link" d="M414,112 L790,104"/>
+                <path class="map-link" d="M554,320 L800,404"/>
+                <path class="map-link" d="M523,379 L452,486"/>
+              </g>
+
+              <!-- 镇点 -->
+              <g class="map-dots">
+                <circle class="map-dot" cx="414" cy="112" r="3"/>
+                <circle class="map-dot" cx="420" cy="284" r="3"/>
+                <circle class="map-dot" cx="523" cy="379" r="3"/>
+                <circle class="map-dot" cx="554" cy="320" r="3"/>
               </g>
 
             </svg>
 
-            <!-- 入口一：历史 -->
-            <a
-              class="entry entry-history"
-              href="./history.html"
-            >
+            <span class="map-label" style="left:41.4%;top:22.7%">上坪镇</span>
+            <span class="map-label" style="left:42.0%;top:50.8%">元善镇</span>
+            <span class="map-label" style="left:52.3%;top:65.7%">忠信镇</span>
+            <span class="map-label" style="left:55.4%;top:56.2%">大湖镇</span>
+            <span class="map-label is-county" style="left:45%;top:33%">连平县</span>
+            <span class="map-label is-outside" style="left:89%;top:12%">和平县</span>
+            <span class="map-label is-outside" style="left:79%;top:96%">东源县</span>
 
-              <span class="entry-num">01</span>
-
-              <span class="entry-title">
-                读一段连平
-              </span>
-
-              <span class="entry-description">
-                小城往事 · 岁月留痕
-              </span>
-
-              <span class="entry-hint">
-                探索故事 ↗
-              </span>
-
-            </a>
-
-            <!-- 入口二：山水 -->
             <a
               class="entry entry-nature"
               href="./nature.html"
             >
 
-              <span class="entry-num">02</span>
+              <span class="entry-thumb">
+                <img
+                  src="./img/panel-peach.jpg"
+                  alt="上坪镇桃园的山坡与花海"
+                  loading="lazy"
+                >
+              </span>
 
               <span class="entry-title">
                 走进山水
@@ -1392,36 +1414,18 @@
               </span>
 
             </a>
-
-            <!-- 入口三：地方生活 -->
-            <a
-              class="entry entry-life"
-              href="./life.html"
-            >
-
-              <span class="entry-num">03</span>
-
-              <span class="entry-title">
-                点亮地方生活
-              </span>
-
-              <span class="entry-description">
-                花灯手艺 · 地方习俗
-              </span>
-
-              <span class="entry-hint">
-                探索生活 ↗
-              </span>
-
-            </a>
-
-            <!-- 入口四：地方风味 -->
             <a
               class="entry entry-food"
               href="./food.html"
             >
 
-              <span class="entry-num">04</span>
+              <span class="entry-thumb">
+                <img
+                  src="./img/peach-fruit.jpg"
+                  alt="连平上坪的鹰嘴桃果实"
+                  loading="lazy"
+                >
+              </span>
 
               <span class="entry-title">
                 尝一口连平
@@ -1433,6 +1437,58 @@
 
               <span class="entry-hint">
                 探索风味 ↗
+              </span>
+
+            </a>
+            <a
+              class="entry entry-history"
+              href="./history.html"
+            >
+
+              <span class="entry-thumb">
+                <img
+                  src="./img/panel-weilongwu.jpg"
+                  alt="大湖镇客家围龙屋与半月塘"
+                  loading="lazy"
+                >
+              </span>
+
+              <span class="entry-title">
+                读一段连平
+              </span>
+
+              <span class="entry-description">
+                小城往事 · 岁月留痕
+              </span>
+
+              <span class="entry-hint">
+                探索故事 ↗
+              </span>
+
+            </a>
+            <a
+              class="entry entry-life"
+              href="./life.html"
+            >
+
+              <span class="entry-thumb">
+                <img
+                  src="./img/panel-lantern.jpg"
+                  alt="忠信花灯的手工灯彩"
+                  loading="lazy"
+                >
+              </span>
+
+              <span class="entry-title">
+                点亮地方生活
+              </span>
+
+              <span class="entry-description">
+                花灯手艺 · 地方习俗
+              </span>
+
+              <span class="entry-hint">
+                探索生活 ↗
               </span>
 
             </a>
