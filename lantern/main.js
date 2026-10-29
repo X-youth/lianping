@@ -1,8 +1,8 @@
 import * as T from './three.module.js';
 import {animate} from './anime.js';
-const stage=document.querySelector('#stage'), scene=new T.Scene();scene.background=null;
+const stage=document.querySelector('#stage'), scene=new T.Scene();scene.background=new T.Color('#151713');
 const camera=new T.PerspectiveCamera(35,innerWidth/innerHeight,.1,100);camera.position.set(0,.4,11);
-const renderer=new T.WebGLRenderer({antialias:true,alpha:true});renderer.setClearColor(0x000000,0);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;stage.append(renderer.domElement);
+const renderer=new T.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;stage.append(renderer.domElement);
 scene.add(new T.HemisphereLight(0xffe5cd,0x34422d,2));const key=new T.DirectionalLight(0xffdfc7,4);key.position.set(4,5,7);scene.add(key);const fill=new T.DirectionalLight(0xff4d24,2);fill.position.set(-4,0,-3);scene.add(fill);
 const root=new T.Group();root.rotation.y=.15;scene.add(root);
 const wood=new T.MeshStandardMaterial({color:0x801d16,roughness:.35,metalness:.15});const edge=new T.MeshStandardMaterial({color:0xc03e25,roughness:.4,metalness:.2});const silk=new T.MeshStandardMaterial({color:0xf73919,emissive:0xe52308,emissiveIntensity:.65,roughness:.85,side:T.DoubleSide});const thread=new T.MeshStandardMaterial({color:0xa91b15,roughness:.8});const gold=new T.MeshStandardMaterial({color:0xe6ae67,metalness:.65,roughness:.4});

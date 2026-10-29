@@ -1,570 +1,842 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta
-    name="description"
-    content="认识连平忠信花灯：了解灯盖、灯身与灯裙，并在三维模型里拖动旋转、拆解结构。"
-  >
+<meta
+  name="description"
+  content="认识连平忠信花灯：了解灯盖、灯身与灯裙，并在三维模型里拖动旋转、拆解结构。"
+>
 
-  <title>点亮地方生活｜走进连平</title>
+<title>点亮地方生活｜走进连平</title>
 
-  <style>
-    /* ===== 基础样式 ===== */
+<style>
+:root {
+  --paper: #f3f0e9;
+  --white: #ffffff;
+  --pale: #e9e5da;
+  --ink: #141312;
+  --muted: #8b867c;
+  --accent: #7d6b52;
+  --line: #1413121a;
+}
 
-    :root {
-      --paper: #f8f5ed;
-      --ink: #314b40;
-      --muted: #7b8477;
-      --red: #ad553e;
-      --gold: #d1a15e;
-      --line: #314b4025;
-    }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
-    * {
-      box-sizing: border-box;
-    }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 0;
+}
 
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 35px;
-    }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: #3f3d38;
+  font-family: "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  line-height: 2.15;
+  -webkit-font-smoothing: antialiased;
+}
 
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-    }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
 
-    h1,
-    h2,
-    h3 {
-      font-family: "Songti SC", "SimSun", serif;
-      font-weight: 400;
-    }
+h1, h2, h3 {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 400;
+  letter-spacing: .16em;
+}
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+.eyebrow {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+}
 
-    button {
-      font: inherit;
-      cursor: pointer;
-    }
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
 
-    button:disabled {
-      cursor: default;
-    }
+.skip {
+  position: absolute;
+  top: -100px;
+  left: 20px;
+  z-index: 20;
+  padding: 12px 16px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 12px;
+}
 
-    a:focus-visible,
-    button:focus-visible {
-      outline: 3px solid var(--gold);
-      outline-offset: 5px;
-    }
+.skip:focus { top: 12px; }
 
-    .eyebrow {
-      font-size: 10px;
-      letter-spacing: 4px;
-      color: var(--muted);
-    }
+/* ===== 光标与柔光 ===== */
 
-    .skip {
-      position: absolute;
-      top: -100px;
-      left: 20px;
-      z-index: 10;
-      background: white;
-      padding: 12px;
-    }
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #111;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width .25s, height .25s;
+}
 
-    .skip:focus {
-      top: 10px;
-    }
+.cursor.is-big {
+  width: 44px;
+  height: 44px;
+}
 
-    /* ===== 导航 ===== */
+html.has-cursor,
+html.has-cursor * { cursor: none; }
 
-    .header {
-      padding: 26px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--line);
-    }
+html.has-cursor input,
+html.has-cursor textarea,
+html.has-cursor select { cursor: auto; }
 
-    .logo {
-      font: 24px "SimSun", serif;
-      letter-spacing: 4px;
-    }
+.page-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    340px circle at var(--px, 50%) var(--py, 40%),
+    rgba(255, 255, 255, .5),
+    rgba(255, 255, 255, .18) 45%,
+    rgba(255, 255, 255, 0) 72%
+  );
+}
 
-    .back {
-      font-size: 12px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid var(--line);
-    }
+/* ===== 顶部 ===== */
 
-    /* ===== 开场 ===== */
+.header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 30px 6% 0;
+}
 
-    .intro {
-      max-width: 1150px;
-      margin: auto;
-      padding: 85px 7% 80px;
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      align-items: center;
-      gap: 65px;
-    }
+.logo {
+  flex-shrink: 0;
+  color: var(--ink);
+  font-size: 20px;
+  letter-spacing: .36em;
+}
 
-    .intro h1 {
-      font-size: clamp(38px, 5vw, 64px);
-      letter-spacing: 5px;
-      line-height: 1.4;
-      margin: 25px 0;
-    }
+.nav {
+  display: flex;
+  gap: 26px;
+  color: var(--ink);
+  font-size: 11.5px;
+  letter-spacing: .12em;
+}
 
-    .intro-copy {
-      max-width: 510px;
-      font-size: 14px;
-      line-height: 2.2;
-    }
+.nav a {
+  position: relative;
+  padding: 6px 0;
+  white-space: nowrap;
+}
 
-    .intro-link {
-      display: inline-block;
-      color: var(--red);
-      font-size: 13px;
-      margin-top: 22px;
-      padding-bottom: 9px;
-      border-bottom: 1px solid var(--red);
-    }
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .45s cubic-bezier(.2, .8, .2, 1);
+}
 
-    .intro-art {
-      text-align: center;
-    }
+.nav a:hover::after,
+.nav a:focus-visible::after { transform: scaleX(1); }
 
-    .intro-photo {
-      width: min(100%, 340px);
-      border-radius: 120px 120px 12px 12px;
-      box-shadow: 0 12px 30px #314b4024;
+.nav a[aria-current="page"] { color: var(--accent); }
 
-      -webkit-mask-image: radial-gradient(
-        ellipse 82% 84% at 50% 50%,
-        #000 62%,
-        #000000d9 82%,
-        transparent 100%
-      );
+.nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+  background: var(--accent);
+}
 
-      mask-image: radial-gradient(
-        ellipse 82% 84% at 50% 50%,
-        #000 62%,
-        #000000d9 82%,
-        transparent 100%
-      );
-    }
+/* ===== 首屏 ===== */
 
-    .caption {
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.9;
-    }
+.hero {
+  position: relative;
+  min-height: 640px;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 120px 7% 110px;
+  background: var(--paper);
+  text-align: center;
+}
 
-    .story-photo {
-      display: block;
-      width: 100%;
-      margin-top: 22px;
-      border-radius: 14px;
+.hero-inner { max-width: 900px; }
 
-      -webkit-mask-image: linear-gradient(
-        180deg,
-        transparent 0%,
-        #000 9%,
-        #000 91%,
-        transparent 100%
-      );
+.hero-location {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .3em;
+}
 
-      mask-image: linear-gradient(
-        180deg,
-        transparent 0%,
-        #000 9%,
-        #000 91%,
-        transparent 100%
-      );
-    }
+.hero-title {
+  margin: 30px 0 32px;
+  padding-left: .2em;
+  font-size: clamp(46px, 7vw, 92px);
+  letter-spacing: .2em;
+  line-height: 1.3;
+}
 
-    /* ===== 地方文化介绍 ===== */
+.hero-sub {
+  margin: 0 auto;
+  max-width: 540px;
+  font-size: 13px;
+  line-height: 2.15;
+  letter-spacing: .06em;
+}
 
-    .story-section {
-      padding: 70px 7%;
-      background: #e9eddf;
-    }
+.scroll-guide {
+  position: absolute;
+  left: 50%;
+  bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .36em;
+}
 
-    .story-inner {
-      max-width: 1000px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 1fr 1.7fr;
-      gap: 70px;
-    }
+.scroll-guide::after {
+  content: "";
+  width: 1px;
+  height: 48px;
+  background: var(--line);
+}
 
-    .story-inner h2 {
-      margin: 12px 0;
-      font-size: 32px;
-      line-height: 1.6;
-      letter-spacing: 3px;
-    }
+/* ===== 通用 ===== */
 
-    .story-inner p:not(.eyebrow) {
-      font-size: 14px;
-      line-height: 2.2;
-      margin-top: 0;
-    }
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+}
 
-    /* ===== 结尾与来源 ===== */
+.section { padding: 104px 7%; }
 
-    .ending {
-      padding: 65px 7%;
-      border-top: 1px solid var(--line);
-      text-align: center;
-    }
+.copy {
+  margin: 0;
+  font-size: 13px;
+  line-height: 2.15;
+}
 
-    .ending h2 {
-      font-size: 29px;
-      letter-spacing: 3px;
-      line-height: 1.8;
-    }
+.copy + .copy { margin-top: 22px; }
 
-    .ending p {
-      font-size: 13px;
-      line-height: 2;
-      color: var(--muted);
-    }
+.note {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.9;
+  letter-spacing: .04em;
+}
 
-    .ending a {
-      display: inline-block;
-      margin-top: 18px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--red);
-      font-size: 13px;
-      color: var(--red);
-    }
+.lead {
+  margin: 18px 0 0;
+  max-width: 620px;
+  font-size: 13px;
+  line-height: 2.15;
+}
 
-    .footer {
-      padding: 30px 7%;
-      background: var(--ink);
-      color: var(--paper);
-      font-size: 11px;
-      line-height: 2;
-    }
+.ghost-btn {
+  display: inline-block;
+  border: 1px solid var(--ink);
+  padding: 15px 26px;
+  color: var(--ink);
+  font-size: 12px;
+  letter-spacing: .18em;
+  transition: background .35s ease, color .35s ease;
+}
 
-    .footer a {
-      text-decoration: underline;
-      text-underline-offset: 4px;
-    }
+.ghost-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
 
-    /* ===== 重复滚动显露 ===== */
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
 
-    .reveal-content {
-      opacity: 1;
-      transform: none;
-    }
+/* ===== 手艺 ===== */
 
-    .motion-enabled .reveal-content {
-      opacity: 0;
-      transform: translateY(28px);
-      transition:
-        opacity 0.8s ease,
-        transform 0.8s ease;
-    }
+.story { background: var(--white); }
 
-    .motion-enabled .reveal.is-visible > .reveal-content,
-    .motion-enabled .reveal:focus-within > .reveal-content {
-      opacity: 1;
-      transform: none;
-    }
+.story-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 60px;
+  align-items: start;
+}
 
-    /* 内嵌花灯互动页面 */
+.story-layout h2 {
+  margin: 16px 0 26px;
+  font-size: 30px;
+  letter-spacing: .16em;
+  line-height: 1.75;
+}
 
-    .lantern-embed {
-      max-width: 1200px;
-      margin: auto;
-      padding: 90px 7%;
-    }
+.story-figure {
+  margin: 0;
+}
 
-    .lantern-embed iframe {
-      display: block;
-      width: 100%;
-      height: 850px;
+.story-figure .photo { margin-bottom: 12px; }
 
-      border: 0;
-      border-radius: 8px;
-      background: #ffffff;
-    }
+.story-figure figcaption {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.9;
+}
 
-    /* ===== 响应式 ===== */
+.story-photo { margin-top: 28px; }
 
-    @media (max-width: 760px) {
-      .intro {
-        padding: 60px 7%;
-        grid-template-columns: 1fr;
-        gap: 25px;
-      }
+.story-photo .photo { margin-bottom: 12px; }
 
-      .intro h1 {
-        font-size: 42px;
-      }
+.story-photo figcaption {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.9;
+}
 
-      .intro-photo {
-        width: min(100%, 260px);
-      }
+/* ===== 花灯结构互动 ===== */
 
-      .story-inner {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
+.embed { background: var(--pale); }
 
-      .lantern-embed {
-        padding: 60px 6%;
-      }
+.embed-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 44px;
+}
 
-      .lantern-embed iframe {
-        height: 750px;
-      }
+.embed-head h2 {
+  margin: 16px 0 0;
+  font-size: 30px;
+  letter-spacing: .16em;
+  line-height: 1.6;
+}
 
-      .ending h2 {
-        font-size: 25px;
-      }
-    }
+.embed-head .ghost-btn { flex-shrink: 0; }
 
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
+.frame {
+  border: 1px solid var(--line);
+  background: var(--white);
+}
 
-      *,
-      *::before,
-      *::after {
-        transition: none !important;
-      }
+.frame iframe {
+  display: block;
+  width: 100%;
+  height: 850px;
+  border: 0;
+  border-radius: 0;
+  background: var(--white);
+}
 
-      .motion-enabled .reveal-content {
-        opacity: 1;
-        transform: none;
-      }
-    }
-  </style>
+/* ===== 结尾 ===== */
+
+.ending {
+  padding: 100px 7%;
+  background: var(--paper);
+  text-align: center;
+}
+
+.ending h2 {
+  margin: 0 auto 24px;
+  max-width: 720px;
+  font-size: 30px;
+  letter-spacing: .16em;
+  line-height: 1.8;
+}
+
+.ending p {
+  max-width: 520px;
+  margin: 0 auto 28px;
+  font-size: 13px;
+  line-height: 2.15;
+  color: #3f3d38;
+}
+
+.text-link {
+  display: inline-block;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 12px;
+  letter-spacing: .14em;
+}
+
+.text-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* ===== 页脚 ===== */
+
+.footer {
+  padding: 36px 7%;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 2;
+}
+
+.footer p { margin: 0; }
+
+.footer a { border-bottom: 1px solid var(--line); }
+
+.footer a:hover { color: var(--accent); }
+
+/* ===== 滚动显露 ===== */
+
+.reveal-content { opacity: 1; transform: none; }
+
+.motion-enabled .reveal-content {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+
+.motion-enabled .reveal.is-visible > .reveal-content,
+.motion-enabled .reveal:focus-within > .reveal-content {
+  opacity: 1;
+  transform: none;
+}
+
+/* ===== 响应式 ===== */
+
+@media (max-width: 900px) {
+  .nav { gap: 18px; }
+
+  .story-layout {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .embed-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
+  }
+}
+
+@media (max-width: 760px) {
+  .frame iframe { height: 750px; }
+}
+
+@media (max-width: 700px) {
+  .header {
+    padding: 22px 7% 0;
+    gap: 14px;
+  }
+
+  .logo { font-size: 17px; letter-spacing: .3em; }
+
+  .nav { gap: 14px; font-size: 10.5px; letter-spacing: .1em; }
+
+  .hero { padding: 104px 7% 96px; }
+
+  .hero-title {
+    margin: 24px 0 26px;
+    font-size: 40px;
+    letter-spacing: .16em;
+    line-height: 1.4;
+  }
+
+  .hero-sub { font-size: 12.5px; }
+
+  .scroll-guide { bottom: 28px; }
+
+  .scroll-guide::after { height: 36px; }
+
+  .section { padding: 78px 7%; }
+
+  .story-layout h2 { font-size: 26px; }
+
+  .embed-head h2 { font-size: 26px; }
+
+  .frame iframe { height: 750px; }
+
+  .ending { padding: 78px 7%; }
+
+  .ending h2 { font-size: 25px; }
+
+  .footer { padding: 30px 7%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .motion-enabled .reveal-content { opacity: 1; transform: none; }
+
+  .cursor { display: none; }
+}
+</style>
 </head>
 
 <body>
+<script src="./assets/page-transition.js?v=1"></script>
 
-  <a class="skip" href="#main">跳到主要内容</a>
+<a class="skip" href="#main">跳到主要内容</a>
 
-  <!-- 顶部 -->
-  <header class="header">
-    <a class="logo" href="./index.html">连平</a>
-    <a class="back" href="./index.html#explore">
-      ← 返回主题探索
-    </a>
-  </header>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="page-glow" aria-hidden="true"></div>
 
-  <main id="main">
+<header class="header">
+  <a class="logo" href="./index.html">连平</a>
 
-    <!-- 开场 -->
-    <section class="intro" aria-labelledby="page-title">
+  <nav class="nav" aria-label="主导航">
+    <a href="./history.html">历史</a>
+    <a href="./nature.html">山水</a>
+    <a href="./life.html" aria-current="page">生活</a>
+    <a href="./food.html">风味</a>
+  </nav>
+</header>
 
-      <div>
-        <p class="eyebrow" lang="en">CULTURE & LIFE</p>
+<main id="main">
 
-        <h1 id="page-title">
-          点亮一盏灯，<br>
-          走近地方生活。
-        </h1>
+  <!-- 首屏 -->
+  <section class="hero" aria-labelledby="page-title">
 
-        <p class="intro-copy">
-          忠信花灯是连平的地方文化名片之一。
-          从一盏灯的结构出发，认识它的手艺，
-          也认识它与地方习俗之间的联系。
-        </p>
+    <div class="hero-inner">
+      <p class="eyebrow" lang="en">CULTURE &amp; LIFE</p>
 
-        <a class="intro-link" href="#lantern-explore">
-          进入花灯结构探索 ↓
-        </a>
-      </div>
+      <p class="hero-location">广东 · 河源 · 连平</p>
 
-      <div class="intro-art">
-        <img
-          class="intro-photo"
-          src="./img/lantern.jpg"
-          alt="连平忠信花灯实物：大红色花灯悬挂，配有灯联与飘带"
-        >
+      <h1 class="hero-title" id="page-title">
+        点亮一盏灯，<br>
+        走近地方生活。
+      </h1>
 
-        <p class="caption">
-          忠信花灯实物照片（连平县忠信镇）
-        </p>
-      </div>
+      <p class="hero-sub">
+        忠信花灯是连平的地方文化名片之一。
+        从一盏灯的结构出发，认识它的手艺，
+        也认识它与地方习俗之间的联系。
+      </p>
+    </div>
 
-    </section>
+    <a class="scroll-guide" href="#story">SCROLL</a>
+  </section>
 
-    <!-- 文化介绍 -->
-    <section class="story-section">
+  <!-- 文化介绍 -->
+  <section class="section story" id="story">
 
-      <div class="reveal">
-        <div class="story-inner reveal-content">
+    <div class="wrap reveal">
+      <div class="story-layout reveal-content">
 
-          <div>
-            <p class="eyebrow" lang="en">A LOCAL TRADITION</p>
+        <div>
+          <p class="eyebrow" lang="en">A LOCAL TRADITION</p>
 
-            <h2>
-              花灯里，<br>
-              有地方的手艺。
-            </h2>
-          </div>
+          <h2>
+            花灯里，<br>
+            有地方的手艺。
+          </h2>
 
-          <div>
-            <p>
-              忠信花灯主要分布于连平县东南部忠信镇，
-              是一种以红色调为主的民间灯彩艺术。
-              2011年，灯彩（忠信花灯）列入国家级
-              非物质文化遗产代表性项目名录扩展项目。
-            </p>
-
-            <p>
-              花灯多采用竹编骨架，配以剪纸、图案、
-              纸穗和彩色灯带等装饰。
-              从上到下，可以认识灯盖、灯身、灯裙三个部分。
-              它也与当地的传统赏灯习俗相联系。
-            </p>
-
+          <figure class="story-figure">
             <img
-              class="story-photo"
+              class="photo"
+              src="./img/lantern.jpg"
+              alt="连平忠信花灯实物：大红色花灯悬挂，配有灯联与飘带"
+            >
+            <figcaption>
+              忠信花灯实物照片（连平县忠信镇）
+            </figcaption>
+          </figure>
+        </div>
+
+        <div>
+          <p class="copy">
+            忠信花灯主要分布于连平县东南部忠信镇，
+            是一种以红色调为主的民间灯彩艺术。
+            2011年，灯彩（忠信花灯）列入国家级
+            非物质文化遗产代表性项目名录扩展项目。
+          </p>
+
+          <p class="copy">
+            花灯多采用竹编骨架，配以剪纸、图案、
+            纸穗和彩色灯带等装饰。
+            从上到下，可以认识灯盖、灯身、灯裙三个部分。
+            它也与当地的传统赏灯习俗相联系。
+          </p>
+
+          <figure class="story-photo">
+            <img
+              class="photo"
               src="./img/lantern-making.jpg"
               alt="忠信花灯传承人在教孩子们扎制灯架"
             >
-
-            <p class="caption">
+            <figcaption>
               花灯手艺代代相传：传承人教孩子们扎制灯架
-            </p>
-          </div>
-
+            </figcaption>
+          </figure>
         </div>
+
       </div>
+    </div>
 
-    </section>
+  </section>
 
-    <!-- 花灯结构互动（内嵌独立页面，标题在页面内部） -->
-    <section
-      class="lantern-embed"
-      id="lantern-explore"
-      aria-label="花灯结构互动"
-    >
-      <iframe
-        src="./lantern/index.html?v=3"
-        title="连平花灯结构探索：拖动旋转，点击部件拆解"
-        loading="lazy"
-      ></iframe>
-    </section>
+  <!-- 花灯结构互动 -->
+  <section
+    class="section embed"
+    id="lantern-explore"
+    aria-label="花灯结构互动"
+  >
+    <div class="wrap">
 
-    <!-- 结束 -->
-    <section class="ending">
+      <div class="embed-head">
+        <div>
+          <p class="eyebrow" lang="en">A LITTLE LANTERN WORKSHOP</p>
 
-      <div class="reveal">
-        <div class="reveal-content">
+          <h2>让一盏花灯慢慢完整</h2>
 
-          <p class="eyebrow" lang="en">A LIGHT, A LOCAL STORY</p>
-
-          <h2>认识一盏灯，也走近一种生活。</h2>
-
-          <p>
-            图形之外，还有制作花灯的人，<br>
-            以及让这份手艺继续被看见的地方故事。
+          <p class="lead">
+            拖动旋转，点击部件拆解，
+            从上到下认识灯盖、灯身与灯裙。
           </p>
-
-          <a href="./index.html#explore">
-            回到探索图，看看其他故事 ↗
-          </a>
-
         </div>
+
+        <a
+          class="ghost-btn"
+          href="./lantern/index.html?v=3"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          在新窗口打开 ↗
+        </a>
       </div>
 
-    </section>
+      <div class="frame">
+        <iframe
+          src="./lantern/index.html?v=3"
+          title="连平花灯结构探索：拖动旋转，点击部件拆解"
+          loading="lazy"
+        ></iframe>
+      </div>
 
-  </main>
+      <p class="note">
+        这是认识结构的简化三维展品，
+        展示效果不代表真实制作顺序或传统仪式。
+      </p>
 
-  <footer class="footer">
+    </div>
+  </section>
 
-    <p>走进连平 · 地方文化展示项目 · 非政府官方网站</p>
+  <!-- 结束 -->
+  <section class="ending">
 
-    <p>
-      资料来源：
-      <a
-        href="https://www.ihchina.cn/project_details/14071.html"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        中国非物质文化遗产网 · 灯彩（忠信花灯）
-      </a>
-    </p>
+    <div class="reveal">
+      <div class="reveal-content">
 
-    <p>页面花灯为原创简化示意，正式形制需结合实物资料完善。</p>
+        <p class="eyebrow" lang="en">A LIGHT, A LOCAL STORY</p>
 
-  </footer>
+        <h2>认识一盏灯，也走近一种生活。</h2>
 
-  <script>
-    /* ===== 8. 每次进入视野重新显露 ===== */
+        <p>
+          图形之外，还有制作花灯的人，<br>
+          以及让这份手艺继续被看见的地方故事。
+        </p>
 
-    const motionPreference = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
+        <a class="text-link" href="./index.html#explore">
+          回到探索图，看看其他故事 ↗
+        </a>
+
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="footer">
+
+  <p>走进连平 · 地方文化展示项目 · 非政府官方网站</p>
+
+  <p>
+    资料来源：
+    <a
+      href="https://www.ihchina.cn/project_details/14071.html"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      中国非物质文化遗产网 · 灯彩（忠信花灯）
+    </a>
+  </p>
+
+  <p>页面花灯为原创简化示意，正式形制需结合实物资料完善。</p>
+
+</footer>
+
+<script>
+/* ===== 重复滚动显露 ===== */
+
+const motionPreference = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+);
+
+const revealElements = document.querySelectorAll(".reveal");
+
+let revealObserver = null;
+
+function setupReveal() {
+  if (revealObserver) {
+    revealObserver.disconnect();
+    revealObserver = null;
+  }
+
+  document.documentElement.classList.remove("motion-enabled");
+
+  revealElements.forEach(element => {
+    element.classList.remove("is-visible");
+  });
+
+  if (
+    !("IntersectionObserver" in window) ||
+    motionPreference.matches
+  ) {
+    return;
+  }
+
+  revealObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        entry.target.classList.toggle(
+          "is-visible",
+          entry.isIntersecting
+        );
+      });
+    },
+    { threshold: 0 }
+  );
+
+  revealElements.forEach(element => {
+    revealObserver.observe(element);
+  });
+
+  document.documentElement.classList.add("motion-enabled");
+}
+
+setupReveal();
+
+if (motionPreference.addEventListener) {
+  motionPreference.addEventListener("change", setupReveal);
+}
+</script>
+
+<script>
+/* ===== 光标与柔光跟随 ===== */
+
+(function () {
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
+
+  const cursor = document.getElementById("cursor");
+  const finePointer = window.matchMedia("(pointer: fine)").matches;
+
+  if (!cursor || reduceMotion.matches || !finePointer) {
+    if (cursor) {
+      cursor.style.display = "none";
+    }
+
+    return;
+  }
+
+  document.documentElement.classList.add("has-cursor");
+
+  let targetX = window.innerWidth / 2;
+  let targetY = window.innerHeight / 2;
+  let currentX = targetX;
+  let currentY = targetY;
+
+  let glowX = 50;
+  let glowY = 40;
+  let glowTargetX = glowX;
+  let glowTargetY = glowY;
+
+  window.addEventListener("pointermove", event => {
+    targetX = event.clientX;
+    targetY = event.clientY;
+
+    glowTargetX = (event.clientX / window.innerWidth) * 100;
+    glowTargetY = (event.clientY / window.innerHeight) * 100;
+  }, { passive: true });
+
+  document.querySelectorAll("a, button, summary").forEach(element => {
+    element.addEventListener("pointerenter", () => {
+      cursor.classList.add("is-big");
+    });
+
+    element.addEventListener("pointerleave", () => {
+      cursor.classList.remove("is-big");
+    });
+  });
+
+  (function follow() {
+    currentX += (targetX - currentX) * 0.15;
+    currentY += (targetY - currentY) * 0.15;
+
+    glowX += (glowTargetX - glowX) * 0.15;
+    glowY += (glowTargetY - glowY) * 0.15;
+
+    cursor.style.transform =
+      "translate3d(" +
+      currentX.toFixed(1) +
+      "px," +
+      currentY.toFixed(1) +
+      "px,0) translate(-50%,-50%)";
+
+    document.documentElement.style.setProperty(
+      "--px",
+      glowX.toFixed(2) + "%"
     );
 
-    const revealElements = document.querySelectorAll(".reveal");
+    document.documentElement.style.setProperty(
+      "--py",
+      glowY.toFixed(2) + "%"
+    );
 
-    let revealObserver = null;
-
-    function setupReveal() {
-      if (revealObserver) {
-        revealObserver.disconnect();
-        revealObserver = null;
-      }
-
-      document.documentElement.classList.remove("motion-enabled");
-
-      revealElements.forEach((element) => {
-        element.classList.remove("is-visible");
-      });
-
-      if (
-        !("IntersectionObserver" in window) ||
-        motionPreference.matches
-      ) {
-        return;
-      }
-
-      revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            entry.target.classList.toggle(
-              "is-visible",
-              entry.isIntersecting
-            );
-          });
-        },
-        { threshold: 0 }
-      );
-
-      revealElements.forEach((element) => {
-        revealObserver.observe(element);
-      });
-
-      document.documentElement.classList.add("motion-enabled");
-    }
-
-    setupReveal();
-
-    if (motionPreference.addEventListener) {
-      motionPreference.addEventListener("change", setupReveal);
-    }
-  </script>
+    requestAnimationFrame(follow);
+  })();
+})();
+</script>
 
 </body>
 </html>
