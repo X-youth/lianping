@@ -170,6 +170,14 @@
       .bg-flow {
         opacity: 0.12;
       }
+
+      .hero-art {
+        animation: none;
+        opacity: 1;
+        filter: none;
+        -webkit-mask-image: none;
+        mask-image: none;
+      }
     }
 
     /* ========= 3. 顶部导航 ========= */
@@ -243,6 +251,9 @@
     /* ========= 4. 第一屏 ========= */
 
     .hero {
+      position: relative;
+      z-index: 1;
+
       min-height: 640px;
       height: 100svh;
 
@@ -256,9 +267,82 @@
       text-align: center;
     }
 
+    /* 背景墙：线描插画随页面打开自下而上浮现 */
+
+    .hero-art {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+
+      background-image: url("./img/hero-lines.webp");
+      background-size: cover;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+
+      opacity: 0;
+      filter: blur(8px);
+
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 50%, #000 100%);
+      mask-image: linear-gradient(180deg, transparent 0%, #000 50%, #000 100%);
+      -webkit-mask-size: 100% 200%;
+      mask-size: 100% 200%;
+      -webkit-mask-position: 50% 0%;
+      mask-position: 50% 0%;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+
+      animation: hero-lines-rise 2.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s forwards;
+      will-change: mask-position, opacity, filter;
+    }
+
+    @keyframes hero-lines-rise {
+      from {
+        -webkit-mask-position: 50% 0%;
+        mask-position: 50% 0%;
+        opacity: 0.2;
+        filter: blur(8px);
+      }
+      to {
+        -webkit-mask-position: 50% 100%;
+        mask-position: 50% 100%;
+        opacity: 1;
+        filter: blur(0);
+      }
+    }
+
+    /* 文字区留白：压一层米白柔光，让标题落在空白处 */
+
+    .hero-veil {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          ellipse 46% 33% at 50% 46%,
+          rgba(243, 240, 233, 0.97) 0%,
+          rgba(243, 240, 233, 0.92) 46%,
+          rgba(243, 240, 233, 0.5) 70%,
+          rgba(243, 240, 233, 0) 100%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(243, 240, 233, 0.9) 0%,
+          rgba(243, 240, 233, 0.4) 13%,
+          rgba(243, 240, 233, 0) 22%
+        ),
+        linear-gradient(
+          0deg,
+          rgba(243, 240, 233, 0.86) 0%,
+          rgba(243, 240, 233, 0.3) 7%,
+          rgba(243, 240, 233, 0) 15%
+        );
+    }
+
     .hero-inner {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       grid-row: 2;
     }
 
@@ -1028,6 +1112,9 @@
 
   <!-- 第一屏 -->
   <section class="hero" aria-labelledby="hero-title">
+
+    <div class="hero-art" aria-hidden="true"></div>
+    <div class="hero-veil" aria-hidden="true"></div>
 
     <div class="hero-inner">
       <p class="hero-location">广东 · 河源 · 连平</p>
