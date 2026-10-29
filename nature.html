@@ -676,8 +676,8 @@ html.has-cursor select { cursor: auto; }
 
             <img
               id="scene-orchard"
-              src="./img/hover-peach.png"
-              alt="连平上坪桃花盛开的插画"
+              src="./img/peach-blossom.png"
+              alt="连平上坪桃花盛开实景：漫山桃花与观景亭"
             >
 
             <img
@@ -704,8 +704,18 @@ html.has-cursor select { cursor: auto; }
             <img
               class="hover-art"
               id="hover-scene-orchard"
-              src="./img/peach-blossom.png"
-              alt="连平上坪桃花盛开实景：漫山桃花与观景亭"
+              src="./img/hover-peach.png"
+              alt=""
+              aria-hidden="true"
+            >
+
+            <img
+              class="hover-art"
+              id="hover-scene-village"
+              src="./img/illust-neiguan.png"
+              alt=""
+              aria-hidden="true"
+              hidden
             >
 
           </div>
@@ -959,6 +969,9 @@ function renderPlace() {
 
   document.getElementById("hover-scene-orchard").hidden =
     selectedPlace !== "orchard" || showFruit;
+
+  document.getElementById("hover-scene-village").hidden =
+    selectedPlace !== "village";
 
   document.getElementById("season-controls").hidden =
     selectedPlace !== "orchard";

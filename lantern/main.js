@@ -1,6 +1,6 @@
 import * as T from './three.module.js';
 import {animate} from './anime.js';
-const stage=document.querySelector('#stage'), scene=new T.Scene();scene.background=new T.Color('#151713');
+const stage=document.querySelector('#stage'), scene=new T.Scene();scene.background=new T.Color('#ffffff');
 const camera=new T.PerspectiveCamera(35,innerWidth/innerHeight,.1,100);camera.position.set(0,.4,11);
 const renderer=new T.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;stage.append(renderer.domElement);
 scene.add(new T.HemisphereLight(0xffe5cd,0x34422d,2));const key=new T.DirectionalLight(0xffdfc7,4);key.position.set(4,5,7);scene.add(key);const fill=new T.DirectionalLight(0xff4d24,2);fill.position.set(-4,0,-3);scene.add(fill);
