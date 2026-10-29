@@ -259,74 +259,7 @@
       text-align: center;
     }
 
-    /* 背景：线描插画为底，打开页面时线条沿原图轮廓逐渐描出 */
-
-    .hero-art,
-    .hero-trace {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      background-image: url("./img/hero-lines.webp");
-      background-size: cover;
-      background-position: center bottom;
-      background-repeat: no-repeat;
-      transform: translate(var(--hx, 0px), var(--hy, 0px)) scale(1.045);
-    }
-
-    .hero-trace {
-      filter: grayscale(1) contrast(2.6) brightness(1.1);
-      mix-blend-mode: multiply;
-      opacity: 0;
-
-      -webkit-mask-image: linear-gradient(
-        105deg,
-        transparent 0%,
-        transparent 26%,
-        #000 46%,
-        #000 62%,
-        transparent 84%
-      );
-      mask-image: linear-gradient(
-        105deg,
-        transparent 0%,
-        transparent 26%,
-        #000 46%,
-        #000 62%,
-        transparent 84%
-      );
-      -webkit-mask-size: 280% 100%;
-      mask-size: 280% 100%;
-      -webkit-mask-position: 100% 0%;
-      mask-position: 100% 0%;
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-
-      animation: hero-trace 6.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
-      will-change: mask-position, opacity;
-    }
-
-    @keyframes hero-trace {
-      0% {
-        opacity: 0;
-        -webkit-mask-position: 100% 0%;
-        mask-position: 100% 0%;
-      }
-      10% {
-        opacity: 0.92;
-      }
-      74% {
-        opacity: 0.92;
-        -webkit-mask-position: 0% 0%;
-        mask-position: 0% 0%;
-      }
-      100% {
-        opacity: 0;
-        -webkit-mask-position: 0% 0%;
-        mask-position: 0% 0%;
-      }
-    }
-
-    /* 曲线层：成束细线在插画之上缓慢流动 */
+    /* 背景：成束细曲线缓慢流动，中心留白给文字 */
 
     .hero-canvas {
       position: absolute;
@@ -336,23 +269,21 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      mix-blend-mode: multiply;
-      --canvas-alpha: 0.7;
-      opacity: 0;
-      animation: hero-canvas-in 1.8s ease 1.2s both;
+
+      animation: hero-canvas-in 1.4s ease 0.35s both;
 
       -webkit-mask-image: radial-gradient(
-        ellipse 62% 46% at 50% 46%,
+        ellipse 64% 48% at 50% 46%,
         transparent 0%,
-        transparent 40%,
-        rgba(0, 0, 0, 0.2) 66%,
+        transparent 42%,
+        rgba(0, 0, 0, 0.18) 66%,
         #000 92%
       );
       mask-image: radial-gradient(
-        ellipse 62% 46% at 50% 46%,
+        ellipse 64% 48% at 50% 46%,
         transparent 0%,
-        transparent 40%,
-        rgba(0, 0, 0, 0.2) 66%,
+        transparent 42%,
+        rgba(0, 0, 0, 0.18) 66%,
         #000 92%
       );
     }
@@ -362,25 +293,8 @@
         opacity: 0;
       }
       to {
-        opacity: var(--canvas-alpha);
+        opacity: 1;
       }
-    }
-
-    /* 标题处留出空地：只做缓慢过渡，不留边界 */
-
-    .hero-veil {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-
-      background: radial-gradient(
-        ellipse 52% 36% at 50% 46%,
-        rgba(243, 240, 233, 0.97) 0%,
-        rgba(243, 240, 233, 0.9) 42%,
-        rgba(243, 240, 233, 0.34) 70%,
-        rgba(243, 240, 233, 0) 100%
-      );
     }
 
     .hero-inner {
@@ -1003,30 +917,19 @@
       }
 
       .hero-canvas {
-        --canvas-alpha: 0.55;
         -webkit-mask-image: radial-gradient(
-          ellipse 84% 36% at 50% 46%,
+          ellipse 84% 38% at 50% 46%,
           transparent 0%,
           transparent 40%,
-          rgba(0, 0, 0, 0.2) 66%,
+          rgba(0, 0, 0, 0.18) 66%,
           #000 94%
         );
         mask-image: radial-gradient(
-          ellipse 84% 36% at 50% 46%,
+          ellipse 84% 38% at 50% 46%,
           transparent 0%,
           transparent 40%,
-          rgba(0, 0, 0, 0.2) 66%,
+          rgba(0, 0, 0, 0.18) 66%,
           #000 94%
-        );
-      }
-
-      .hero-veil {
-        background: radial-gradient(
-          ellipse 84% 32% at 50% 46%,
-          rgba(243, 240, 233, 0.97) 0%,
-          rgba(243, 240, 233, 0.9) 44%,
-          rgba(243, 240, 233, 0.34) 72%,
-          rgba(243, 240, 233, 0) 100%
         );
       }
 
@@ -1184,10 +1087,7 @@
   <!-- 第一屏 -->
   <section class="hero" aria-labelledby="hero-title">
 
-    <div class="hero-art" aria-hidden="true"></div>
-    <div class="hero-trace" aria-hidden="true"></div>
     <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
-    <div class="hero-veil" aria-hidden="true"></div>
 
     <div class="hero-inner">
       <p class="hero-location">广东 · 河源 · 连平</p>
@@ -1903,55 +1803,7 @@
   </script>
 
   <script>
-    /* 首屏：插画随鼠标轻微偏移，柔和延迟，不改变画面内容 */
-
-    (function () {
-      const hero = document.querySelector(".hero");
-      if (!hero) return;
-
-      const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-
-      if (reduceMotion) return;
-
-      let targetX = 0;
-      let targetY = 0;
-      let currentX = 0;
-      let currentY = 0;
-      let frame = null;
-
-      function render() {
-        currentX += (targetX - currentX) * 0.07;
-        currentY += (targetY - currentY) * 0.07;
-
-        hero.style.setProperty("--hx", (currentX * 9).toFixed(2) + "px");
-        hero.style.setProperty("--hy", (currentY * 7).toFixed(2) + "px");
-
-        if (
-          Math.abs(targetX - currentX) > 0.001 ||
-          Math.abs(targetY - currentY) > 0.001
-        ) {
-          frame = requestAnimationFrame(render);
-        } else {
-          frame = null;
-        }
-      }
-
-      window.addEventListener(
-        "pointermove",
-        (event) => {
-          targetX = event.clientX / window.innerWidth - 0.5;
-          targetY = event.clientY / window.innerHeight - 0.5;
-          if (!frame) frame = requestAnimationFrame(render);
-        },
-        { passive: true }
-      );
-    })();
-  </script>
-
-  <script>
-    /* 首屏曲线层：插画之上的成束细线，24 秒一循环，鼠标靠近柔和弯折 */
+    /* 首屏：成束细曲线缓慢流动，24 秒一循环，鼠标靠近柔和弯折 */
 
     (function () {
       const canvas = document.getElementById("hero-canvas");
@@ -1973,17 +1825,17 @@
       function colorFor(bundle, line) {
         if (bundle.tone === 3) {
           return line % 4 === 0
-            ? "rgba(150, 100, 98, 0.26)"
-            : "rgba(150, 92, 54, 0.22)";
+            ? "rgba(211, 158, 155, 0.32)"
+            : "rgba(198, 133, 88, 0.28)";
         }
         if (bundle.tone === 1) {
           return line % 4 === 0
-            ? "rgba(70, 86, 64, 0.28)"
-            : "rgba(74, 90, 100, 0.34)";
+            ? "rgba(122, 141, 113, 0.3)"
+            : "rgba(135, 156, 168, 0.42)";
         }
         return line % 5 === 0
-          ? "rgba(74, 90, 100, 0.26)"
-          : "rgba(70, 86, 64, 0.38)";
+          ? "rgba(135, 156, 168, 0.28)"
+          : "rgba(122, 141, 113, 0.46)";
       }
 
       function build() {
