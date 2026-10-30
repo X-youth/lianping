@@ -419,6 +419,12 @@ html.has-cursor select {
   object-fit: contain;
 }
 
+/* 行政区划图：白底与纸色融合 */
+
+.stage-map {
+  mix-blend-mode: multiply;
+}
+
 .hover-art {
   opacity: 1;
   transition: opacity .5s ease;
@@ -890,40 +896,20 @@ details p {
                   hidden
                 >
 
-                <svg
-                  class="stage-art"
+                <img
+                  class="stage-art stage-map"
                   id="art-1988"
-                  viewBox="0 0 480 320"
-                  role="img"
-                  aria-label="广东、河源与连平的行政位置关系示意"
+                  src="./img/lianping-division.jpg"
+                  alt="连平县行政区划图：各乡镇分布、县界镇界与主要道路"
                   hidden
                 >
-                  <path
-                    d="M90 185H390"
-                    fill="none"
-                    stroke="#14131255"
-                    stroke-width="1"
-                    stroke-dasharray="6 8"
-                  />
-
-                  <circle cx="115" cy="185" r="34" fill="none" stroke="#14131222"/>
-                  <circle cx="240" cy="185" r="34" fill="none" stroke="#14131222"/>
-                  <circle cx="365" cy="185" r="34" fill="none" stroke="#7d6b52"/>
-
-                  <g font-family="Helvetica Neue, PingFang SC, sans-serif" font-size="13"
-                    text-anchor="middle" fill="#141312">
-                    <text x="115" y="190">广东</text>
-                    <text x="240" y="190">河源</text>
-                    <text x="365" y="190" fill="#7d6b52">连平</text>
-                  </g>
-                </svg>
 
               </div>
             </div>
 
             <p class="note">
               1634 与 1911 年配图为连平真实照片：大湖镇客家围龙屋、清代白云楼。
-              1988 年为行政位置示意图。
+              1988 年为连平县行政区划图。
             </p>
 
             <article
@@ -1091,7 +1077,7 @@ details p {
       "1988": {
         title: "划归河源市",
         description:
-          "1988年1月，河源市成立，连平县改属河源市管辖。今天，我们从广东省、河源市、连平县这一位置关系，开始认识这里。"
+          "1988年1月，河源市成立，连平县改属河源市管辖。今天的连平辖元善、忠信、大湖、上坪等镇，县界与镇界围出一个完整的县域——这张行政区划图，是认识连平的一个起点。"
       }
     };
 
