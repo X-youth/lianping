@@ -1114,55 +1114,9 @@ document.getElementById("clear-saved").addEventListener("click", () => {
 renderPlace();
 renderSavedList();
 
-/* ===== 重复滚动显露 ===== */
-
-const motionPreference = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
-);
-
-let observer = null;
-
-function setupReveal() {
-  if (observer) {
-    observer.disconnect();
-    observer = null;
-  }
-
-  document.documentElement.classList.remove("motion-enabled");
-
-  const elements = document.querySelectorAll(".reveal");
-
-  elements.forEach(element => {
-    element.classList.remove("visible");
-  });
-
-  if (
-    !("IntersectionObserver" in window) ||
-    motionPreference.matches
-  ) {
-    return;
-  }
-
-  observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      entry.target.classList.toggle(
-        "visible",
-        entry.isIntersecting
-      );
-    });
-  }, { threshold: 0 });
-
-  elements.forEach(element => observer.observe(element));
-
-  document.documentElement.classList.add("motion-enabled");
-}
-
-setupReveal();
-
-if (motionPreference.addEventListener) {
-  motionPreference.addEventListener("change", setupReveal);
-}
 </script>
+
+<script src="./assets/scroll-parallax.js"></script>
 
 <script>
 /* ===== 光标与柔光跟随 ===== */

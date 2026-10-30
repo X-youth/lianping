@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="从鹰嘴蜜桃、九重皮和香菇，认识连平的地方风味。">
+<meta name="description" content="从鹰嘴蜜桃和九重皮，认识连平的地方风味。">
 
 <title>尝一口连平｜走进连平</title>
 
@@ -342,6 +342,50 @@ html.has-cursor select { cursor: auto; }
 
 .peach { background: var(--paper); }
 
+/* 鹰嘴蜜桃：实物照片带（默认画稿，悬停换实景） */
+
+.peach-strip-figure {
+  margin: 0 0 26px;
+  text-align: center;
+}
+
+.peach-strip {
+  position: relative;
+  max-width: 620px;
+  height: 300px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.peach-strip img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.peach-strip .hover-art {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity .45s ease;
+  pointer-events: none;
+}
+
+.peach-strip:hover .hover-art { opacity: 0; }
+
+.peach-strip-figure figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media (max-width: 700px) {
+  .peach-strip { height: 210px; }
+}
+
 /* 鹰嘴桃生长互动嵌入 */
 
 .peach-grow {
@@ -536,120 +580,6 @@ progress::-moz-progress-bar {
   line-height: 2;
 }
 
-/* ===== 香菇翻卡 ===== */
-
-.mushroom { background: var(--paper); }
-
-.mushroom-intro {
-  max-width: 660px;
-  margin: 0 0 40px;
-  font-size: 13px;
-  line-height: 2.15;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.flavor-card {
-  display: block;
-  width: 100%;
-  border: 0;
-  border-radius: 0;
-  padding: 0;
-  background: transparent;
-  color: var(--ink);
-  text-align: center;
-  perspective: 1000px;
-}
-
-.card-inner {
-  display: block;
-  position: relative;
-  height: 300px;
-  transform-style: preserve-3d;
-  transition: transform .6s ease;
-}
-
-.flavor-card.is-flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-face {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 26px 22px;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  background: var(--paper);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-/* 卡片配图：默认画稿，悬停换实景 */
-
-.card-swap {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 128px;
-  margin-bottom: 18px;
-  overflow: hidden;
-}
-
-.card-swap img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0;
-  -webkit-mask-image: none;
-  mask-image: none;
-}
-
-.card-swap .hover-art {
-  position: absolute;
-  inset: 0;
-  opacity: 1;
-  transition: opacity .45s ease;
-  pointer-events: none;
-}
-
-.card-front:hover .hover-art { opacity: 0; }
-
-.card-title {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 20px;
-  letter-spacing: .16em;
-  color: var(--ink);
-}
-
-.card-hint {
-  display: block;
-  color: var(--muted);
-  font-size: 11px;
-  letter-spacing: .1em;
-}
-
-.card-back {
-  transform: rotateY(180deg);
-  background: var(--pale);
-}
-
-.card-text {
-  display: block;
-  margin-bottom: 16px;
-  font-size: 12.5px;
-  line-height: 2.05;
-}
-
 /* ===== 结尾 ===== */
 
 .ending {
@@ -755,14 +685,6 @@ progress::-moz-progress-bar {
 
   .rice-stage { min-height: 380px; }
 
-  .cards {
-    grid-template-columns: 1fr;
-    max-width: 380px;
-    margin: 0 auto;
-  }
-
-  .card-inner { height: 268px; }
-
   .ending { padding: 78px 7%; }
 
   .ending h2 { font-size: 25px; }
@@ -817,14 +739,13 @@ progress::-moz-progress-bar {
       <h1 class="hero-title" id="page-title">尝一口连平</h1>
 
       <p class="hero-sub">
-        一颗桃、一层米皮、一朵香菇。<br>
+        一颗桃、一层米皮。<br>
         从食物出发，慢慢认识这片地方。
       </p>
 
       <nav class="food-nav" aria-label="风味导航">
         <a href="#peach">鹰嘴蜜桃 ↓</a>
         <a href="#rice">九重皮 ↓</a>
-        <a href="#mushroom">连平香菇 ↓</a>
       </nav>
     </div>
 
@@ -845,6 +766,26 @@ progress::-moz-progress-bar {
           <h2 id="peach-title">先认识这颗桃</h2>
         </div>
       </div>
+
+      <figure class="peach-strip-figure reveal">
+        <div class="peach-strip reveal-content">
+          <img
+            src="./img/peach-fruit.jpg"
+            alt="挂在枝头的连平鹰嘴蜜桃，果顶尖翘形似鹰嘴"
+            loading="lazy"
+          >
+          <img
+            class="hover-art"
+            src="./img/hover-peach-fruit.jpg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          >
+        </div>
+        <figcaption>
+          枝头生长的连平鹰嘴蜜桃（连平县上坪镇桃园）
+        </figcaption>
+      </figure>
 
     </div>
   </section>
@@ -906,7 +847,7 @@ progress::-moz-progress-bar {
           <p>
             九重皮是连平特色传统小吃。
             米浆逐层蒸熟，反复叠加，
-            最后一层可撒上香菇末、虾米、葱花等配料。
+            最后一层可撒上虾米、葱花等配料。
           </p>
 
           <figure class="story-photo">
@@ -976,154 +917,6 @@ progress::-moz-progress-bar {
         </div>
 
       </div>
-    </div>
-  </section>
-
-  <!-- 香菇 -->
-  <section
-    class="section mushroom"
-    id="mushroom"
-    aria-labelledby="mushroom-title"
-  >
-    <div class="wrap">
-
-      <div class="reveal">
-        <div class="section-heading reveal-content">
-          <p class="eyebrow">03 · 连平香菇</p>
-          <h2 id="mushroom-title">翻开一张风味卡</h2>
-          <p>点击卡片查看内容，再点一次返回正面。</p>
-        </div>
-      </div>
-
-      <p class="mushroom-intro">
-        河源市政府的连平概况将香菇列为当地土特产。
-        从这一份食材出发，我们还可以继续了解它的产地、
-        制作与餐桌故事。
-      </p>
-
-      <div class="cards">
-
-        <button
-          class="flavor-card"
-          type="button"
-          aria-label="翻开地方物产卡"
-          aria-pressed="false"
-          data-card-title="地方物产"
-        >
-          <span class="card-inner">
-
-            <span class="card-face card-front">
-              <span class="card-swap">
-                <img src="./img/mushroom.jpg" alt="">
-                <img
-                  class="hover-art"
-                  src="./img/hover-mushroom.png"
-                  alt=""
-                  aria-hidden="true"
-                >
-              </span>
-              <span class="card-title">地方物产</span>
-              <span class="card-hint">点击翻开 ↗</span>
-            </span>
-
-            <span class="card-face card-back" aria-hidden="true">
-              <span class="card-title">连平有香菇</span>
-              <span class="card-text">
-                官方地方概况将香菇列入连平主要土特产品。
-                它也是我们认识地方风味的一项内容。
-              </span>
-              <span class="card-hint">再点一次返回</span>
-            </span>
-
-          </span>
-        </button>
-
-        <button
-          class="flavor-card"
-          type="button"
-          aria-label="翻开产地故事卡"
-          aria-pressed="false"
-          data-card-title="产地故事"
-        >
-          <span class="card-inner">
-
-            <span class="card-face card-front">
-              <span class="card-swap">
-                <img src="./img/mushroom.jpg" alt="">
-                <img
-                  class="hover-art"
-                  src="./img/hover-mushroom.png"
-                  alt=""
-                  aria-hidden="true"
-                >
-              </span>
-              <span class="card-title">产地故事</span>
-              <span class="card-hint">点击翻开 ↗</span>
-            </span>
-
-            <span class="card-face card-back" aria-hidden="true">
-              <span class="card-title">它从哪里来？</span>
-              <span class="card-text">
-                连平香菇的具体产区、种植方式和生产故事，
-                将在核实地方资料后补充。
-              </span>
-              <span class="card-hint">再点一次返回</span>
-            </span>
-
-          </span>
-        </button>
-
-        <button
-          class="flavor-card"
-          type="button"
-          aria-label="翻开餐桌故事卡"
-          aria-pressed="false"
-          data-card-title="餐桌故事"
-        >
-          <span class="card-inner">
-
-            <span class="card-face card-front">
-              <span class="card-swap">
-                <img src="./img/mushroom.jpg" alt="">
-                <img
-                  class="hover-art"
-                  src="./img/hover-mushroom.png"
-                  alt=""
-                  aria-hidden="true"
-                >
-              </span>
-              <span class="card-title">餐桌故事</span>
-              <span class="card-hint">点击翻开 ↗</span>
-            </span>
-
-            <span class="card-face card-back" aria-hidden="true">
-              <span class="card-title">食物，也能相遇</span>
-              <span class="card-text">
-                九重皮的公开制作介绍中，
-                香菇末也是可加入的配料之一。
-                两种风味，在一份小吃里产生了联系。
-              </span>
-              <span class="card-hint">再点一次返回</span>
-            </span>
-
-          </span>
-        </button>
-
-      </div>
-
-      <p class="small-note">
-        卡片照片为干香菇特写。
-      </p>
-
-      <noscript>
-        <p class="small-note">
-          当前浏览器未启用 JavaScript，无法运行热点、叠层与翻卡互动。
-          香菇是官方资料所列的连平土特产，
-          香菇末也是九重皮公开制作介绍中的配料之一；
-          具体产地故事待核实后补充。
-        </p>
-      </noscript>
-
     </div>
   </section>
 
@@ -1251,89 +1044,10 @@ riceReset.addEventListener("click", () => {
 
 updateRice();
 
-/* ===== 2. 香菇翻卡 ===== */
 
-document.querySelectorAll(".flavor-card").forEach(card => {
-  card.addEventListener("click", () => {
-    const flipped = card.classList.toggle("is-flipped");
-
-    card.setAttribute("aria-pressed", String(flipped));
-
-    card.querySelector(".card-front").setAttribute(
-      "aria-hidden",
-      String(flipped)
-    );
-
-    card.querySelector(".card-back").setAttribute(
-      "aria-hidden",
-      String(!flipped)
-    );
-
-    const title = card.dataset.cardTitle;
-
-    card.setAttribute(
-      "aria-label",
-      flipped
-        ? `${title}，${card.querySelector(".card-text").textContent.trim()}。点击返回正面。`
-        : `翻开${title}卡`
-    );
-  });
-});
-
-/* ===== 3. 重复滚动显露 ===== */
-
-const motionPreference = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
-);
-
-const revealElements = document.querySelectorAll(".reveal");
-
-let revealObserver = null;
-
-function setupReveal() {
-  if (revealObserver) {
-    revealObserver.disconnect();
-    revealObserver = null;
-  }
-
-  document.documentElement.classList.remove("motion-enabled");
-
-  revealElements.forEach(element => {
-    element.classList.remove("is-visible");
-  });
-
-  if (
-    !("IntersectionObserver" in window) ||
-    motionPreference.matches
-  ) {
-    return;
-  }
-
-  revealObserver = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        entry.target.classList.toggle(
-          "is-visible",
-          entry.isIntersecting
-        );
-      });
-    },
-    { threshold: 0 }
-  );
-
-  revealElements.forEach(element => {
-    revealObserver.observe(element);
-  });
-
-  document.documentElement.classList.add("motion-enabled");
-}
-
-setupReveal();
-
-if (motionPreference.addEventListener) {
-  motionPreference.addEventListener("change", setupReveal);
-}
 </script>
+
+<script src="./assets/scroll-parallax.js"></script>
 
 <script>
 /* ===== 光标与柔光跟随 ===== */

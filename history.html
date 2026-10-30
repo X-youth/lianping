@@ -881,6 +881,15 @@ details p {
                   hidden
                 >
 
+                <img
+                  class="hover-art"
+                  id="hover-art-1911"
+                  src="./img/hover-baiyunlou.jpg"
+                  alt=""
+                  aria-hidden="true"
+                  hidden
+                >
+
                 <svg
                   class="stage-art"
                   id="art-1988"
@@ -1104,6 +1113,7 @@ details p {
       document.getElementById("art-1634").hidden = selectedYear !== "1634";
       document.getElementById("hover-art-1634").hidden = selectedYear !== "1634";
       document.getElementById("art-1911").hidden = selectedYear !== "1911";
+      document.getElementById("hover-art-1911").hidden = selectedYear !== "1911";
       document.getElementById("art-1988").hidden = selectedYear !== "1988";
 
       document.getElementById("story-year").textContent = selectedYear;
@@ -1161,62 +1171,9 @@ details p {
 
     renderHistory();
 
-    /* ===== 每次进入视野重新显露 ===== */
-
-    const motionPreference = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    );
-
-    let observer = null;
-
-    function setupReveal() {
-      if (observer) {
-        observer.disconnect();
-        observer = null;
-      }
-
-      document.documentElement.classList.remove("motion-enabled");
-
-      const elements = document.querySelectorAll(".reveal");
-
-      elements.forEach((element) => {
-        element.classList.remove("visible");
-      });
-
-      if (
-        !("IntersectionObserver" in window) ||
-        motionPreference.matches
-      ) {
-        return;
-      }
-
-      observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          } else {
-            entry.target.classList.remove("visible");
-          }
-        });
-      }, { threshold: 0 });
-
-      elements.forEach((element) => observer.observe(element));
-
-      document.documentElement.classList.add("motion-enabled");
-    }
-
-    setupReveal();
-
-    if (motionPreference.addEventListener) {
-      motionPreference.addEventListener("change", setupReveal);
-    }
-
-    window.addEventListener("pageshow", (event) => {
-      if (event.persisted) {
-        setupReveal();
-      }
-    });
   </script>
+
+  <script src="./assets/scroll-parallax.js"></script>
 
   <script>
     /* ===== 光标与光晕 ===== */

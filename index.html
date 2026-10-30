@@ -2145,70 +2145,7 @@
     })();
   </script>
 
-  <script>
-    /* ========= 滚动显露 ========= */
-
-    const motionPreference = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    );
-
-    const revealElements = document.querySelectorAll(".reveal");
-
-    let revealObserver = null;
-
-    function setupRevealAnimation() {
-      if (revealObserver) {
-        revealObserver.disconnect();
-        revealObserver = null;
-      }
-
-      document.documentElement.classList.remove("motion-enabled");
-
-      revealElements.forEach((element) => {
-        element.classList.remove("is-visible");
-      });
-
-      if (
-        !("IntersectionObserver" in window) ||
-        motionPreference.matches
-      ) {
-        return;
-      }
-
-      revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-            } else {
-              entry.target.classList.remove("is-visible");
-            }
-          });
-        },
-        {
-          threshold: 0
-        }
-      );
-
-      revealElements.forEach((element) => {
-        revealObserver.observe(element);
-      });
-
-      document.documentElement.classList.add("motion-enabled");
-    }
-
-    setupRevealAnimation();
-
-    if (motionPreference.addEventListener) {
-      motionPreference.addEventListener("change", setupRevealAnimation);
-    }
-
-    window.addEventListener("pageshow", (event) => {
-      if (event.persisted) {
-        setupRevealAnimation();
-      }
-    });
-  </script>
+  <script src="./assets/scroll-parallax.js?v=1"></script>
 
   <script>
     /* ========= 背景色随滚动流动 ========= */

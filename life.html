@@ -737,61 +737,7 @@ html.has-cursor select { cursor: auto; }
 
 </footer>
 
-<script>
-/* ===== 重复滚动显露 ===== */
-
-const motionPreference = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
-);
-
-const revealElements = document.querySelectorAll(".reveal");
-
-let revealObserver = null;
-
-function setupReveal() {
-  if (revealObserver) {
-    revealObserver.disconnect();
-    revealObserver = null;
-  }
-
-  document.documentElement.classList.remove("motion-enabled");
-
-  revealElements.forEach(element => {
-    element.classList.remove("is-visible");
-  });
-
-  if (
-    !("IntersectionObserver" in window) ||
-    motionPreference.matches
-  ) {
-    return;
-  }
-
-  revealObserver = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        entry.target.classList.toggle(
-          "is-visible",
-          entry.isIntersecting
-        );
-      });
-    },
-    { threshold: 0 }
-  );
-
-  revealElements.forEach(element => {
-    revealObserver.observe(element);
-  });
-
-  document.documentElement.classList.add("motion-enabled");
-}
-
-setupReveal();
-
-if (motionPreference.addEventListener) {
-  motionPreference.addEventListener("change", setupReveal);
-}
-</script>
+<script src="./assets/scroll-parallax.js"></script>
 
 <script>
 /* ===== 光标与柔光跟随 ===== */
