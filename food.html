@@ -408,88 +408,10 @@ html.has-cursor select { cursor: auto; }
 
 .rice { background: var(--paper); }
 
-.rice-stage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  min-height: 420px;
-  padding: 46px 20px 66px;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 0;
+.rice-block {
+  max-width: 620px;
+  margin: 0 auto;
 }
-
-.stage-label {
-  position: absolute;
-  top: 28px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: .28em;
-}
-
-.rice-stack {
-  position: relative;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: stretch;
-  width: min(240px, 85%);
-  min-height: 15px;
-}
-
-.rice-layer {
-  height: 15px;
-  margin-top: -2px;
-  border: 1px solid #d8cfba;
-  border-radius: 50% / 18%;
-  background: linear-gradient(#fbf8ef, #eae3d2);
-  animation: layer-in .4s ease both;
-}
-
-@keyframes layer-in {
-  from { opacity: 0; transform: translateY(-18px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.plate {
-  width: min(290px, 95%);
-  height: 22px;
-  margin-top: -1px;
-  border-radius: 50%;
-  background: var(--pale);
-  border-bottom: 6px solid #d5cdbb;
-}
-
-.toppings {
-  position: absolute;
-  top: -12px;
-  left: 8%;
-  width: 84%;
-  height: 22px;
-  display: none;
-  pointer-events: none;
-}
-
-.toppings.visible { display: block; }
-
-.toppings span {
-  position: absolute;
-  width: 9px;
-  height: 5px;
-  border-radius: 2px;
-  transform: rotate(-20deg);
-}
-
-.toppings span:nth-child(1) { left: 7%; top: 5px; background: #6f6656; }
-.toppings span:nth-child(2) { left: 24%; top: 10px; background: var(--ink); }
-.toppings span:nth-child(3) { left: 42%; top: 2px; background: #b9ae99; }
-.toppings span:nth-child(4) { left: 59%; top: 11px; background: #6f6656; }
-.toppings span:nth-child(5) { left: 75%; top: 3px; background: var(--ink); }
-.toppings span:nth-child(6) { left: 88%; top: 12px; background: #b9ae99; }
 
 .rice-copy h3 {
   font-size: 26px;
@@ -517,67 +439,29 @@ html.has-cursor select { cursor: auto; }
   mask-image: none;
 }
 
-.progress-label {
-  display: flex;
-  justify-content: space-between;
-  margin: 26px 0 12px;
+/* ===== 七道工序翻页 ===== */
+
+.craft-flip {
+  max-width: 460px;
+  margin: 64px auto 0;
+}
+
+.craft-flip-title {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 17px;
+  letter-spacing: .16em;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.craft-flip-note {
+  margin: 0 0 26px;
   color: var(--muted);
   font-size: 11px;
-  letter-spacing: .14em;
-}
-
-progress {
-  -webkit-appearance: none;
-  appearance: none;
-  display: block;
-  width: 100%;
-  height: 6px;
-  border: 0;
-  border-radius: 0;
-  background: var(--pale);
-}
-
-progress::-webkit-progress-bar {
-  background: var(--pale);
-  border-radius: 0;
-}
-
-progress::-webkit-progress-value {
-  background: var(--accent);
-  border-radius: 0;
-}
-
-progress::-moz-progress-bar {
-  background: var(--accent);
-  border-radius: 0;
-}
-
-.rice-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 22px;
-  margin-top: 24px;
-}
-
-.completion {
-  margin-top: 24px;
-  padding: 20px 22px;
-  background: var(--paper);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-
-.completion h4 {
-  margin-bottom: 8px;
-  font-size: 15px;
-  letter-spacing: .12em;
-}
-
-.completion p {
-  margin: 0;
-  font-size: 12px;
-  line-height: 2;
+  letter-spacing: .06em;
+  line-height: 1.9;
+  text-align: center;
 }
 
 /* ===== 结尾 ===== */
@@ -682,8 +566,6 @@ progress::-moz-progress-bar {
   .section { padding: 78px 7%; }
 
   .section-heading h2 { font-size: 26px; }
-
-  .rice-stage { min-height: 380px; }
 
   .ending { padding: 78px 7%; }
 
@@ -815,31 +697,11 @@ progress::-moz-progress-bar {
         <div class="section-heading reveal-content">
           <p class="eyebrow">02 · 九重皮</p>
           <h2 id="rice-title">一层一层，叠出风味</h2>
-          <p>点击“蒸一层”，看看九重皮怎样逐渐成形。</p>
+          <p>七道工序，翻一页看一道。</p>
         </div>
       </div>
 
-      <div class="layout">
-
-        <div class="rice-stage">
-          <span class="stage-label" id="rice-stage-label">
-            等待第一层米皮
-          </span>
-
-          <div
-            class="rice-stack"
-            id="rice-stack"
-            role="img"
-            aria-label="九重皮层叠示意，当前0层"
-          >
-            <div class="toppings" id="toppings" aria-hidden="true">
-              <span></span><span></span><span></span>
-              <span></span><span></span><span></span>
-            </div>
-          </div>
-
-          <div class="plate" aria-hidden="true"></div>
-        </div>
+      <div class="rice-block">
 
         <div class="rice-copy">
           <h3>蒸熟一层，<br>再添一层米浆。</h3>
@@ -860,62 +722,23 @@ progress::-moz-progress-bar {
           <p class="small-note">
             九重皮蒸制场景，摄于连平街头摊位。
           </p>
-
-          <div class="progress-label">
-            <span>当前层数</span>
-            <span id="rice-count">0 / 9</span>
-          </div>
-
-          <progress
-            id="rice-progress"
-            max="9"
-            value="0"
-            aria-label="九重皮叠层进度"
-          ></progress>
-
-          <div class="rice-actions">
-            <button
-              class="btn"
-              id="steam-button"
-              type="button"
-            >
-              蒸第一层
-            </button>
-
-            <button
-              class="reset-button"
-              id="rice-reset"
-              type="button"
-            >
-              重新开始
-            </button>
-          </div>
-
-          <p
-            class="status"
-            id="rice-status"
-            role="status"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            点击按钮，从第一层开始。
-          </p>
-
-          <div class="completion" id="rice-completion" hidden>
-            <h4>九层叠好了。</h4>
-            <p>
-              这份简化侧面示意让层次更容易被看见。
-              真实制作还涉及米浆调制、火候和蒸制时间，
-              不能仅凭点击次数还原。
-            </p>
-          </div>
-
-          <p class="small-note">
-            此处是理解逐层蒸制的简化体验，
-            不是实际烹饪教程；各家配方可能有所不同。
-          </p>
         </div>
 
+      </div>
+
+      <div class="craft-flip">
+        <p class="craft-flip-title">七道工序，一页一页看</p>
+        <p class="craft-flip-note">
+          点卡片右侧翻到下一道工序，点左侧翻回上一道；
+          也可以按住左右滑动。
+        </p>
+
+        <iframe
+          src="./jiucengpi.html"
+          title="连平 · 九层皮"
+          loading="lazy"
+          style="display:block;width:100%;max-width:460px;aspect-ratio:3/4;height:auto;border:0;border-radius:12px;background:#f3ead8;margin:0 auto"
+        ></iframe>
       </div>
     </div>
   </section>
@@ -962,90 +785,6 @@ progress::-moz-progress-bar {
   <p>页面插图与操作均为简化设计示意。</p>
 </footer>
 
-<script>
-/* ===== 1. 九重皮叠层 ===== */
-
-let riceLayers = 0;
-
-const riceStack = document.getElementById("rice-stack");
-const steamButton = document.getElementById("steam-button");
-const riceReset = document.getElementById("rice-reset");
-const riceProgress = document.getElementById("rice-progress");
-const riceCount = document.getElementById("rice-count");
-const riceStatus = document.getElementById("rice-status");
-const riceStageLabel = document.getElementById("rice-stage-label");
-const toppings = document.getElementById("toppings");
-const riceCompletion = document.getElementById("rice-completion");
-
-function updateRice() {
-  riceProgress.value = riceLayers;
-  riceCount.textContent = `${riceLayers} / 9`;
-
-  riceStack.setAttribute(
-    "aria-label",
-    `九重皮层叠示意，当前${riceLayers}层`
-  );
-
-  steamButton.disabled = riceLayers === 9;
-
-  steamButton.textContent =
-    riceLayers === 0
-      ? "蒸第一层"
-      : riceLayers === 9
-        ? "九层已完成"
-        : `蒸第${riceLayers + 1}层`;
-
-  riceStageLabel.textContent =
-    riceLayers === 0
-      ? "等待第一层米皮"
-      : riceLayers === 9
-        ? "九层叠好，风味成形"
-        : `已叠起 ${riceLayers} 层`;
-
-  toppings.classList.toggle("visible", riceLayers === 9);
-  riceCompletion.hidden = riceLayers !== 9;
-}
-
-steamButton.addEventListener("click", () => {
-  if (riceLayers >= 9) return;
-
-  riceLayers += 1;
-
-  const layer = document.createElement("div");
-  layer.className = "rice-layer";
-  layer.setAttribute("aria-hidden", "true");
-
-  riceStack.appendChild(layer);
-
-  updateRice();
-
-  riceStatus.textContent =
-    riceLayers === 9
-      ? "九层完成，配料也已呈现。看看侧面，一层层都能被看见。"
-      : `第${riceLayers}层已完成，继续添一层。`;
-
-  if (riceLayers === 9) {
-    riceReset.focus();
-  }
-});
-
-riceReset.addEventListener("click", () => {
-  riceLayers = 0;
-
-  riceStack.querySelectorAll(".rice-layer").forEach(layer => {
-    layer.remove();
-  });
-
-  updateRice();
-
-  riceStatus.textContent = "已重新开始，从第一层慢慢叠起。";
-  steamButton.focus();
-});
-
-updateRice();
-
-
-</script>
 
 <script src="./assets/scroll-parallax.js"></script>
 
